@@ -78,7 +78,8 @@ const mockHospitals = [
     phone: "৯৮৩২৯০১২৩৪",
     emergencyPhone: "৯৮৩০০০০০০০",
     rating: 4.5,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     services: ["ICU", "OT", "MRI", "CT Scan", "Dialysis"],
     departments: ["হৃদরোগ", "নিউরোলজি", "অর্থোপেডিক্স", "গাইনোকলজি"],
     insurance: ["LIC", "Star Health", "MediAssist"],
@@ -94,7 +95,8 @@ const mockHospitals = [
     phone: "৯৮৩২৯০৫৬৭৮",
     emergencyPhone: "৯৮৩০১১১১১১",
     rating: 4.7,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     services: ["ICU", "NICU", "OT", "MRI", "CT Scan", "Emergency"],
     departments: ["হৃদরোগ", "নিউরোলজি", "শিশু বিভাগ", "ক্যান্সার"],
     insurance: ["LIC", "Star Health", "ICICI Lombard", "Bajaj Allianz"],
@@ -110,7 +112,8 @@ const mockHospitals = [
     phone: "৯৮৩২৯০৯৮৭৬",
     emergencyPhone: "৯৮৩০২২২২২২",
     rating: 4.3,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     services: ["OPD", "Pathology", "X-Ray", "ECG"],
     departments: ["চর্মরোগ", "গাইনোকলজি", "শিশু বিভাগ"],
     insurance: ["Star Health", "MediAssist"],
@@ -126,7 +129,8 @@ const mockHospitals = [
     phone: "৯৮৩২৯০৪৫৬৭",
     emergencyPhone: "৯৮৩০৩৩৩৩৩ৃ",
     rating: 4.1,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     services: ["ICU", "OT", "Emergency", "Pathology"],
     departments: ["সাধারণ চিকিৎসা", "সার্জারি", "গাইনোকলজি"],
     insurance: ["LIC", "Star Health"],
@@ -142,7 +146,8 @@ const mockHospitals = [
     phone: "৯৮৩২৯০৭৮৯০",
     emergencyPhone: "৯৮৩০৪৪৪৪৪৪",
     rating: 4.6,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     services: ["ICU", "OT", "MRI", "Dialysis"],
     departments: ["হৃদরোগ", "নিউরোলজি", "অর্থোপেডিক্স"],
     insurance: ["LIC", "Star Health", "MediAssist", "ICICI Lombard"],
@@ -158,7 +163,8 @@ const mockHospitals = [
     phone: "৯৮৩২৯০৩৪৫৬",
     emergencyPhone: "৯৮৩০৫৫৫৫৫৫",
     rating: 4.8,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     services: ["Eye Surgery", "Laser Treatment", "OPD"],
     departments: ["চোখের চিকিৎসা", "রেটিনা", "গ্লুকোমা"],
     insurance: ["Star Health", "MediAssist"],
@@ -520,7 +526,10 @@ export default function HospitalDirectoryPage() {
                             <div className="flex items-start gap-4 mb-4">
                               <Avatar className="w-16 h-16 border-2 border-sky-100">
                                 <AvatarImage
-                                  src={hospital.image || "/placeholder.svg"}
+                                  src={
+                                    hospital.image ||
+                                    "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                                  }
                                   alt={hospital.name}
                                 />
                                 <AvatarFallback className="bg-sky-100 text-sky-700 text-lg">

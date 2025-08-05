@@ -62,7 +62,8 @@ const ambulanceProviders = [
     vehicleCount: 8,
     driverName: "রাজেশ কুমার",
     available: true,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 2,
@@ -76,7 +77,8 @@ const ambulanceProviders = [
     vehicleCount: 5,
     driverName: "অমিত দাস",
     available: true,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 3,
@@ -90,7 +92,8 @@ const ambulanceProviders = [
     vehicleCount: 12,
     driverName: "সুমিত্রা রায়",
     available: true,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 4,
@@ -104,7 +107,8 @@ const ambulanceProviders = [
     vehicleCount: 6,
     driverName: "প্রিয়া ব্যানার্জী",
     available: false,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
 ];
 
@@ -464,7 +468,10 @@ export default function AmbulanceServices() {
                     <div className="flex items-start gap-4">
                       <Avatar className="h-16 w-16">
                         <AvatarImage
-                          src={provider.image || "/placeholder.svg"}
+                          src={
+                            provider.image ||
+                            "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                          }
                         />
                         <AvatarFallback className="bg-sky-200 text-sky-800">
                           <Truck className="h-8 w-8" />

@@ -62,7 +62,8 @@ const donors = [
     phone: "৯৮৩০০০০০০১",
     availability: "এখনই",
     totalDonations: 12,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 2,
@@ -73,7 +74,8 @@ const donors = [
     phone: "৯৮৩০০০০০০২",
     availability: "৭ দিনের মধ্যে",
     totalDonations: 8,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 3,
@@ -84,7 +86,8 @@ const donors = [
     phone: "৯৮৩০০০০০০৩",
     availability: "এখনই",
     totalDonations: 15,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 4,
@@ -95,7 +98,8 @@ const donors = [
     phone: "৯৮৩০০০০০০৪",
     availability: "৭ দিনের মধ্যে",
     totalDonations: 6,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 5,
@@ -106,7 +110,8 @@ const donors = [
     phone: "৯৮৩০০০০০০৫",
     availability: "এখনই",
     totalDonations: 20,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 6,
@@ -117,7 +122,8 @@ const donors = [
     phone: "৯৮৩০০০০০০৬",
     availability: "৭ দিনের মধ্যে",
     totalDonations: 9,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
 ];
 
@@ -400,7 +406,10 @@ export default function BloodDonors() {
                           <div className="flex items-start gap-4">
                             <Avatar className="h-16 w-16">
                               <AvatarImage
-                                src={donor.image || "/placeholder.svg"}
+                                src={
+                                  donor.image ||
+                                  "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                                }
                               />
                               <AvatarFallback className="bg-sky-200 text-sky-800">
                                 {donor.name.charAt(0)}

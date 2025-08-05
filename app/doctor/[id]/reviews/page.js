@@ -83,7 +83,8 @@ export default function DoctorReviewsPage() {
     specialty: "হৃদরোগ বিশেষজ্ঞ",
     rating: 4.8,
     reviewCount: 245,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
   };
 
   // Mock reviews data
@@ -307,7 +308,10 @@ export default function DoctorReviewsPage() {
             <div className="flex items-center gap-3">
               <Avatar className="w-12 h-12">
                 <AvatarImage
-                  src={doctor.image || "/placeholder.svg"}
+                  src={
+                    doctor.image ||
+                    "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                  }
                   alt={doctor.name}
                 />
                 <AvatarFallback className="bg-sky-100 text-sky-700">
@@ -773,7 +777,10 @@ export default function DoctorReviewsPage() {
                         <div className="flex items-center gap-2 mb-2">
                           <Avatar className="w-8 h-8">
                             <AvatarImage
-                              src={doctor.image || "/placeholder.svg"}
+                              src={
+                                doctor.image ||
+                                "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                              }
                               alt={doctor.name}
                             />
                             <AvatarFallback className="bg-sky-200 text-sky-700 text-sm">

@@ -275,7 +275,7 @@ export default function DoctorReviews() {
                   <div className="flex items-start gap-4">
                     <Avatar>
                       <AvatarImage
-                        src={`/placeholder.svg?height=40&width=40&text=${review.patient.charAt(
+                        src={`https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40&text=${review.patient.charAt(
                           0
                         )}`}
                       />

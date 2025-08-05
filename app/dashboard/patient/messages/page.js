@@ -18,7 +18,8 @@ const conversations = [
     timestamp: "২ ঘন্টা আগে",
     unread: 0,
     online: true,
-    image: "/placeholder.svg?height=40&width=40",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
   },
   {
     id: 2,
@@ -28,7 +29,8 @@ const conversations = [
     timestamp: "১ দিন আগে",
     unread: 2,
     online: false,
-    image: "/placeholder.svg?height=40&width=40",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
   },
   {
     id: 3,
@@ -38,7 +40,8 @@ const conversations = [
     timestamp: "৩ দিন আগে",
     unread: 0,
     online: false,
-    image: "/placeholder.svg?height=40&width=40",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
   },
 ];
 
@@ -145,7 +148,10 @@ export default function MessagesPage() {
                       <div className="relative">
                         <Avatar>
                           <AvatarImage
-                            src={conversation.image || "/placeholder.svg"}
+                            src={
+                              conversation.image ||
+                              "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                            }
                           />
                           <AvatarFallback className="bg-sky-100 text-sky-800">
                             {conversation.doctor.split(" ")[1]?.charAt(0)}
@@ -199,7 +205,10 @@ export default function MessagesPage() {
                   <div className="relative">
                     <Avatar>
                       <AvatarImage
-                        src={selectedConversation.image || "/placeholder.svg"}
+                        src={
+                          selectedConversation.image ||
+                          "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                        }
                       />
                       <AvatarFallback className="bg-sky-100 text-sky-800">
                         {selectedConversation.doctor.split(" ")[1]?.charAt(0)}

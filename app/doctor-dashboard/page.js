@@ -153,7 +153,7 @@ function AppSidebar() {
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-3">
           <Avatar className="h-12 w-12">
-            <AvatarImage src="/placeholder.svg?height=48&width=48" />
+            <AvatarImage src="https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=48&width=48" />
             <AvatarFallback>ডা</AvatarFallback>
           </Avatar>
           <div>
@@ -777,7 +777,7 @@ export default function DoctorDashboard() {
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-20 w-20">
-                    <AvatarImage src="/placeholder.svg?height=80&width=80" />
+                    <AvatarImage src="https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=80&width=80" />
                     <AvatarFallback>ডা</AvatarFallback>
                   </Avatar>
                   <Button variant="outline">ছবি পরিবর্তন করুন</Button>

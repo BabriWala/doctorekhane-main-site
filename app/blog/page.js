@@ -41,7 +41,8 @@ const blogPosts = [
     summary:
       "উচ্চ রক্তচাপ একটি নীরব ঘাতক। জানুন কীভাবে প্রাকৃতিক উপায়ে এবং জীবনযাত্রার পরিবর্তনের মাধ্যমে রক্তচাপ নিয়ন্ত্রণে রাখা যায়।",
     author: "ডা. রাজেশ কুমার",
-    authorImage: "/placeholder.svg?height=40&width=40",
+    authorImage:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
     isDoctor: true,
     publishDate: "২৫ ডিসেম্বর, ২০২ৄ",
     readTime: "৫ মিনিট",
@@ -49,7 +50,8 @@ const blogPosts = [
     comments: 23,
     category: "disease",
     tags: ["রক্তচাপ", "হৃদরোগ", "প্রতিরোধ"],
-    thumbnail: "/placeholder.svg?height=200&width=300",
+    thumbnail:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
     featured: true,
   },
   {
@@ -58,7 +60,8 @@ const blogPosts = [
     summary:
       "বাড়ন্ত শিশুদের সুস্থ বিকাশের জন্য প্রয়োজনীয় পুষ্টি উপাদান এবং সহজ রেসিপি। মায়েদের জন্য বিশেষ গাইড।",
     author: "ডা. প্রিয়া সরকার",
-    authorImage: "/placeholder.svg?height=40&width=40",
+    authorImage:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
     isDoctor: true,
     publishDate: "২৩ ডিসেম্বর, ২০২৪",
     readTime: "৭ মিনিট",
@@ -66,7 +69,8 @@ const blogPosts = [
     comments: 18,
     category: "nutrition",
     tags: ["শিশু", "পুষ্টি", "খাবার"],
-    thumbnail: "/placeholder.svg?height=200&width=300",
+    thumbnail:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
     featured: false,
   },
   {
@@ -75,7 +79,8 @@ const blogPosts = [
     summary:
       "ডায়াবেটিস নিয়ন্ত্রণে ব্যায়ামের ভূমিকা অপরিসীম। জানুন কোন ব্যায়াম কতটুকু করবেন এবং কখন করবেন।",
     author: "ডা. অমিত দাস",
-    authorImage: "/placeholder.svg?height=40&width=40",
+    authorImage:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
     isDoctor: true,
     publishDate: "২০ ডিসেম্বর, ২০২৪",
     readTime: "৬ মিনিট",
@@ -83,7 +88,8 @@ const blogPosts = [
     comments: 31,
     category: "health-tips",
     tags: ["ডায়াবেটিস", "ব্যায়াম", "জীবনযাত্রা"],
-    thumbnail: "/placeholder.svg?height=200&width=300",
+    thumbnail:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
     featured: true,
   },
   {
@@ -92,7 +98,8 @@ const blogPosts = [
     summary:
       "আধুনিক জীবনে মানসিক চাপ একটি সাধারণ সমস্যা। শিখুন প্রাকৃতিক উপায়ে মানসিক চাপ কমানোর কৌশল।",
     author: "ডা. সুমিত্রা ব্যানার্জী",
-    authorImage: "/placeholder.svg?height=40&width=40",
+    authorImage:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
     isDoctor: true,
     publishDate: "১৮ ডিসেম্বর, ২০২৪",
     readTime: "৮ মিনিট",
@@ -100,7 +107,8 @@ const blogPosts = [
     comments: 45,
     category: "mental-health",
     tags: ["মানসিক_স্বাস্থ্য", "চাপ", "মেডিটেশন"],
-    thumbnail: "/placeholder.svg?height=200&width=300",
+    thumbnail:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
     featured: false,
   },
   {
@@ -109,7 +117,8 @@ const blogPosts = [
     summary:
       "গর্ভকালীন সময়ে মা ও শিশুর সুস্থতার জন্য প্রয়োজনীয় যত্ন, খাবার এবং সতর্কতা সম্পর্কে বিস্তারিত।",
     author: "ডা. রীতা চক্রবর্তী",
-    authorImage: "/placeholder.svg?height=40&width=40",
+    authorImage:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
     isDoctor: true,
     publishDate: "১৫ ডিসেম্বর, ২০২৪",
     readTime: "১০ মিনিট",
@@ -117,7 +126,8 @@ const blogPosts = [
     comments: 52,
     category: "health-tips",
     tags: ["গর্ভাবস্থা", "মাতৃত্ব", "যত্ন"],
-    thumbnail: "/placeholder.svg?height=200&width=300",
+    thumbnail:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
     featured: true,
   },
   {
@@ -126,7 +136,8 @@ const blogPosts = [
     summary:
       "হার্ট অ্যাটাকের প্রাথমিক লক্ষণগুলো চিনুন এবং জরুরি অবস্থায় কী করবেন তা জেনে নিন। এটি জীবন বাঁচাতে পারে।",
     author: "ডা. বিকাশ রায়",
-    authorImage: "/placeholder.svg?height=40&width=40",
+    authorImage:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40",
     isDoctor: true,
     publishDate: "১২ ডিসেম্বর, ২০২৪",
     readTime: "৫ মিনিট",
@@ -134,7 +145,8 @@ const blogPosts = [
     comments: 67,
     category: "disease",
     tags: ["হৃদরোগ", "জরুরি", "প্রাথমিক_চিকিৎসা"],
-    thumbnail: "/placeholder.svg?height=200&width=300",
+    thumbnail:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
     featured: false,
   },
 ];
@@ -253,7 +265,10 @@ export default function HealthBlog() {
                       <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden">
                         <div className="aspect-video bg-sky-100">
                           <img
-                            src={post.thumbnail || "/placeholder.svg"}
+                            src={
+                              post.thumbnail ||
+                              "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                            }
                             alt={post.title}
                             className="w-full h-full object-cover"
                           />
@@ -292,7 +307,10 @@ export default function HealthBlog() {
                             <div className="flex items-center gap-3">
                               <Avatar className="h-8 w-8">
                                 <AvatarImage
-                                  src={post.authorImage || "/placeholder.svg"}
+                                  src={
+                                    post.authorImage ||
+                                    "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                                  }
                                 />
                                 <AvatarFallback>ডা</AvatarFallback>
                               </Avatar>
@@ -352,7 +370,10 @@ export default function HealthBlog() {
                           <div className="md:w-64 flex-shrink-0">
                             <div className="aspect-video bg-sky-100 rounded-lg overflow-hidden">
                               <img
-                                src={post.thumbnail || "/placeholder.svg"}
+                                src={
+                                  post.thumbnail ||
+                                  "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                                }
                                 alt={post.title}
                                 className="w-full h-full object-cover"
                               />
@@ -409,7 +430,10 @@ export default function HealthBlog() {
                               <div className="flex items-center gap-3">
                                 <Avatar className="h-10 w-10">
                                   <AvatarImage
-                                    src={post.authorImage || "/placeholder.svg"}
+                                    src={
+                                      post.authorImage ||
+                                      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                                    }
                                   />
                                   <AvatarFallback>ডা</AvatarFallback>
                                 </Avatar>

@@ -103,7 +103,7 @@ export default function DoctorProfile() {
             <CardContent className="p-6 text-center">
               <div className="relative inline-block mb-4">
                 <Avatar className="w-32 h-32 mx-auto">
-                  <AvatarImage src="/placeholder.svg?height=128&width=128" />
+                  <AvatarImage src="https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=128&width=128" />
                   <AvatarFallback className="bg-sky-100 text-sky-800 text-2xl">
                     {formData.name.split(" ")[1]?.charAt(0) || "ডা"}
                   </AvatarFallback>

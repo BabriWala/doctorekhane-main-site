@@ -82,21 +82,24 @@ export default function AboutPage() {
       name: "ডাঃ রাহুল চক্রবর্তী",
       position: "প্রতিষ্ঠাতা ও চিকিৎসা পরিচালক",
       bio: "২০ বছরের অভিজ্ঞতা সহ কার্ডিওলজিস্ট। স্বাস্থ্যসেবায় প্রযুক্তির ব্যবহারে অগ্রণী।",
-      avatar: "/placeholder.svg?height=100&width=100&text=ডাঃ+রাহুল",
+      avatar:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=100&width=100&text=ডাঃ+রাহুল",
       initials: "রচ",
     },
     {
       name: "সুমন ঘোষ",
       position: "প্রযুক্তি প্রধান",
       bio: "সফটওয়্যার ইঞ্জিনিয়ার। স্বাস্থ্যসেবা প্রযুক্তিতে বিশেষজ্ঞ।",
-      avatar: "/placeholder.svg?height=100&width=100&text=সুমন",
+      avatar:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=100&width=100&text=সুমন",
       initials: "সঘ",
     },
     {
       name: "প্রিয়া দাস",
       position: "রোগী সেবা প্রধান",
       bio: "নার্সিং ব্যাকগ্রাউন্ড। রোগী যত্ন ও সেবায় দক্ষ।",
-      avatar: "/placeholder.svg?height=100&width=100&text=প্রিয়া",
+      avatar:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=100&width=100&text=প্রিয়া",
       initials: "প্রদ",
     },
   ];
@@ -234,7 +237,10 @@ export default function AboutPage() {
                   <CardHeader>
                     <Avatar className="w-24 h-24 mx-auto mb-4">
                       <AvatarImage
-                        src={member.avatar || "/placeholder.svg"}
+                        src={
+                          member.avatar ||
+                          "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                        }
                         alt={member.name}
                       />
                       <AvatarFallback className="bg-sky-100 text-sky-800 text-lg font-semibold">

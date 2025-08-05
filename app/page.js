@@ -66,7 +66,8 @@ export default function BengaliHealthcarePlatform() {
       experience: "১৫ বছর অভিজ্ঞতা",
       rating: 4.8,
       hospital: "সিলিগুড়ি মেডিকেল কলেজ",
-      image: "/placeholder.svg?height=120&width=120",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     },
     {
       name: "ডাঃ প্রিয়া শর্মা",
@@ -74,7 +75,8 @@ export default function BengaliHealthcarePlatform() {
       experience: "১২ বছর অভিজ্ঞতা",
       rating: 4.9,
       hospital: "নর্থ বেঙ্গল মেডিকেল কলেজ",
-      image: "/placeholder.svg?height=120&width=120",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     },
     {
       name: "ডাঃ অমিত দাস",
@@ -82,7 +84,8 @@ export default function BengaliHealthcarePlatform() {
       experience: "২০ বছর অভিজ্ঞতা",
       rating: 4.7,
       hospital: "সিলিগুড়ি ডিস্ট্রিক্ট হাসপাতাল",
-      image: "/placeholder.svg?height=120&width=120",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     },
   ];
 
@@ -91,13 +94,15 @@ export default function BengaliHealthcarePlatform() {
       name: "সিলিগুড়ি মেডিকেল কলেজ ও হাসপাতাল",
       address: "বার্ডমোর, সিলিগুড়ি",
       departments: ["জরুরি", "হৃদরোগ", "নিউরো", "অর্থোপেডিক"],
-      image: "/placeholder.svg?height=200&width=300",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
     },
     {
       name: "নর্থ বেঙ্গল মেডিকেল কলেজ",
       address: "সুশ্রুত নগর, সিলিগুড়ি",
       departments: ["শিশু", "স্ত্রীরোগ", "সার্জারি", "মেডিসিন"],
-      image: "/placeholder.svg?height=200&width=300",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
     },
   ];
 
@@ -106,19 +111,22 @@ export default function BengaliHealthcarePlatform() {
       name: "রমেশ চন্দ্র রায়",
       review: "খুবই ভালো সেবা পেয়েছি। ডাক্তার খুব যত্নসহকারে চিকিৎসা করেছেন।",
       rating: 5,
-      avatar: "/placeholder.svg?height=60&width=60",
+      avatar:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
     },
     {
       name: "সুমিত্রা দেবী",
       review: "অনলাইনে অ্যাপয়েন্টমেন্ট নেওয়া খুবই সহজ হয়েছে। ধন্যবাদ।",
       rating: 5,
-      avatar: "/placeholder.svg?height=60&width=60",
+      avatar:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
     },
     {
       name: "অনিল কুমার",
       review: "জরুরি সময়ে দ্রুত অ্যাম্বুলেন্স পেয়েছি। চমৎকার সেবা।",
       rating: 5,
-      avatar: "/placeholder.svg?height=60&width=60",
+      avatar:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
     },
   ];
 
@@ -127,20 +135,23 @@ export default function BengaliHealthcarePlatform() {
       title: "গ্রীষ্মকালে স্বাস্থ্য সুরক্ষার উপায়",
       excerpt:
         "গরমকালে কীভাবে নিজেকে সুস্থ রাখবেন এবং হিট স্ট্রোক থেকে বাঁচবেন।",
-      image: "/placeholder.svg?height=200&width=300",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
       date: "১৫ মে, ২০২৪",
     },
     {
       title: "শিশুদের পুষ্টি ও যত্ন",
       excerpt:
         "বাড়ন্ত শিশুদের সঠিক পুষ্টি এবং স্বাস্থ্য যত্নের গুরুত্বপূর্ণ তথ্য।",
-      image: "/placeholder.svg?height=200&width=300",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
       date: "১০ মে, ২০২৪",
     },
     {
       title: "হৃদরোগ প্রতিরোধের উপায়",
       excerpt: "জীবনযাত্রার পরিবর্তনের মাধ্যমে হৃদরোগ প্রতিরোধ করুন।",
-      image: "/placeholder.svg?height=200&width=300",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=200&width=300",
       date: "৫ মে, ২০২৪",
     },
   ];
@@ -510,7 +521,10 @@ export default function BengaliHealthcarePlatform() {
                 <CardContent className="p-6 text-center">
                   <Avatar className="w-24 h-24 mx-auto mb-4">
                     <AvatarImage
-                      src={doctor.image || "/placeholder.svg"}
+                      src={
+                        doctor.image ||
+                        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                      }
                       alt={doctor.name}
                     />
                     <AvatarFallback className="bg-sky-100 text-sky-700 text-lg">
@@ -560,7 +574,10 @@ export default function BengaliHealthcarePlatform() {
               >
                 <div className="aspect-video relative overflow-hidden rounded-t-xl">
                   <Image
-                    src={hospital.image || "/placeholder.svg"}
+                    src={
+                      hospital.image ||
+                      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                    }
                     alt={hospital.name}
                     fill
                     className="object-cover"
@@ -657,7 +674,10 @@ export default function BengaliHealthcarePlatform() {
               >
                 <div className="aspect-video relative overflow-hidden rounded-t-xl">
                   <Image
-                    src={post.image || "/placeholder.svg"}
+                    src={
+                      post.image ||
+                      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                    }
                     alt={post.title}
                     fill
                     className="object-cover"
@@ -706,7 +726,10 @@ export default function BengaliHealthcarePlatform() {
                   <div className="flex items-center mb-4">
                     <Avatar className="w-12 h-12 mr-4">
                       <AvatarImage
-                        src={testimonial.avatar || "/placeholder.svg"}
+                        src={
+                          testimonial.avatar ||
+                          "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                        }
                         alt={testimonial.name}
                       />
                       <AvatarFallback className="bg-sky-100 text-sky-700">
@@ -805,7 +828,7 @@ export default function BengaliHealthcarePlatform() {
               </p>
               <div className="flex items-center justify-center">
                 <Avatar className="w-10 h-10 mr-3">
-                  <AvatarImage src="/placeholder.svg?height=40&width=40" />
+                  <AvatarImage src="https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40" />
                   <AvatarFallback className="bg-green-100 text-green-700">
                     ড
                   </AvatarFallback>

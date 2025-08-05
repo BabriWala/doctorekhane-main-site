@@ -97,8 +97,10 @@ export default function DoctorDetailPage() {
     reviewCount: 245,
     isAvailableToday: true,
     consultationFee: "৮০০",
-    image: "/placeholder.svg?height=400&width=400",
-    bannerImage: "/placeholder.svg?height=300&width=800",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=400&width=400",
+    bannerImage:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=300&width=800",
     bio: "ডা. রাহুল সরকার একজন অভিজ্ঞ হৃদরোগ বিশেষজ্ঞ যিনি গত ১৫ বছর ধরে সিলিগুড়ি ও আশেপাশের এলাকায় সেবা দিয়ে আসছেন। তিনি জটিল হৃদরোগের চিকিৎসায় বিশেষ দক্ষতা রাখেন এবং রোগীদের সাথে সহানুভূতিশীল আচরণের জন্য পরিচিত।",
   };
 
@@ -238,7 +240,8 @@ export default function DoctorDetailPage() {
       specialty: "হৃদরোগ বিশেষজ্ঞ",
       rating: 4.7,
       experience: "১২ বছর",
-      image: "/placeholder.svg?height=120&width=120",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     },
     {
       id: "3",
@@ -246,7 +249,8 @@ export default function DoctorDetailPage() {
       specialty: "হৃদরোগ বিশেষজ্ঞ",
       rating: 4.6,
       experience: "১৮ বছর",
-      image: "/placeholder.svg?height=120&width=120",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     },
     {
       id: "4",
@@ -254,7 +258,8 @@ export default function DoctorDetailPage() {
       specialty: "হৃদরোগ বিশেষজ্ঞ",
       rating: 4.9,
       experience: "২০ বছর",
-      image: "/placeholder.svg?height=120&width=120",
+      image:
+        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     },
   ];
 
@@ -327,7 +332,10 @@ export default function DoctorDetailPage() {
         transition={{ duration: 0.6 }}
       >
         <Image
-          src={doctor.bannerImage || "/placeholder.svg"}
+          src={
+            doctor.bannerImage ||
+            "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+          }
           alt="Doctor Banner"
           fill
           className="object-cover"
@@ -365,7 +373,10 @@ export default function DoctorDetailPage() {
                 <div className="flex-shrink-0 text-center md:text-left">
                   <Avatar className="w-32 h-32 mx-auto md:mx-0 border-4 border-sky-100">
                     <AvatarImage
-                      src={doctor.image || "/placeholder.svg"}
+                      src={
+                        doctor.image ||
+                        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                      }
                       alt={doctor.name}
                     />
                     <AvatarFallback className="bg-sky-100 text-sky-700 text-2xl">
@@ -921,7 +932,10 @@ export default function DoctorDetailPage() {
                         <CardContent className="p-4 text-center">
                           <Avatar className="w-20 h-20 mx-auto mb-3">
                             <AvatarImage
-                              src={relatedDoctor.image || "/placeholder.svg"}
+                              src={
+                                relatedDoctor.image ||
+                                "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                              }
                               alt={relatedDoctor.name}
                             />
                             <AvatarFallback className="bg-sky-100 text-sky-700">

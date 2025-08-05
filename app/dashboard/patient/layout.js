@@ -68,7 +68,7 @@ export default function PatientDashboardLayout({ children }) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <Avatar>
-                    <AvatarImage src="/placeholder.svg?height=40&width=40" />
+                    <AvatarImage src="https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40" />
                     <AvatarFallback className="bg-sky-100 text-sky-800">
                       রহ
                     </AvatarFallback>

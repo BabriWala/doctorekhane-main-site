@@ -113,7 +113,8 @@ const favoriteDoctors = [
     specialty: "হৃদরোগ বিশেষজ্ঞ",
     hospital: "শিলিগুড়ি মেডিকেল কলেজ",
     rating: 4.8,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 2,
@@ -121,7 +122,8 @@ const favoriteDoctors = [
     specialty: "শিশু বিশেষজ্ঞ",
     hospital: "নর্থ বেঙ্গল হাসপাতাল",
     rating: 4.9,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
 ];
 
@@ -133,7 +135,7 @@ function AppSidebar() {
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
-            <AvatarImage src="/placeholder.svg?height=40&width=40" />
+            <AvatarImage src="https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=40&width=40" />
             <AvatarFallback>সৌ</AvatarFallback>
           </Avatar>
           <div>
@@ -562,7 +564,12 @@ export default function PatientDashboard() {
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-16 w-16">
-                        <AvatarImage src={doctor.image || "/placeholder.svg"} />
+                        <AvatarImage
+                          src={
+                            doctor.image ||
+                            "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                          }
+                        />
                         <AvatarFallback>ডা</AvatarFallback>
                       </Avatar>
                       <div className="flex-1">

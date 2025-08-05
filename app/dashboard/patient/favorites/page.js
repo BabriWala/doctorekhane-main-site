@@ -29,7 +29,8 @@ const favoriteDoctors = [
     consultationFee: "১০০০",
     lastVisit: "২০ ডিসেম্বর, ২০২৪",
     totalVisits: 5,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 2,
@@ -41,7 +42,8 @@ const favoriteDoctors = [
     consultationFee: "৮০০",
     lastVisit: "১৫ ডিসেম্বর, ২০২৪",
     totalVisits: 3,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 3,
@@ -53,7 +55,8 @@ const favoriteDoctors = [
     consultationFee: "১৫০০",
     lastVisit: "১০ ডিসেম্বর, ২০২৪",
     totalVisits: 2,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
 ];
 
@@ -68,7 +71,8 @@ const favoriteHospitals = [
     emergency: true,
     lastVisit: "২০ ডিসেম্বর, ২০২৪",
     totalVisits: 8,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 2,
@@ -80,7 +84,8 @@ const favoriteHospitals = [
     emergency: true,
     lastVisit: "১৫ ডিসেম্বর, ২০২৪",
     totalVisits: 5,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
   {
     id: 3,
@@ -92,7 +97,8 @@ const favoriteHospitals = [
     emergency: false,
     lastVisit: "১০ ডিসেম্বর, ২০২৪",
     totalVisits: 3,
-    image: "/placeholder.svg?height=60&width=60",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
   },
 ];
 
@@ -191,7 +197,10 @@ export default function FavoritesPage() {
                         <div className="flex items-start space-x-4">
                           <Avatar className="w-16 h-16">
                             <AvatarImage
-                              src={doctor.image || "/placeholder.svg"}
+                              src={
+                                doctor.image ||
+                                "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                              }
                             />
                             <AvatarFallback className="bg-sky-100 text-sky-800">
                               {doctor.name.split(" ")[1]?.charAt(0)}
@@ -306,7 +315,10 @@ export default function FavoritesPage() {
                         <div className="flex items-start space-x-4">
                           <Avatar className="w-16 h-16">
                             <AvatarImage
-                              src={hospital.image || "/placeholder.svg"}
+                              src={
+                                hospital.image ||
+                                "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                              }
                             />
                             <AvatarFallback className="bg-sky-100 text-sky-800">
                               {hospital.name.charAt(0)}

@@ -83,7 +83,8 @@ const mockDoctors = [
     reviewCount: 135,
     consultationFee: 800,
     availableToday: true,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     qualifications: ["MBBS", "MD (Cardiology)"],
   },
   {
@@ -98,7 +99,8 @@ const mockDoctors = [
     reviewCount: 89,
     consultationFee: 700,
     availableToday: true,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     qualifications: ["MBBS", "MS (Gynecology)"],
   },
   {
@@ -113,7 +115,8 @@ const mockDoctors = [
     reviewCount: 67,
     consultationFee: 600,
     availableToday: false,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     qualifications: ["MBBS", "MD (Dermatology)"],
   },
   {
@@ -128,7 +131,8 @@ const mockDoctors = [
     reviewCount: 156,
     consultationFee: 750,
     availableToday: true,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     qualifications: ["MBBS", "MD (Pediatrics)"],
   },
   {
@@ -143,7 +147,8 @@ const mockDoctors = [
     reviewCount: 203,
     consultationFee: 900,
     availableToday: true,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     qualifications: ["MBBS", "MS (Orthopedics)"],
   },
   {
@@ -158,7 +163,8 @@ const mockDoctors = [
     reviewCount: 78,
     consultationFee: 1000,
     availableToday: false,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     qualifications: ["MBBS", "MD (Psychiatry)"],
   },
   {
@@ -173,7 +179,8 @@ const mockDoctors = [
     reviewCount: 92,
     consultationFee: 1200,
     availableToday: true,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     qualifications: ["MBBS", "DM (Neurology)"],
   },
   {
@@ -188,7 +195,8 @@ const mockDoctors = [
     reviewCount: 114,
     consultationFee: 650,
     availableToday: true,
-    image: "/placeholder.svg?height=120&width=120",
+    image:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
     qualifications: ["MBBS", "MS (Ophthalmology)"],
   },
 ];
@@ -515,7 +523,10 @@ export default function DoctorDirectoryPage() {
                             <div className="flex items-start gap-4 mb-4">
                               <Avatar className="w-16 h-16 border-2 border-sky-100">
                                 <AvatarImage
-                                  src={doctor.image || "/placeholder.svg"}
+                                  src={
+                                    doctor.image ||
+                                    "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                                  }
                                   alt={doctor.name}
                                 />
                                 <AvatarFallback className="bg-sky-100 text-sky-700 text-lg">

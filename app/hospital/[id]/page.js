@@ -70,8 +70,9 @@ export default function HospitalProfilePage() {
   const hospital = {
     id: "1",
     name: "সিটি নার্সিং হোম",
-    logo: "/placeholder.svg?height=120&width=120",
-    bannerImage: "/placeholder.svg?height=300&width=800",
+    logo: "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
+    bannerImage:
+      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=300&width=800",
     address: "হিল কার্ট রোড, শিলিগুড়ি, পশ্চিমবঙ্গ ৭৩৪০০১",
     phone: "৯৮৩২৯০১২৩৪",
     emergencyPhone: "৯৮৩০০০০০০০",
@@ -163,21 +164,24 @@ export default function HospitalProfilePage() {
         name: "ডা. রাহুল সরকার",
         specialty: "হৃদরোগ বিশেষজ্ঞ",
         experience: "১৫ বছর",
-        image: "/placeholder.svg?height=80&width=80",
+        image:
+          "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=80&width=80",
       },
       {
         id: "2",
         name: "ডা. প্রিয়া মুখার্জি",
         specialty: "নিউরোলজি বিশেষজ্ঞ",
         experience: "১২ বছর",
-        image: "/placeholder.svg?height=80&width=80",
+        image:
+          "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=80&width=80",
       },
       {
         id: "3",
         name: "ডা. অনিতা রায়",
         specialty: "শিশু বিশেষজ্ঞ",
         experience: "২০ বছর",
-        image: "/placeholder.svg?height=80&width=80",
+        image:
+          "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=80&width=80",
       },
     ],
     reviews: [
@@ -252,7 +256,10 @@ export default function HospitalProfilePage() {
         transition={{ duration: 0.6 }}
       >
         <Image
-          src={hospital.bannerImage || "/placeholder.svg"}
+          src={
+            hospital.bannerImage ||
+            "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+          }
           alt="Hospital Banner"
           fill
           className="object-cover"
@@ -290,7 +297,10 @@ export default function HospitalProfilePage() {
                 <div className="flex-shrink-0 text-center md:text-left">
                   <Avatar className="w-32 h-32 mx-auto md:mx-0 border-4 border-sky-100">
                     <AvatarImage
-                      src={hospital.logo || "/placeholder.svg"}
+                      src={
+                        hospital.logo ||
+                        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                      }
                       alt={hospital.name}
                     />
                     <AvatarFallback className="bg-sky-100 text-sky-700 text-2xl">
@@ -483,7 +493,10 @@ export default function HospitalProfilePage() {
                     <CardContent className="p-4 text-center">
                       <Avatar className="w-16 h-16 mx-auto mb-3">
                         <AvatarImage
-                          src={doctor.image || "/placeholder.svg"}
+                          src={
+                            doctor.image ||
+                            "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                          }
                           alt={doctor.name}
                         />
                         <AvatarFallback className="bg-sky-100 text-sky-700">

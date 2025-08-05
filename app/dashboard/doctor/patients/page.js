@@ -298,7 +298,7 @@ export default function DoctorPatients() {
                     <div className="flex items-center gap-4">
                       <Avatar className="w-16 h-16">
                         <AvatarImage
-                          src={`/placeholder.svg?height=64&width=64&text=${patient.name.charAt(
+                          src={`https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=64&width=64&text=${patient.name.charAt(
                             0
                           )}`}
                         />
