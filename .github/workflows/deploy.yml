@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,8 +20,25 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            export PNPM_HOME="/root/.local/share/pnpm"
+            export PATH="$PNPM_HOME:$PATH"
+
             cd /root/doctorekhane-main-site
+
+            # Remove local uncommitted changes (production safe)
+            git reset --hard
+            git clean -fd
+
+            # Pull latest code
             git pull origin main
+
+            # Install dependencies
             pnpm install
-            pnpm run dev
+
+            # Build for production
+            pnpm run build
+
+            # Restart PM2 process
             pm2 restart doctorekhane-main
+
+            echo "🚀 Deployment completed!"
