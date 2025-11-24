@@ -1,5 +1,6 @@
 import { Inter, Hind_Siliguri } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/layout/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 const hindSiliguri = Hind_Siliguri({
@@ -9,9 +10,9 @@ const hindSiliguri = Hind_Siliguri({
 });
 
 export const metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.dev",
+  title: "ডাক্তার এখানে",
+  description: "বিশ্বস্ত ডাক্তার এর ঠিকানা",
+  generator: "---",
 };
 
 export default function RootLayout({ children }) {
@@ -25,6 +26,7 @@ html {
         `}</style>
       </head>
       <body className={`${inter.className} ${hindSiliguri.className}`}>
+        <Header></Header>
         {children}
       </body>
     </html>

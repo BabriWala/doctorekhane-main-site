@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,6 +54,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
+import axios from "axios";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -223,10 +224,14 @@ export default function DoctorDirectoryPage() {
   const [availableToday, setAvailableToday] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const itemsPerPage = 6;
-
+  const itemsPerPage = 10;
+  console.log(doctors);
   // Filter doctors based on current filters
   const filteredDoctors = useMemo(() => {
     return mockDoctors.filter((doctor) => {
@@ -263,7 +268,6 @@ export default function DoctorDirectoryPage() {
   ]);
 
   // Pagination
-  const totalPages = Math.ceil(filteredDoctors.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedDoctors = filteredDoctors.slice(
     startIndex,
@@ -381,6 +385,47 @@ export default function DoctorDirectoryPage() {
     </div>
   );
 
+  // Fetch doctors from API
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        setLoading(true);
+
+        const params = {
+          page: currentPage,
+          limit: itemsPerPage,
+        };
+
+        if (searchQuery) params.search = searchQuery;
+        if (selectedSpecialty !== "সব বিভাগ")
+          params.department = selectedSpecialty;
+        if (selectedLocation !== "সব এলাকা") params.location = selectedLocation;
+        if (experienceRange[0] > 0) params.minExperience = experienceRange[0];
+        if (availableToday) params.availableToday = true;
+
+        const { data } = await axios.get("http://localhost:4002/api/doctor", {
+          params,
+        });
+
+        setDoctors(data.data); // paginated data
+        setTotalPages(data.totalPages);
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, [
+    searchQuery,
+    selectedSpecialty,
+    selectedLocation,
+    experienceRange,
+    availableToday,
+    currentPage,
+  ]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-50 font-hind-siliguri">
       {/* Breadcrumb Navigation */}
@@ -418,7 +463,7 @@ export default function DoctorDirectoryPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Badge className="bg-sky-500 text-white px-4 py-2">
               <Users className="w-4 h-4 mr-2" />
-              {filteredDoctors.length}টি ডাক্তার পাওয়া গেছে
+              {doctors.length} টি ডাক্তার পাওয়া গেছে
             </Badge>
             <Button
               onClick={() => setShowMap(!showMap)}
@@ -508,11 +553,11 @@ export default function DoctorDirectoryPage() {
             ) : (
               <>
                 {/* Doctor Cards Grid */}
-                {paginatedDoctors.length > 0 ? (
+                {doctors.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-                    {paginatedDoctors.map((doctor, index) => (
+                    {doctors.map((doctor, index) => (
                       <motion.div
-                        key={doctor.id}
+                        key={doctor?.id}
                         variants={fadeInUp}
                         initial="initial"
                         animate="animate"
@@ -522,51 +567,62 @@ export default function DoctorDirectoryPage() {
                           <CardContent className="p-6">
                             <div className="flex items-start gap-4 mb-4">
                               <Avatar className="w-16 h-16 border-2 border-sky-100">
-                                <AvatarImage
-                                  src={
-                                    doctor.image ||
-                                    "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
-                                  }
-                                  alt={doctor.name}
-                                />
+                                {doctor?.personalDetails?.profilePicture && (
+                                  <AvatarImage
+                                    src={`http://localhost:4002${doctor.personalDetails.profilePicture}`}
+                                    alt={`${doctor.personalDetails.firstName} ${doctor.personalDetails.lastName}`}
+                                  />
+                                )}
+
                                 <AvatarFallback className="bg-sky-100 text-sky-700 text-lg">
-                                  {doctor.name.split(" ")[1]?.[0] || "ড"}
+                                  {doctor?.personalDetails?.firstName?.[0] ||
+                                    ""}
+                                  {doctor?.personalDetails?.lastName?.[0] || ""}
                                 </AvatarFallback>
                               </Avatar>
+
                               <div className="flex-1 min-w-0">
                                 <h3 className="text-lg font-semibold text-sky-900 mb-1 truncate">
-                                  {doctor.name}
+                                  {doctor?.personalDetails?.firstName +
+                                    " " +
+                                    doctor?.personalDetails?.lastName}
                                 </h3>
                                 <p className="text-sky-700 font-medium mb-1">
-                                  {doctor.specialty}
+                                  {/* {doctor.specialty} */}
                                 </p>
                                 <div className="flex items-center gap-2 text-sm text-sky-600 mb-2">
                                   <Award className="w-4 h-4" />
-                                  <span>{doctor.experience} বছর অভিজ্ঞতা</span>
+                                  <span>
+                                    {doctor?.personalDetails?.totalExperience}{" "}
+                                    বছর অভিজ্ঞতা
+                                  </span>
                                 </div>
                               </div>
-                              {doctor.availableToday && (
+                              {/* {doctor.availableToday && (
                                 <Badge className="bg-green-100 text-green-700 text-xs">
                                   আজ উপলব্ধ
                                 </Badge>
-                              )}
+                              )} */}
                             </div>
 
                             <div className="space-y-2 mb-4">
                               <div className="flex items-center gap-2 text-sm text-sky-600">
                                 <Building2 className="w-4 h-4" />
                                 <span className="truncate">
-                                  {doctor.hospital}
+                                  {/* {doctor.hospital} */}
                                 </span>
                               </div>
                               <div className="flex items-center gap-2 text-sm text-sky-600">
                                 <MapPin className="w-4 h-4" />
-                                <span>{doctor.location}</span>
+                                <span>
+                                  {doctor?.personalDetails?.address?.street}{" "}
+                                  {doctor?.personalDetails?.address?.city}
+                                </span>
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-sky-600">
+                              {/* <div className="flex items-center gap-2 text-sm text-sky-600">
                                 <Languages className="w-4 h-4" />
                                 <span>{doctor.languages.join(", ")}</span>
-                              </div>
+                              </div> */}
                             </div>
 
                             <div className="flex items-center justify-between mb-4">
@@ -576,7 +632,8 @@ export default function DoctorDirectoryPage() {
                                     <Star
                                       key={i}
                                       className={`w-4 h-4 ${
-                                        i < Math.floor(doctor.rating)
+                                        // i < Math.floor(doctor.rating)
+                                        i < Math.floor(5)
                                           ? "text-yellow-400 fill-current"
                                           : "text-gray-300"
                                       }`}
@@ -584,10 +641,11 @@ export default function DoctorDirectoryPage() {
                                   ))}
                                 </div>
                                 <span className="text-sm text-sky-800 font-medium">
-                                  {doctor.rating}
+                                  {/* {doctor.rating} */}
+                                  {5}
                                 </span>
                                 <span className="text-xs text-sky-600">
-                                  ({doctor.reviewCount})
+                                  {/* ({doctor.reviewCount}) */}({5})
                                 </span>
                               </div>
                               <div className="text-right">
@@ -595,17 +653,17 @@ export default function DoctorDirectoryPage() {
                                   পরামর্শ ফি
                                 </div>
                                 <div className="font-semibold text-sky-800">
-                                  ৳{doctor.consultationFee}
+                                  ৳{doctor?.professional?.consultationFee}
                                 </div>
                               </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-2">
+                            <div className="flex flex-col sm:flex-col gap-2">
                               <Button
                                 asChild
                                 className="flex-1 bg-sky-500 hover:bg-sky-600 text-white rounded-full"
                               >
-                                <Link href={`/doctor/${doctor.id}`}>
+                                <Link href={`/doctor/${doctor?.id}`}>
                                   <Calendar className="w-4 h-4 mr-2" />
                                   অ্যাপয়েন্টমেন্ট নিন
                                 </Link>
@@ -615,7 +673,7 @@ export default function DoctorDirectoryPage() {
                                 variant="outline"
                                 className="flex-1 border-sky-200 text-sky-700 hover:bg-sky-50 rounded-full bg-transparent"
                               >
-                                <Link href={`/doctor/${doctor.id}`}>
+                                <Link href={`/doctor/${doctor?.id}`}>
                                   বিস্তারিত দেখুন
                                 </Link>
                               </Button>
