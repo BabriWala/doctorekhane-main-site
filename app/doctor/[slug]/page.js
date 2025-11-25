@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,6 +58,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import api, { NEXT_PUBLIC_IMAGE_BASE_URL } from "@/lib/api";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -73,7 +74,7 @@ const staggerContainer = {
   },
 };
 
-export default function DoctorDetailPage() {
+export default function DoctorDetailPage({ params }) {
   const [selectedDate, setSelectedDate] = useState(undefined);
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
@@ -104,95 +105,95 @@ export default function DoctorDetailPage() {
     bio: "ডা. রাহুল সরকার একজন অভিজ্ঞ হৃদরোগ বিশেষজ্ঞ যিনি গত ১৫ বছর ধরে সিলিগুড়ি ও আশেপাশের এলাকায় সেবা দিয়ে আসছেন। তিনি জটিল হৃদরোগের চিকিৎসায় বিশেষ দক্ষতা রাখেন এবং রোগীদের সাথে সহানুভূতিশীল আচরণের জন্য পরিচিত।",
   };
 
-  const weeklySchedule = [
-    {
-      day: "রবিবার",
-      dayEn: "sunday",
-      isToday: false,
-      slots: [
-        {
-          time: "১০:০০ AM – ১২:০০ PM",
-          chamber: "সিটি নার্সিং হোম",
-          available: true,
-        },
-        {
-          time: "৪:০০ PM – ৬:০০ PM",
-          chamber: "ডি আর ক্লিনিক",
-          available: true,
-        },
-      ],
-    },
-    {
-      day: "সোমবার",
-      dayEn: "monday",
-      isToday: true,
-      slots: [
-        {
-          time: "৯:০০ AM – ১১:০০ AM",
-          chamber: "সিলিগুড়ি মেডিকেল কলেজ",
-          available: true,
-        },
-        {
-          time: "৫:০০ PM – ৭:০০ PM",
-          chamber: "সিটি নার্সিং হোম",
-          available: false,
-        },
-      ],
-    },
-    {
-      day: "মঙ্গলবার",
-      dayEn: "tuesday",
-      isToday: false,
-      slots: [
-        {
-          time: "১০:০০ AM – ১২:০০ PM",
-          chamber: "ডি আর ক্লিনিক",
-          available: true,
-        },
-      ],
-    },
-    {
-      day: "বুধবার",
-      dayEn: "wednesday",
-      isToday: false,
-      slots: [],
-    },
-    {
-      day: "বৃহস্পতিবার",
-      dayEn: "thursday",
-      isToday: false,
-      slots: [
-        {
-          time: "২:০০ PM – ৪:০০ PM",
-          chamber: "সিটি নার্সিং হোম",
-          available: true,
-        },
-        {
-          time: "৬:০০ PM – ৮:০০ PM",
-          chamber: "ডি আর ক্লিনিক",
-          available: true,
-        },
-      ],
-    },
-    {
-      day: "শুক্রবার",
-      dayEn: "friday",
-      isToday: false,
-      slots: [
-        {
-          time: "১১:০০ AM – ১:০০ PM",
-          chamber: "সিলিগুড়ি মেডিকেল কলেজ",
-          available: true,
-        },
-      ],
-    },
-    {
-      day: "শনিবার",
-      dayEn: "saturday",
-      isToday: false,
-      slots: [],
-    },
-  ];
+  // const weeklySchedule = [
+  //   {
+  //     day: "রবিবার",
+  //     dayEn: "sunday",
+  //     isToday: false,
+  //     slots: [
+  //       {
+  //         time: "১০:০০ AM – ১২:০০ PM",
+  //         chamber: "সিটি নার্সিং হোম",
+  //         available: true,
+  //       },
+  //       {
+  //         time: "৪:০০ PM – ৬:০০ PM",
+  //         chamber: "ডি আর ক্লিনিক",
+  //         available: true,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     day: "সোমবার",
+  //     dayEn: "monday",
+  //     isToday: true,
+  //     slots: [
+  //       {
+  //         time: "৯:০০ AM – ১১:০০ AM",
+  //         chamber: "সিলিগুড়ি মেডিকেল কলেজ",
+  //         available: true,
+  //       },
+  //       {
+  //         time: "৫:০০ PM – ৭:০০ PM",
+  //         chamber: "সিটি নার্সিং হোম",
+  //         available: false,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     day: "মঙ্গলবার",
+  //     dayEn: "tuesday",
+  //     isToday: false,
+  //     slots: [
+  //       {
+  //         time: "১০:০০ AM – ১২:০০ PM",
+  //         chamber: "ডি আর ক্লিনিক",
+  //         available: true,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     day: "বুধবার",
+  //     dayEn: "wednesday",
+  //     isToday: false,
+  //     slots: [],
+  //   },
+  //   {
+  //     day: "বৃহস্পতিবার",
+  //     dayEn: "thursday",
+  //     isToday: false,
+  //     slots: [
+  //       {
+  //         time: "২:০০ PM – ৪:০০ PM",
+  //         chamber: "সিটি নার্সিং হোম",
+  //         available: true,
+  //       },
+  //       {
+  //         time: "৬:০০ PM – ৮:০০ PM",
+  //         chamber: "ডি আর ক্লিনিক",
+  //         available: true,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     day: "শুক্রবার",
+  //     dayEn: "friday",
+  //     isToday: false,
+  //     slots: [
+  //       {
+  //         time: "১১:০০ AM – ১:০০ PM",
+  //         chamber: "সিলিগুড়ি মেডিকেল কলেজ",
+  //         available: true,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     day: "শনিবার",
+  //     dayEn: "saturday",
+  //     isToday: false,
+  //     slots: [],
+  //   },
+  // ];
 
   const reviews = [
     {
@@ -297,6 +298,61 @@ export default function DoctorDetailPage() {
           (review) => review.rating === Number.parseInt(reviewFilter)
         );
 
+  const [currentDoctor, setCurrentDoctor] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { slug } = use(params);
+
+  // Fetch doctors from API
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        setLoading(true);
+
+        const { data } = await api.get(`/doctor/${slug}`);
+        console.log(data, "Data");
+        setCurrentDoctor(data); // paginated data
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctor();
+  }, [slug]);
+
+  console.log(currentDoctor);
+
+  // Transform chambers into weekly schedule
+  const getWeeklySchedule = (chambers) => {
+    const daysOfWeek = [
+      "Saturday",
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+    ];
+    const todayIndex = new Date().getDay(); // Sunday = 0
+    return daysOfWeek.map((day, index) => {
+      const dayChambers = chambers.filter(
+        (c) => c.day.toLowerCase() === day.toLowerCase()
+      );
+      return {
+        day,
+        isToday: index === todayIndex,
+        slots: dayChambers.map((c) => ({
+          time: `${c.from} - ${c.to}`,
+          chamber: c.chamberName,
+          available: true, // you can extend with real availability if you have it
+        })),
+      };
+    });
+  };
+
+  const weeklySchedule = getWeeklySchedule(currentDoctor?.chambers || []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-50 font-hind-siliguri">
       {/* Breadcrumb Navigation */}
@@ -319,7 +375,11 @@ export default function DoctorDetailPage() {
               ডাক্তার
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-sky-800 font-medium">{doctor.name}</span>
+            {/**  <span className="text-sky-800 font-medium">{doctor.name}</span>*/}
+            <span className="text-sky-800 font-medium">
+              {currentDoctor?.personalDetails?.firstName}{" "}
+              {currentDoctor?.personalDetails?.lastName}
+            </span>
           </nav>
         </div>
       </motion.div>
@@ -331,11 +391,8 @@ export default function DoctorDetailPage() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <Image
-          src={
-            doctor.bannerImage ||
-            "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
-          }
+        <img
+          src={`${NEXT_PUBLIC_IMAGE_BASE_URL}${currentDoctor?.personalDetails?.profilePicture}`}
           alt="Doctor Banner"
           fill
           className="object-cover"
@@ -348,10 +405,12 @@ export default function DoctorDetailPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <h1 className="text-3xl md:text-5xl font-bold mb-2">
-              {doctor.name}
+              {/* {doctor.name} */}
+              {currentDoctor?.personalDetails?.firstName}{" "}
+              {currentDoctor?.personalDetails?.lastName}
             </h1>
             <p className="text-xl md:text-2xl text-sky-100">
-              {doctor.specialty}
+              {/* {doctor.specialty} */}
             </p>
           </motion.div>
         </div>
@@ -373,14 +432,13 @@ export default function DoctorDetailPage() {
                 <div className="flex-shrink-0 text-center md:text-left">
                   <Avatar className="w-32 h-32 mx-auto md:mx-0 border-4 border-sky-100">
                     <AvatarImage
-                      src={
-                        doctor.image ||
-                        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
-                      }
+                      src={`${NEXT_PUBLIC_IMAGE_BASE_URL}${currentDoctor?.personalDetails?.profilePicture}`}
                       alt={doctor.name}
                     />
                     <AvatarFallback className="bg-sky-100 text-sky-700 text-2xl">
-                      {doctor.name.split(" ")[1]?.[0] || "ড"}
+                      {/* {doctor.name.split(" ")[1]?.[0] || "ড"} */}
+                      {currentDoctor?.personalDetails?.firstName}{" "}
+                      {currentDoctor?.personalDetails?.lastName}
                     </AvatarFallback>
                   </Avatar>
                 </div>
@@ -388,18 +446,29 @@ export default function DoctorDetailPage() {
                 <div className="flex-1 space-y-4">
                   <div>
                     <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-1">
-                      {doctor.name}
+                      {/* {doctor.name} */}
+                      {currentDoctor?.personalDetails?.firstName}{" "}
+                      {currentDoctor?.personalDetails?.lastName}
                     </h2>
                     <p className="text-lg text-sky-700 mb-2">{doctor.title}</p>
                     <p className="text-xl font-semibold text-sky-800">
-                      {doctor.specialty}
+                      {/* {doctor.specialty} */}
+
+                      {currentDoctor?.specialization &&
+                        currentDoctor?.specialization.length > 0 &&
+                        currentDoctor.specialization
+                          .map((it) => it?.field)
+                          .join(", ")}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="flex items-center gap-2">
                       <Award className="w-4 h-4 text-sky-600" />
-                      <span className="text-sky-700">{doctor.experience}</span>
+                      <span className="text-sky-700">
+                        {currentDoctor?.personalDetails?.totalExperience} বছরের
+                        অভিজ্ঞতা
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Users className="w-4 h-4 text-sky-600" />
@@ -409,14 +478,17 @@ export default function DoctorDetailPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Languages className="w-4 h-4 text-sky-600" />
-                      <span className="text-sky-700">
-                        ভাষা: {doctor.languages.join(", ")}
-                      </span>
+                      <span className="text-sky-700">ভাষা: বাংলা, ইংরেজি</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <GraduationCap className="w-4 h-4 text-sky-600" />
                       <span className="text-sky-700">
-                        যোগ্যতা: {doctor.qualifications.join(", ")}
+                        {/* যোগ্যতা: {doctor.qualifications.join(", ")} */}
+                        {currentDoctor?.education &&
+                          currentDoctor?.education.length > 0 &&
+                          currentDoctor.education
+                            .map((it) => it?.degree)
+                            .join(", ")}
                       </span>
                     </div>
                   </div>
@@ -429,7 +501,21 @@ export default function DoctorDetailPage() {
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {doctor.hospitals.map((hospital, index) => (
+                      {currentDoctor?.experience &&
+                        currentDoctor?.experience.length > 0 &&
+                        currentDoctor.experience.map((it, index) => {
+                          return (
+                            <Badge
+                              key={index}
+                              variant="secondary"
+                              className="bg-sky-100 text-sky-700"
+                            >
+                              {it?.hospitalName}
+                            </Badge>
+                          );
+                        })}
+
+                      {/* {doctor.hospitals.map((hospital, index) => (
                         <Badge
                           key={index}
                           variant="secondary"
@@ -437,7 +523,7 @@ export default function DoctorDetailPage() {
                         >
                           {hospital}
                         </Badge>
-                      ))}
+                      ))} */}
                     </div>
                   </div>
 
@@ -448,7 +534,7 @@ export default function DoctorDetailPage() {
                           <Star
                             key={i}
                             className={`w-5 h-5 ${
-                              i < Math.floor(doctor.rating)
+                              i < Math.floor(5)
                                 ? "text-yellow-400 fill-current"
                                 : "text-gray-300"
                             }`}
@@ -458,9 +544,7 @@ export default function DoctorDetailPage() {
                       <span className="text-sky-800 font-semibold">
                         {doctor.rating}
                       </span>
-                      <span className="text-sky-600 text-sm">
-                        ({doctor.reviewCount} রিভিউ)
-                      </span>
+                      <span className="text-sky-600 text-sm">(5 রিভিউ)</span>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -483,21 +567,26 @@ export default function DoctorDetailPage() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <Button
-                      size="lg"
-                      className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-8"
-                    >
-                      <CalendarIcon className="w-5 h-5 mr-2" />
-                      অ্যাপয়েন্টমেন্ট নিন
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="border-sky-200 text-sky-700 hover:bg-sky-50 rounded-full px-8 bg-transparent"
-                    >
-                      <MessageCircle className="w-5 h-5 mr-2" />
-                      মেসেজ করুন
-                    </Button>
+                    <Link href={"https://wa.me/8801955787578"}>
+                      <Button
+                        size="lg"
+                        className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-8"
+                      >
+                        <CalendarIcon className="w-5 h-5 mr-2" />
+                        অ্যাপয়েন্টমেন্ট নিন
+                      </Button>
+                    </Link>
+
+                    <Link href={"https://wa.me/8801955787578"}>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="border-sky-200 text-sky-700 hover:bg-sky-50 rounded-full px-8 bg-transparent"
+                      >
+                        <MessageCircle className="w-5 h-5 mr-2" />
+                        মেসেজ করুন
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </motion.div>
@@ -506,7 +595,7 @@ export default function DoctorDetailPage() {
         </motion.div>
 
         {/* Weekly Schedule */}
-        <motion.div variants={fadeInUp} initial="initial" animate="animate">
+        {/* <motion.div variants={fadeInUp} initial="initial" animate="animate">
           <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-sky-900 flex items-center gap-2">
@@ -602,10 +691,109 @@ export default function DoctorDetailPage() {
               ))}
             </CardContent>
           </Card>
+        </motion.div> */}
+
+        <motion.div variants={fadeInUp} initial="initial" animate="animate">
+          <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-sky-900 flex items-center gap-2">
+                <CalendarIcon className="w-6 h-6" />
+                চিকিৎসার সময়সূচি
+              </CardTitle>
+              <CardDescription className="text-sky-600">
+                সাপ্তাহিক চেম্বার ও সময়সূচি
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent className="space-y-4">
+              {weeklySchedule.map((schedule, index) => (
+                <motion.div
+                  key={schedule.day}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <Card
+                    className={`border ${
+                      schedule.isToday
+                        ? "border-sky-300 bg-sky-50"
+                        : "border-sky-100"
+                    }`}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3
+                          className={`font-semibold ${
+                            schedule.isToday ? "text-sky-800" : "text-sky-700"
+                          }`}
+                        >
+                          {schedule.day}
+                          {schedule.isToday && (
+                            <Badge className="ml-2 bg-sky-500 text-white">
+                              আজ
+                            </Badge>
+                          )}
+                        </h3>
+                      </div>
+
+                      {schedule.slots.length === 0 ? (
+                        <div className="text-center py-4 text-gray-500">
+                          <XCircle className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                          <span>বন্ধ</span>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {schedule.slots.map((slot, slotIndex) => (
+                            <div
+                              key={slotIndex}
+                              className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border ${
+                                slot.available
+                                  ? "border-green-200 bg-green-50"
+                                  : "border-red-200 bg-red-50"
+                              }`}
+                            >
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-2">
+                                  <Clock className="w-4 h-4 text-sky-600" />
+                                  <span className="font-medium text-sky-800">
+                                    {slot.time}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <MapPin className="w-4 h-4 text-sky-600" />
+                                  <span className="text-sm text-sky-600">
+                                    {slot.chamber}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="mt-2 sm:mt-0">
+                                {slot.available ? (
+                                  <Badge className="bg-green-500 text-white">
+                                    উপলব্ধ
+                                  </Badge>
+                                ) : (
+                                  <Badge
+                                    variant="secondary"
+                                    className="bg-red-100 text-red-700"
+                                  >
+                                    বুক হয়ে গেছে
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </CardContent>
+          </Card>
         </motion.div>
 
         {/* Appointment Booking */}
-        <motion.div variants={fadeInUp} initial="initial" animate="animate">
+        {/* <motion.div variants={fadeInUp} initial="initial" animate="animate">
           <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-sky-900">
@@ -764,7 +952,7 @@ export default function DoctorDetailPage() {
               </Tabs>
             </CardContent>
           </Card>
-        </motion.div>
+        </motion.div> */}
 
         {/* Doctor Bio */}
         <motion.div variants={fadeInUp} initial="initial" animate="animate">
@@ -776,7 +964,9 @@ export default function DoctorDetailPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sky-700 leading-relaxed mb-4">{doctor.bio}</p>
+              <p className="text-sky-700 leading-relaxed mb-4">
+                {currentDoctor?.personalDetails?.about}
+              </p>
               <div className="flex flex-wrap gap-2">
                 <Badge className="bg-sky-100 text-sky-700">
                   🚹 পুরুষ চিকিৎসক
@@ -793,7 +983,7 @@ export default function DoctorDetailPage() {
         </motion.div>
 
         {/* Patient Reviews - Updated */}
-        <motion.div variants={fadeInUp} initial="initial" animate="animate">
+        {/* <motion.div variants={fadeInUp} initial="initial" animate="animate">
           <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
             <CardHeader>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -808,9 +998,9 @@ export default function DoctorDetailPage() {
                 </Link>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Show only first 2 reviews as preview */}
-              {reviews.slice(0, 2).map((review, index) => (
+            <CardContent className="space-y-4"> */}
+        {/* Show only first 2 reviews as preview */}
+        {/* {reviews.slice(0, 2).map((review, index) => (
                 <motion.div
                   key={review.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -877,10 +1067,10 @@ export default function DoctorDetailPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </motion.div> */}
 
         {/* FAQ Section */}
-        <motion.div variants={fadeInUp} initial="initial" animate="animate">
+        {/* <motion.div variants={fadeInUp} initial="initial" animate="animate">
           <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-sky-900">
@@ -906,10 +1096,10 @@ export default function DoctorDetailPage() {
               </Accordion>
             </CardContent>
           </Card>
-        </motion.div>
+        </motion.div> */}
 
         {/* Related Doctors */}
-        <motion.div variants={fadeInUp} initial="initial" animate="animate">
+        {/* <motion.div variants={fadeInUp} initial="initial" animate="animate">
           <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-sky-900 flex items-center gap-2">
@@ -973,7 +1163,7 @@ export default function DoctorDetailPage() {
               </Carousel>
             </CardContent>
           </Card>
-        </motion.div>
+        </motion.div> */}
       </div>
 
       {/* Scroll to Top Button */}

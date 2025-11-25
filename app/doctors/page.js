@@ -55,7 +55,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
-import api from "@/lib/api";
+import api, { NEXT_PUBLIC_IMAGE_BASE_URL } from "@/lib/api";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -408,9 +408,6 @@ export default function DoctorDirectoryPage() {
           params,
         });
 
-
-        
-
         setDoctors(data.data); // paginated data
         setTotalPages(data.totalPages);
       } catch (error) {
@@ -573,7 +570,7 @@ export default function DoctorDirectoryPage() {
                               <Avatar className="w-16 h-16 border-2 border-sky-100">
                                 {doctor?.personalDetails?.profilePicture && (
                                   <AvatarImage
-                                    src={`http://localhost:4002${doctor.personalDetails.profilePicture}`}
+                                    src={`${NEXT_PUBLIC_IMAGE_BASE_URL}${doctor.personalDetails.profilePicture}`}
                                     alt={`${doctor.personalDetails.firstName} ${doctor.personalDetails.lastName}`}
                                   />
                                 )}
