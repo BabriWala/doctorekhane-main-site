@@ -55,6 +55,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
+import api from "@/lib/api";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -403,7 +404,7 @@ export default function DoctorDirectoryPage() {
         if (experienceRange[0] > 0) params.minExperience = experienceRange[0];
         if (availableToday) params.availableToday = true;
 
-        const { data } = await axios.get("http://localhost:4002/api/doctor", {
+        const { data } = await api.get("/doctor", {
           params,
         });
 
@@ -606,12 +607,12 @@ export default function DoctorDirectoryPage() {
                             </div>
 
                             <div className="space-y-2 mb-4">
-                              <div className="flex items-center gap-2 text-sm text-sky-600">
+                              {/* <div className="flex items-center gap-2 text-sm text-sky-600">
                                 <Building2 className="w-4 h-4" />
                                 <span className="truncate">
-                                  {/* {doctor.hospital} */}
+                                  {doctor.hospital}
                                 </span>
-                              </div>
+                              </div> */}
                               <div className="flex items-center gap-2 text-sm text-sky-600">
                                 <MapPin className="w-4 h-4" />
                                 <span>
@@ -653,7 +654,7 @@ export default function DoctorDirectoryPage() {
                                   পরামর্শ ফি
                                 </div>
                                 <div className="font-semibold text-sky-800">
-                                  ৳{doctor?.professional?.consultationFee}
+                                  ৳ {doctor?.professional?.consultationFee}
                                 </div>
                               </div>
                             </div>
