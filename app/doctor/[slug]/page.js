@@ -58,7 +58,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import api, { NEXT_PUBLIC_IMAGE_BASE_URL } from "@/lib/api";
+import api, { IMAGE_BASE_URL } from "@/lib/api";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -392,7 +392,7 @@ export default function DoctorDetailPage({ params }) {
         transition={{ duration: 0.6 }}
       >
         <img
-          src={`${NEXT_PUBLIC_IMAGE_BASE_URL}${currentDoctor?.personalDetails?.profilePicture}`}
+          src={`${IMAGE_BASE_URL}${currentDoctor?.personalDetails?.profilePicture}`}
           alt="Doctor Banner"
           fill
           className="object-cover"
@@ -432,7 +432,7 @@ export default function DoctorDetailPage({ params }) {
                 <div className="flex-shrink-0 text-center md:text-left">
                   <Avatar className="w-32 h-32 mx-auto md:mx-0 border-4 border-sky-100">
                     <AvatarImage
-                      src={`${NEXT_PUBLIC_IMAGE_BASE_URL}${currentDoctor?.personalDetails?.profilePicture}`}
+                      src={`${IMAGE_BASE_URL}${currentDoctor?.personalDetails?.profilePicture}`}
                       alt={doctor.name}
                     />
                     <AvatarFallback className="bg-sky-100 text-sky-700 text-2xl">

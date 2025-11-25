@@ -55,7 +55,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
-import api, { NEXT_PUBLIC_IMAGE_BASE_URL } from "@/lib/api";
+import api, { IMAGE_BASE_URL } from "@/lib/api";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -570,7 +570,7 @@ export default function DoctorDirectoryPage() {
                               <Avatar className="w-16 h-16 border-2 border-sky-100">
                                 {doctor?.personalDetails?.profilePicture && (
                                   <AvatarImage
-                                    src={`${NEXT_PUBLIC_IMAGE_BASE_URL}${doctor.personalDetails.profilePicture}`}
+                                    src={`${IMAGE_BASE_URL}${doctor.personalDetails.profilePicture}`}
                                     alt={`${doctor.personalDetails.firstName} ${doctor.personalDetails.lastName}`}
                                   />
                                 )}
