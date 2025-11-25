@@ -408,6 +408,9 @@ export default function DoctorDirectoryPage() {
           params,
         });
 
+
+        
+
         setDoctors(data.data); // paginated data
         setTotalPages(data.totalPages);
       } catch (error) {
