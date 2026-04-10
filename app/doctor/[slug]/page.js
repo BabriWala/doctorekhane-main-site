@@ -353,6 +353,44 @@ export default function DoctorDetailPage({ params }) {
 
   const weeklySchedule = getWeeklySchedule(currentDoctor?.chambers || []);
 
+  const formatTimeRange = (timeRange) => {
+    try {
+      if (!timeRange || typeof timeRange !== "string") return "Invalid time";
+
+      const parts = timeRange.split(" - ");
+      if (parts.length !== 2) return "Invalid time";
+
+      const [start, end] = parts;
+
+      const formatTime = (time) => {
+        const [hour, minute] = time.split(":");
+
+        if (
+          hour === undefined ||
+          minute === undefined ||
+          isNaN(hour) ||
+          isNaN(minute)
+        ) {
+          throw new Error("Invalid time format");
+        }
+
+        const date = new Date();
+        date.setHours(Number(hour), Number(minute));
+
+        return date.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        });
+      };
+
+      return `${formatTime(start)} - ${formatTime(end)}`;
+    } catch (error) {
+      console.error("Time format error:", error);
+      return "Invalid time";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-50 font-hind-siliguri">
       {/* Breadcrumb Navigation */}
@@ -594,105 +632,6 @@ export default function DoctorDetailPage({ params }) {
           </Card>
         </motion.div>
 
-        {/* Weekly Schedule */}
-        {/* <motion.div variants={fadeInUp} initial="initial" animate="animate">
-          <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-sky-900 flex items-center gap-2">
-                <CalendarIcon className="w-6 h-6" />
-                চিকিৎসার সময়সূচি
-              </CardTitle>
-              <CardDescription className="text-sky-600">
-                সাপ্তাহিক চেম্বার ও সময়সূচি
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {weeklySchedule.map((schedule, index) => (
-                <motion.div
-                  key={schedule.dayEn}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card
-                    className={`border ${
-                      schedule.isToday
-                        ? "border-sky-300 bg-sky-50"
-                        : "border-sky-100"
-                    }`}
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <h3
-                          className={`font-semibold ${
-                            schedule.isToday ? "text-sky-800" : "text-sky-700"
-                          }`}
-                        >
-                          {schedule.day}
-                          {schedule.isToday && (
-                            <Badge className="ml-2 bg-sky-500 text-white">
-                              আজ
-                            </Badge>
-                          )}
-                        </h3>
-                      </div>
-
-                      {schedule.slots.length === 0 ? (
-                        <div className="text-center py-4 text-gray-500">
-                          <XCircle className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-                          <span>বন্ধ</span>
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {schedule.slots.map((slot, slotIndex) => (
-                            <div
-                              key={slotIndex}
-                              className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border ${
-                                slot.available
-                                  ? "border-green-200 bg-green-50"
-                                  : "border-red-200 bg-red-50"
-                              }`}
-                            >
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-2">
-                                  <Clock className="w-4 h-4 text-sky-600" />
-                                  <span className="font-medium text-sky-800">
-                                    {slot.time}
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <MapPin className="w-4 h-4 text-sky-600" />
-                                  <span className="text-sm text-sky-600">
-                                    {slot.chamber}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="mt-2 sm:mt-0">
-                                {slot.available ? (
-                                  <Badge className="bg-green-500 text-white">
-                                    উপলব্ধ
-                                  </Badge>
-                                ) : (
-                                  <Badge
-                                    variant="secondary"
-                                    className="bg-red-100 text-red-700"
-                                  >
-                                    বুক হয়ে গেছে
-                                  </Badge>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </CardContent>
-          </Card>
-        </motion.div> */}
-
         <motion.div variants={fadeInUp} initial="initial" animate="animate">
           <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
             <CardHeader>
@@ -755,8 +694,11 @@ export default function DoctorDetailPage({ params }) {
                               <div className="space-y-1">
                                 <div className="flex items-center gap-2">
                                   <Clock className="w-4 h-4 text-sky-600" />
-                                  <span className="font-medium text-sky-800">
+                                  {/* <span className="font-medium text-sky-800">
                                     {slot.time}
+                                  </span> */}
+                                  <span className="font-medium text-sky-800">
+                                    {formatTimeRange(slot.time)}
                                   </span>
                                 </div>
                                 <div className="flex items-center gap-2">
