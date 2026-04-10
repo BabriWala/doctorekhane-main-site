@@ -95,45 +95,65 @@ const Header = () => {
             <div className="flex flex-col space-y-3">
               <Link
                 href="/"
+                onClick={() => setMobileMenuOpen(false)}
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 হোম
               </Link>
+
               <Link
                 href="/doctors"
+                onClick={() => setMobileMenuOpen(false)}
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 ডাক্তার
               </Link>
+
               <Link
                 href="/hospitals"
+                onClick={() => setMobileMenuOpen(false)}
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 হাসপাতাল
               </Link>
+
               <Link
                 href="/blood-donors"
+                onClick={() => setMobileMenuOpen(false)}
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 রক্তদাতা
               </Link>
+
               <Link
                 href="/blog"
+                onClick={() => setMobileMenuOpen(false)}
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 ব্লগ
               </Link>
+
               <Link
                 href="/"
+                onClick={() => setMobileMenuOpen(false)}
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 যোগাযোগ
               </Link>
+
               <div className="flex flex-col space-y-2 pt-4 border-t border-sky-100">
-                <Button variant="ghost" className="text-sky-700 justify-start">
+                <Button
+                  variant="ghost"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-sky-700 justify-start"
+                >
                   লগইন
                 </Button>
-                <Button className="bg-sky-500 hover:bg-sky-600 text-white">
+
+                <Button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="bg-sky-500 hover:bg-sky-600 text-white"
+                >
                   সাইন আপ
                 </Button>
               </div>
