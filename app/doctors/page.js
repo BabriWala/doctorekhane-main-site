@@ -654,7 +654,7 @@ export default function DoctorDirectoryPage() {
                                   পরামর্শ ফি
                                 </div>
                                 <div className="font-semibold text-sky-800">
-                                  ৳ {doctor?.professional?.consultationFee}
+                                  ৳ {doctor?.professional?.consultationFeeNew}
                                 </div>
                               </div>
                             </div>
