@@ -196,8 +196,8 @@ export default function BengaliHealthcarePlatform() {
                   searchType === "doctor"
                     ? "ডাক্তারের নাম লিখুন..."
                     : searchType === "hospital"
-                    ? "হাসপাতালের নাম লিখুন..."
-                    : "বিশেষজ্ঞতা লিখুন..."
+                      ? "হাসপাতালের নাম লিখুন..."
+                      : "বিশেষজ্ঞতা লিখুন..."
                 }
                 className="flex-1 h-12 rounded-full border-sky-200 bg-white/90 backdrop-blur-sm"
               />

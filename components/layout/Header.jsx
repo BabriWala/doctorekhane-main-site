@@ -94,37 +94,37 @@ const Header = () => {
           <div className="md:hidden py-4 border-t border-sky-100">
             <div className="flex flex-col space-y-3">
               <Link
-                href="#"
+                href="/"
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 হোম
               </Link>
               <Link
-                href="#"
+                href="/doctors"
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 ডাক্তার
               </Link>
               <Link
-                href="#"
+                href="/hospitals"
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 হাসপাতাল
               </Link>
               <Link
-                href="#"
+                href="/blood-donors"
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 রক্তদাতা
               </Link>
               <Link
-                href="#"
+                href="/blog"
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 ব্লগ
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
                 যোগাযোগ
