@@ -295,7 +295,7 @@ export default function DoctorDetailPage({ params }) {
     reviewFilter === "all"
       ? reviews
       : reviews.filter(
-          (review) => review.rating === Number.parseInt(reviewFilter)
+          (review) => review.rating === Number.parseInt(reviewFilter),
         );
 
   const [currentDoctor, setCurrentDoctor] = useState(null);
@@ -337,7 +337,7 @@ export default function DoctorDetailPage({ params }) {
     const todayIndex = new Date().getDay(); // Sunday = 0
     return daysOfWeek.map((day, index) => {
       const dayChambers = chambers.filter(
-        (c) => c.day.toLowerCase() === day.toLowerCase()
+        (c) => c.day.toLowerCase() === day.toLowerCase(),
       );
       return {
         day,

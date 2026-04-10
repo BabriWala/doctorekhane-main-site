@@ -272,7 +272,7 @@ export default function DoctorDirectoryPage() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedDoctors = filteredDoctors.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
 
   const clearFilters = () => {
@@ -664,7 +664,7 @@ export default function DoctorDirectoryPage() {
                                 asChild
                                 className="flex-1 bg-sky-500 hover:bg-sky-600 text-white rounded-full"
                               >
-                                <Link href={`/doctor/${doctor?.id}`}>
+                                <Link href={"https://wa.me/8801955787578"}>
                                   <Calendar className="w-4 h-4 mr-2" />
                                   অ্যাপয়েন্টমেন্ট নিন
                                 </Link>
