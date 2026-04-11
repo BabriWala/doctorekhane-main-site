@@ -467,14 +467,14 @@ export default function DoctorDetailPage({ params }) {
                 className="flex flex-col md:flex-row gap-6"
                 variants={fadeInUp}
               >
-                <div className="flex-shrink-0 text-center md:text-left">
-                  <Avatar className="w-32 h-32 mx-auto md:mx-0 border-4 border-sky-100">
+                <div className="flex-shrink-0 flex justify-center md:justify-start">
+                  <Avatar className="w-32 h-32 border-4 border-sky-100 flex items-center justify-center">
                     <AvatarImage
+                      className="object-cover w-full h-full"
                       src={`${IMAGE_BASE_URL}${currentDoctor?.personalDetails?.profilePicture}`}
                       alt={doctor.name}
                     />
-                    <AvatarFallback className="bg-sky-100 text-sky-700 text-2xl">
-                      {/* {doctor.name.split(" ")[1]?.[0] || "ড"} */}
+                    <AvatarFallback className="bg-sky-100 text-sky-700 text-2xl flex items-center justify-center text-center px-2">
                       {currentDoctor?.personalDetails?.firstName}{" "}
                       {currentDoctor?.personalDetails?.lastName}
                     </AvatarFallback>
@@ -488,16 +488,33 @@ export default function DoctorDetailPage({ params }) {
                       {currentDoctor?.personalDetails?.firstName}{" "}
                       {currentDoctor?.personalDetails?.lastName}
                     </h2>
-                    <p className="text-lg text-sky-700 mb-2">{doctor.title}</p>
-                    <p className="text-xl font-semibold text-sky-800">
-                      {/* {doctor.specialty} */}
+                    {/* Degree */}
+                    <p className="text-md text-sky-700 font-medium">
+                      {currentDoctor?.education &&
+                        currentDoctor.education.length > 0 &&
+                        currentDoctor.education
+                          .map((it) => it?.degree)
+                          .join(", ")}
+                    </p>
 
+                    <div className="flex flex-wrap gap-2">
+                      {currentDoctor?.specialization?.map((it, index) => (
+                        <span
+                          key={index}
+                          className="text-sm font-medium text-sky-800 bg-sky-100 px-3 py-1 rounded-full"
+                        >
+                          {it?.field}
+                        </span>
+                      ))}
+                    </div>
+                    {/* <p className="text-lg text-sky-700 mb-2">{doctor.title}</p> */}
+                    {/* <p className="text-xl font-semibold text-sky-800">
                       {currentDoctor?.specialization &&
                         currentDoctor?.specialization.length > 0 &&
                         currentDoctor.specialization
                           .map((it) => it?.field)
                           .join(", ")}
-                    </p>
+                    </p> */}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
