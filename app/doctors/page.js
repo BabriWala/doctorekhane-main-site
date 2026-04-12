@@ -56,6 +56,7 @@ import {
 import Link from "next/link";
 import axios from "axios";
 import api, { IMAGE_BASE_URL } from "@/lib/api";
+import { Phone } from "lucide-react";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -639,25 +640,25 @@ export default function DoctorDirectoryPage() {
                               )} */}
                             </div>
 
-                            <div className="space-y-2 mb-4">
-                              {/* <div className="flex items-center gap-2 text-sm text-sky-600">
+                            {/* <div className="space-y-2 mb-4"> */}
+                            {/* <div className="flex items-center gap-2 text-sm text-sky-600">
                                 <Building2 className="w-4 h-4" />
                                 <span className="truncate">
                                   {doctor.hospital}
                                 </span>
                               </div> */}
-                              <div className="flex items-center gap-2 text-sm text-sky-600">
+                            {/* <div className="flex items-center gap-2 text-sm text-sky-600">
                                 <MapPin className="w-4 h-4" />
                                 <span>
                                   {doctor?.personalDetails?.address?.street}{" "}
                                   {doctor?.personalDetails?.address?.city}
                                 </span>
-                              </div>
-                              {/* <div className="flex items-center gap-2 text-sm text-sky-600">
+                              </div> */}
+                            {/* <div className="flex items-center gap-2 text-sm text-sky-600">
                                 <Languages className="w-4 h-4" />
                                 <span>{doctor.languages.join(", ")}</span>
                               </div> */}
-                            </div>
+                            {/* </div> */}
 
                             <div className="flex items-center justify-between mb-4">
                               <div className="flex items-center gap-2">
@@ -698,8 +699,10 @@ export default function DoctorDirectoryPage() {
                                 className="flex-1 bg-sky-500 hover:bg-sky-600 text-white rounded-full"
                               >
                                 <Link href={"https://wa.me/8801955787578"}>
-                                  <Calendar className="w-4 h-4 mr-2" />
-                                  অ্যাপয়েন্টমেন্ট নিন
+                                  {/* <Calendar className="w-4 h-4 mr-2" />
+                                  অ্যাপয়েন্টমেন্ট নিন */}
+                                  <Phone className="w-4 h-4 mr-2" />
+                                  কল করুন
                                 </Link>
                               </Button>
                               <Button
