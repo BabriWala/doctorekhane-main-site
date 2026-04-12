@@ -566,7 +566,7 @@ export default function DoctorDirectoryPage() {
                       >
                         <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm hover:shadow-xl transition-all duration-300 h-full">
                           <CardContent className="p-6">
-                            <div className="flex items-start gap-4 mb-4">
+                            <div className="flex flex-col justify-center items-start gap-4 mb-4">
                               <Avatar className="w-16 h-16 border-2 border-sky-100">
                                 {doctor?.personalDetails?.profilePicture && (
                                   <AvatarImage
@@ -583,7 +583,7 @@ export default function DoctorDirectoryPage() {
                               </Avatar>
 
                               <div className="flex-1 min-w-0">
-                                <h3 className="text-lg font-semibold text-sky-900 mb-1 truncate">
+                                <h3 className="text-lg font-semibold text-sky-900 mb-1 break-words">
                                   {doctor?.personalDetails?.firstName +
                                     " " +
                                     doctor?.personalDetails?.lastName}
