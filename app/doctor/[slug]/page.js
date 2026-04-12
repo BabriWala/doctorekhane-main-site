@@ -488,12 +488,19 @@ export default function DoctorDetailPage({ params }) {
                       {currentDoctor?.personalDetails?.firstName}{" "}
                       {currentDoctor?.personalDetails?.lastName}
                     </h2>
-                    {/* Degree */}
                     <p className="text-md text-sky-700 font-medium">
-                      {currentDoctor?.education &&
-                        currentDoctor.education.length > 0 &&
+                      {Array.isArray(currentDoctor?.education) &&
                         currentDoctor.education
-                          .map((it) => it?.degree)
+                          .map((it) => {
+                            if (!it?.degree) return null;
+
+                            const institution = it?.institution?.trim();
+
+                            return institution
+                              ? `${it.degree} (${institution})`
+                              : it.degree;
+                          })
+                          .filter(Boolean)
                           .join(", ")}
                     </p>
 

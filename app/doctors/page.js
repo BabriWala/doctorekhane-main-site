@@ -588,9 +588,42 @@ export default function DoctorDirectoryPage() {
                                     " " +
                                     doctor?.personalDetails?.lastName}
                                 </h3>
-                                <p className="text-sky-700 font-medium mb-1">
-                                  {/* {doctor.specialty} */}
+
+                                {/* Degree + Institution */}
+                                <p className="text-sm text-sky-700 font-medium mb-1">
+                                  {Array.isArray(doctor?.education) &&
+                                    doctor.education
+                                      .map((it) => {
+                                        if (!it?.degree) return null;
+
+                                        const institution =
+                                          it?.institution?.trim();
+
+                                        return institution
+                                          ? `${it.degree} (${it.institution})`
+                                          : it.degree;
+                                      })
+                                      .filter(Boolean)
+                                      .join(", ")}
                                 </p>
+
+                                {/* Specialization */}
+                                <div className="flex flex-wrap gap-1 mb-1">
+                                  {Array.isArray(doctor?.specialization) &&
+                                    doctor.specialization.map((it, index) =>
+                                      it?.field ? (
+                                        <span
+                                          key={index}
+                                          className="text-xs font-medium text-sky-800 bg-sky-100 px-2 py-0.5 rounded-full"
+                                        >
+                                          {it.field}
+                                        </span>
+                                      ) : null,
+                                    )}
+                                </div>
+                                {/* <p className="text-sky-700 font-medium mb-1">
+                                  {doctor.specialty}
+                                </p> */}
                                 <div className="flex items-center gap-2 text-sm text-sky-600 mb-2">
                                   <Award className="w-4 h-4" />
                                   <span>
