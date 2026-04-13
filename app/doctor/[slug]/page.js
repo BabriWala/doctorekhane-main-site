@@ -629,13 +629,13 @@ export default function DoctorDetailPage({ params }) {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <Link href={"https://wa.me/8801955787578"}>
+                    <Link href={"tel:+8801955787578"}>
                       <Button
                         size="lg"
                         className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-8"
                       >
-                        <CalendarIcon className="w-5 h-5 mr-2" />
-                        অ্যাপয়েন্টমেন্ট নিন
+                        <Phone className="w-5 h-5 mr-2" />
+                        কল করুন
                       </Button>
                     </Link>
 
