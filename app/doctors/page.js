@@ -638,6 +638,7 @@ export default function DoctorDirectoryPage() {
                                     <span>
                                       {doctor?.personalDetails?.totalExperience}{" "}
                                       বছর অভিজ্ঞতা
+                                      
                                     </span>
                                   </div>
                                 </div>
