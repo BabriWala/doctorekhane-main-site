@@ -556,7 +556,7 @@ export default function DoctorDirectoryPage() {
               <>
                 {/* Doctor Cards Grid */}
                 {doctors.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 mb-8">
                     {doctors.map((doctor, index) => (
                       <motion.div
                         key={doctor?.id}
@@ -567,148 +567,108 @@ export default function DoctorDirectoryPage() {
                       >
                         <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm hover:shadow-xl transition-all duration-300 h-full">
                           <CardContent className="p-6">
-                            <div className="flex flex-col justify-center items-start gap-4 mb-4">
-                              <Avatar className="w-16 h-16 border-2 border-sky-100">
-                                {doctor?.personalDetails?.profilePicture && (
-                                  <AvatarImage
-                                    src={`${IMAGE_BASE_URL}${doctor.personalDetails.profilePicture}`}
-                                    alt={`${doctor.personalDetails.firstName} ${doctor.personalDetails.lastName}`}
-                                  />
-                                )}
-
-                                <AvatarFallback className="bg-sky-100 text-sky-700 text-lg">
-                                  {doctor?.personalDetails?.firstName?.[0] ||
-                                    ""}
-                                  {doctor?.personalDetails?.lastName?.[0] || ""}
-                                </AvatarFallback>
-                              </Avatar>
-
-                              <div className="flex-1 min-w-0">
-                                <h3 className="text-lg font-semibold text-sky-900 mb-1 break-words">
-                                  {doctor?.personalDetails?.firstName +
-                                    " " +
-                                    doctor?.personalDetails?.lastName}
-                                </h3>
-
-                                {/* Degree + Institution */}
-                                <p className="text-sm text-sky-700 font-medium mb-1">
-                                  {Array.isArray(doctor?.education) &&
-                                    doctor.education
-                                      .map((it) => {
-                                        if (!it?.degree) return null;
-
-                                        const institution =
-                                          it?.institution?.trim();
-
-                                        return institution
-                                          ? `${it.degree} (${it.institution})`
-                                          : it.degree;
-                                      })
-                                      .filter(Boolean)
-                                      .join(", ")}
-                                </p>
-
-                                {/* Specialization */}
-                                <div className="flex flex-wrap gap-1 mb-1">
-                                  {Array.isArray(doctor?.specialization) &&
-                                    doctor.specialization.map((it, index) =>
-                                      it?.field ? (
-                                        <span
-                                          key={index}
-                                          className="text-xs font-medium text-sky-800 bg-sky-100 px-2 py-0.5 rounded-full"
-                                        >
-                                          {it.field}
-                                        </span>
-                                      ) : null,
-                                    )}
-                                </div>
-                                {/* <p className="text-sky-700 font-medium mb-1">
-                                  {doctor.specialty}
-                                </p> */}
-                                <div className="flex items-center gap-2 text-sm text-sky-600 mb-2">
-                                  <Award className="w-4 h-4" />
-                                  <span>
-                                    {doctor?.personalDetails?.totalExperience}{" "}
-                                    বছর অভিজ্ঞতা
-                                  </span>
-                                </div>
-                              </div>
-                              {/* {doctor.availableToday && (
-                                <Badge className="bg-green-100 text-green-700 text-xs">
-                                  আজ উপলব্ধ
-                                </Badge>
-                              )} */}
-                            </div>
-
-                            {/* <div className="space-y-2 mb-4"> */}
-                            {/* <div className="flex items-center gap-2 text-sm text-sky-600">
-                                <Building2 className="w-4 h-4" />
-                                <span className="truncate">
-                                  {doctor.hospital}
-                                </span>
-                              </div> */}
-                            {/* <div className="flex items-center gap-2 text-sm text-sky-600">
-                                <MapPin className="w-4 h-4" />
-                                <span>
-                                  {doctor?.personalDetails?.address?.street}{" "}
-                                  {doctor?.personalDetails?.address?.city}
-                                </span>
-                              </div> */}
-                            {/* <div className="flex items-center gap-2 text-sm text-sky-600">
-                                <Languages className="w-4 h-4" />
-                                <span>{doctor.languages.join(", ")}</span>
-                              </div> */}
-                            {/* </div> */}
-
-                            <div className="flex items-center justify-between mb-4">
-                              <div className="flex items-center gap-2">
-                                <div className="flex">
-                                  {[...Array(5)].map((_, i) => (
-                                    <Star
-                                      key={i}
-                                      className={`w-4 h-4 ${
-                                        // i < Math.floor(doctor.rating)
-                                        i < Math.floor(5)
-                                          ? "text-yellow-400 fill-current"
-                                          : "text-gray-300"
-                                      }`}
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex flex-col justify-center items-start gap-4 mb-4">
+                                <Avatar className="w-full h-full border border-sky-200 rounded-md">
+                                  {doctor?.personalDetails?.profilePicture && (
+                                    <AvatarImage
+                                      className="object-cover rounded-md"
+                                      src={`${IMAGE_BASE_URL}${doctor.personalDetails.profilePicture}`}
+                                      alt={`${doctor.personalDetails.firstName} ${doctor.personalDetails.lastName}`}
                                     />
-                                  ))}
-                                </div>
-                                <span className="text-sm text-sky-800 font-medium">
-                                  {/* {doctor.rating} */}
-                                  {5}
-                                </span>
-                                <span className="text-xs text-sky-600">
-                                  {/* ({doctor.reviewCount}) */}({5})
-                                </span>
+                                  )}
+
+                                  <AvatarFallback className="bg-sky-100 text-sky-700 text-lg rounded-md">
+                                    {doctor?.personalDetails?.firstName?.[0] ||
+                                      ""}
+                                    {doctor?.personalDetails?.lastName?.[0] ||
+                                      ""}
+                                  </AvatarFallback>
+                                </Avatar>
                               </div>
-                              <div className="text-right">
-                                <div className="text-sm text-sky-600">
-                                  পরামর্শ ফি
+
+                              <div>
+                                <div className="flex-1 min-w-0">
+                                  <h3 className="text-lg font-semibold text-sky-900 mb-1 break-words">
+                                    {doctor?.personalDetails?.firstName +
+                                      " " +
+                                      doctor?.personalDetails?.lastName}
+                                  </h3>
+
+                                  {/* Specialization */}
+                                  <div className="flex flex-wrap gap-1 mb-1">
+                                    {doctor?.professional?.field && (
+                                      <span className="text-xs font-medium text-sky-800 bg-sky-100 px-2 py-0.5 rounded-full">
+                                        {doctor?.professional?.field}
+                                      </span>
+                                    )}
+
+                                    {/* {Array.isArray(doctor?.specialization) &&
+                                      doctor.specialization.map((it, index) =>
+                                        it?.field ? (
+                                          <span
+                                            key={index}
+                                            className="text-xs font-medium text-sky-800 bg-sky-100 px-2 py-0.5 rounded-full"
+                                          >
+                                            {it.field}
+                                          </span>
+                                        ) : null,
+                                      )} */}
+                                  </div>
+                                  {/* Degree + Institution */}
+                                  <p className="text-sm text-sky-700 font-medium mb-1">
+                                    {Array.isArray(doctor?.education) &&
+                                      doctor.education
+                                        .map((it) => {
+                                          if (!it?.degree) return null;
+
+                                          const institution =
+                                            it?.institution?.trim();
+
+                                          return institution
+                                            ? `${it.degree} (${it.institution})`
+                                            : it.degree;
+                                        })
+                                        .filter(Boolean)
+                                        .join(", ")}
+                                  </p>
+
+                                  <div className="flex items-center gap-2 text-sm text-sky-600 mb-2">
+                                    <Award className="w-4 h-4" />
+                                    <span>
+                                      {doctor?.personalDetails?.totalExperience}{" "}
+                                      বছর অভিজ্ঞতা
+                                    </span>
+                                  </div>
                                 </div>
-                                <div className="font-semibold text-sky-800">
-                                  ৳ {doctor?.professional?.consultationFeeNew}
+                                <div className="  mb-4">
+                                  <div className="text-right flex flex-row items-center justify-between">
+                                    <div className="text-sm text-sky-600">
+                                      পরামর্শ ফি
+                                    </div>
+                                    <div className="font-semibold text-sky-800">
+                                      ৳{" "}
+                                      {doctor?.professional?.consultationFeeNew}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-col gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                               <Button
                                 asChild
-                                className="flex-1 bg-sky-500 hover:bg-sky-600 text-white rounded-full"
+                                className=" bg-sky-500 hover:bg-sky-600 text-white rounded-sm"
                               >
                                 <Link href={"tel:+8801955787578"}>
-                                  {/* <Calendar className="w-4 h-4 mr-2" />
-                                  অ্যাপয়েন্টমেন্ট নিন */}
-                                  <Phone className="w-4 h-4 mr-2" />
+                                  <Phone className="w-4 h-4" />
                                   কল করুন
                                 </Link>
                               </Button>
                               <Button
                                 asChild
                                 variant="outline"
-                                className="flex-1 border-sky-200 text-sky-700 hover:bg-sky-50 rounded-full bg-transparent"
+                                className=" border-sky-200 text-sky-700 hover:bg-sky-50 rounded-sm bg-transparent"
                               >
                                 <Link href={`/doctor/${doctor?.id}`}>
                                   বিস্তারিত দেখুন
