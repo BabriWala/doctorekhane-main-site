@@ -565,8 +565,8 @@ export default function DoctorDirectoryPage() {
                         animate="animate"
                         transition={{ duration: 0.5, delay: index * 0.1 }}
                       >
-                        <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm hover:shadow-xl transition-all duration-300 h-full">
-                          <CardContent className="p-6">
+                        <Card className="border-0 shadow-lg p-0 bg-white/90 backdrop-blur-sm hover:shadow-xl transition-all duration-300 h-full">
+                          <CardContent className="p-4">
                             <div className="grid grid-cols-2 gap-2">
                               <div className="flex flex-col justify-center items-start gap-4 mb-4">
                                 <Avatar className="w-full h-full border border-sky-200 rounded-md">
