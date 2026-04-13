@@ -59,6 +59,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import api, { IMAGE_BASE_URL } from "@/lib/api";
+import { Phone } from "lucide-react";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
