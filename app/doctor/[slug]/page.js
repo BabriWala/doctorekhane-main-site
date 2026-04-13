@@ -106,96 +106,6 @@ export default function DoctorDetailPage({ params }) {
     bio: "ডা. রাহুল সরকার একজন অভিজ্ঞ হৃদরোগ বিশেষজ্ঞ যিনি গত ১৫ বছর ধরে সিলিগুড়ি ও আশেপাশের এলাকায় সেবা দিয়ে আসছেন। তিনি জটিল হৃদরোগের চিকিৎসায় বিশেষ দক্ষতা রাখেন এবং রোগীদের সাথে সহানুভূতিশীল আচরণের জন্য পরিচিত।",
   };
 
-  // const weeklySchedule = [
-  //   {
-  //     day: "রবিবার",
-  //     dayEn: "sunday",
-  //     isToday: false,
-  //     slots: [
-  //       {
-  //         time: "১০:০০ AM – ১২:০০ PM",
-  //         chamber: "সিটি নার্সিং হোম",
-  //         available: true,
-  //       },
-  //       {
-  //         time: "৪:০০ PM – ৬:০০ PM",
-  //         chamber: "ডি আর ক্লিনিক",
-  //         available: true,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     day: "সোমবার",
-  //     dayEn: "monday",
-  //     isToday: true,
-  //     slots: [
-  //       {
-  //         time: "৯:০০ AM – ১১:০০ AM",
-  //         chamber: "সিলিগুড়ি মেডিকেল কলেজ",
-  //         available: true,
-  //       },
-  //       {
-  //         time: "৫:০০ PM – ৭:০০ PM",
-  //         chamber: "সিটি নার্সিং হোম",
-  //         available: false,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     day: "মঙ্গলবার",
-  //     dayEn: "tuesday",
-  //     isToday: false,
-  //     slots: [
-  //       {
-  //         time: "১০:০০ AM – ১২:০০ PM",
-  //         chamber: "ডি আর ক্লিনিক",
-  //         available: true,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     day: "বুধবার",
-  //     dayEn: "wednesday",
-  //     isToday: false,
-  //     slots: [],
-  //   },
-  //   {
-  //     day: "বৃহস্পতিবার",
-  //     dayEn: "thursday",
-  //     isToday: false,
-  //     slots: [
-  //       {
-  //         time: "২:০০ PM – ৪:০০ PM",
-  //         chamber: "সিটি নার্সিং হোম",
-  //         available: true,
-  //       },
-  //       {
-  //         time: "৬:০০ PM – ৮:০০ PM",
-  //         chamber: "ডি আর ক্লিনিক",
-  //         available: true,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     day: "শুক্রবার",
-  //     dayEn: "friday",
-  //     isToday: false,
-  //     slots: [
-  //       {
-  //         time: "১১:০০ AM – ১:০০ PM",
-  //         chamber: "সিলিগুড়ি মেডিকেল কলেজ",
-  //         available: true,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     day: "শনিবার",
-  //     dayEn: "saturday",
-  //     isToday: false,
-  //     slots: [],
-  //   },
-  // ];
-
   const reviews = [
     {
       id: 1,
@@ -232,59 +142,6 @@ export default function DoctorDetailPage({ params }) {
       comment:
         "বাবার হার্টের সমস্যার জন্য দেখিয়েছিলাম। খুব যত্নসহকারে চিকিৎসা করেছেন।",
       verified: true,
-    },
-  ];
-
-  const relatedDoctors = [
-    {
-      id: "2",
-      name: "ডা. প্রিয়া মুখার্জি",
-      specialty: "হৃদরোগ বিশেষজ্ঞ",
-      rating: 4.7,
-      experience: "১২ বছর",
-      image:
-        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
-    },
-    {
-      id: "3",
-      name: "ডা. সুব্রত দাস",
-      specialty: "হৃদরোগ বিশেষজ্ঞ",
-      rating: 4.6,
-      experience: "১৮ বছর",
-      image:
-        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
-    },
-    {
-      id: "4",
-      name: "ডা. অনিতা রায়",
-      specialty: "হৃদরোগ বিশেষজ্ঞ",
-      rating: 4.9,
-      experience: "২০ বছর",
-      image:
-        "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=120&width=120",
-    },
-  ];
-
-  const faqs = [
-    {
-      question: "ডা. রাহুল কি অনলাইন অ্যাপয়েন্টমেন্ট নেন?",
-      answer:
-        "হ্যাঁ, ডা. রাহুল সরকার অনলাইন অ্যাপয়েন্টমেন্ট গ্রহণ করেন। আপনি আমাদের প্ল্যাটফর্মের মাধ্যমে সহজেই অ্যাপয়েন্টমেন্ট বুক করতে পারেন।",
-    },
-    {
-      question: "পরামর্শের ফি কত?",
-      answer:
-        "ডা. রাহুল সরকারের পরামর্শের ফি ৮০০ টাকা। এই ফি চেম্বার ভেদে সামান্য ভিন্ন হতে পারে।",
-    },
-    {
-      question: "অ্যাপয়েন্টমেন্ট বাতিল করলে কী হবে?",
-      answer:
-        "অ্যাপয়েন্টমেন্টের ২৪ ঘন্টা আগে বাতিল করলে সম্পূর্ণ ফি ফেরত পাবেন। এর পরে বাতিল করলে ৫০% ফি কাটা যাবে।",
-    },
-    {
-      question: "জরুরি ক্ষেত্রে কীভাবে যোগাযোগ করব?",
-      answer:
-        "জরুরি ক্ষেত্রে সরাসরি হাসপাতালে যোগাযোগ করুন অথবা আমাদের ২৪/৭ হটলাইনে কল করুন।",
     },
   ];
 
@@ -327,13 +184,13 @@ export default function DoctorDetailPage({ params }) {
   // Transform chambers into weekly schedule
   const getWeeklySchedule = (chambers) => {
     const daysOfWeek = [
-      "Saturday",
       "Sunday",
       "Monday",
       "Tuesday",
       "Wednesday",
       "Thursday",
       "Friday",
+      "Saturday",
     ];
     const todayIndex = new Date().getDay(); // Sunday = 0
     return daysOfWeek.map((day, index) => {
@@ -390,6 +247,12 @@ export default function DoctorDetailPage({ params }) {
       console.error("Time format error:", error);
       return "Invalid time";
     }
+  };
+
+  const isDoctorAvailableToday = (chambers) => {
+    const today = new Date().toLocaleString("en-US", { weekday: "long" });
+
+    return chambers.some((c) => c.day.toLowerCase() === today.toLowerCase());
   };
 
   return (
@@ -611,18 +474,18 @@ export default function DoctorDetailPage({ params }) {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      {doctor.isAvailableToday ? (
+                      {isDoctorAvailableToday(currentDoctor?.chambers || []) ? (
                         <>
                           <CheckCircle className="w-5 h-5 text-green-500" />
                           <span className="text-green-600 font-medium">
-                            আজ পাওয়া যাচ্ছে
+                            ডাক্তার আজ এভেইলেবল আছেন
                           </span>
                         </>
                       ) : (
                         <>
                           <XCircle className="w-5 h-5 text-red-500" />
                           <span className="text-red-600 font-medium">
-                            আজ অনুপলব্ধ
+                            ডাক্তার আজ এভেইলেবল নেই
                           </span>
                         </>
                       )}
@@ -736,7 +599,7 @@ export default function DoctorDetailPage({ params }) {
                               <div className="mt-2 sm:mt-0">
                                 {slot.available ? (
                                   <Badge className="bg-green-500 text-white">
-                                    উপলব্ধ
+                                    এভেইলেবল
                                   </Badge>
                                 ) : (
                                   <Badge
