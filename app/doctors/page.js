@@ -640,8 +640,8 @@ export default function DoctorDirectoryPage() {
                                   <div className="flex items-center gap-2 text-sm text-sky-600 mb-2">
                                     <Award className="w-4 h-4" />
                                     <span>
-                                      {doctor?.personalDetails?.totalExperience}{" "}
-                                      বছর অভিজ্ঞতা
+                                      {doctor?.personalDetails?.totalExperience}
+                                      + বছরের অভিজ্ঞতা
                                     </span>
                                   </div>
                                 </div>
