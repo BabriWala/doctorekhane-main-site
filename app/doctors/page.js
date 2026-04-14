@@ -569,32 +569,36 @@ export default function DoctorDirectoryPage() {
                           <CardContent className="p-4">
                             <div className="grid grid-cols-2 gap-2">
                               <div className="flex flex-col justify-center items-start gap-4 mb-4">
-                                <Avatar className="w-full h-full border border-sky-200 rounded-md">
-                                  {doctor?.personalDetails?.profilePicture && (
-                                    <AvatarImage
-                                      className="object-cover rounded-md"
-                                      src={`${IMAGE_BASE_URL}${doctor.personalDetails.profilePicture}`}
-                                      alt={`${doctor.personalDetails.firstName} ${doctor.personalDetails.lastName}`}
-                                    />
-                                  )}
+                                <Link href={`/doctor/${doctor?.id}`}>
+                                  <Avatar className="w-full h-full border border-sky-200 rounded-md">
+                                    {doctor?.personalDetails
+                                      ?.profilePicture && (
+                                      <AvatarImage
+                                        className="object-cover rounded-md"
+                                        src={`${IMAGE_BASE_URL}${doctor.personalDetails.profilePicture}`}
+                                        alt={`${doctor.personalDetails.firstName} ${doctor.personalDetails.lastName}`}
+                                      />
+                                    )}
 
-                                  <AvatarFallback className="bg-sky-100 text-sky-700 text-lg rounded-md">
-                                    {doctor?.personalDetails?.firstName?.[0] ||
-                                      ""}
-                                    {doctor?.personalDetails?.lastName?.[0] ||
-                                      ""}
-                                  </AvatarFallback>
-                                </Avatar>
+                                    <AvatarFallback className="bg-sky-100 text-sky-700 text-lg rounded-md">
+                                      {doctor?.personalDetails
+                                        ?.firstName?.[0] || ""}
+                                      {doctor?.personalDetails?.lastName?.[0] ||
+                                        ""}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                </Link>
                               </div>
 
                               <div>
                                 <div className="flex-1 min-w-0">
-                                  <h3 className="text-lg font-semibold text-sky-900 mb-1 break-words">
-                                    {doctor?.personalDetails?.firstName +
-                                      " " +
-                                      doctor?.personalDetails?.lastName}
-                                  </h3>
-
+                                  <Link href={`/doctor/${doctor?.id}`}>
+                                    <h3 className="text-lg font-semibold text-sky-900 mb-1 break-words">
+                                      {doctor?.personalDetails?.firstName +
+                                        " " +
+                                        doctor?.personalDetails?.lastName}
+                                    </h3>
+                                  </Link>
                                   {/* Specialization */}
                                   <div className="flex flex-wrap gap-1 mb-1">
                                     {doctor?.professional?.field && (
@@ -638,7 +642,6 @@ export default function DoctorDirectoryPage() {
                                     <span>
                                       {doctor?.personalDetails?.totalExperience}{" "}
                                       বছর অভিজ্ঞতা
-                                      
                                     </span>
                                   </div>
                                 </div>
