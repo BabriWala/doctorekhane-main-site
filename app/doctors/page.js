@@ -233,7 +233,6 @@ export default function DoctorDirectoryPage() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const itemsPerPage = 10;
-  console.log(doctors);
   // Filter doctors based on current filters
   const filteredDoctors = useMemo(() => {
     return mockDoctors.filter((doctor) => {
@@ -401,9 +400,9 @@ export default function DoctorDirectoryPage() {
         if (searchQuery) params.search = searchQuery;
         if (selectedSpecialty !== "সব বিভাগ")
           params.department = selectedSpecialty;
-        if (selectedLocation !== "সব এলাকা") params.location = selectedLocation;
+        if (selectedLocation !== "সব এলাকা") params.city = selectedLocation;
         if (experienceRange[0] > 0) params.minExperience = experienceRange[0];
-        if (availableToday) params.availableToday = true;
+        if (availableToday) params.availableDay = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
         const { data } = await api.get("/doctor", {
           params,

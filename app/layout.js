@@ -1,31 +1,15 @@
-import { Inter, Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 
-const inter = Inter({ subsets: ["latin"] });
-const hindSiliguri = Hind_Siliguri({
-  subsets: ["bengali", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-hind-siliguri",
-});
-
 export const metadata = {
-  title: "ডাক্তার এখানে",
-  description: "বিশ্বস্ত ডাক্তার এর ঠিকানা",
-  generator: "---",
+  title: "ডাক্তার এখানে | বিশ্বস্ত স্বাস্থ্যসেবা",
+  description: "বাংলাদেশের ডাক্তার ও হাসপাতাল খুঁজুন, রিভিউ দেখুন এবং অ্যাপয়েন্টমেন্ট নিন।",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head>
-        <style>{`
-html {
-  --font-hind-siliguri: ${hindSiliguri.style.fontFamily};
-}
-        `}</style>
-      </head>
-      <body className={`${inter.className} ${hindSiliguri.className}`}>
+    <html lang="bn">
+      <body className="font-sans">
         <Header></Header>
         {children}
       </body>
