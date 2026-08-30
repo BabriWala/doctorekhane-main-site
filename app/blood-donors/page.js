@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Search,
@@ -41,6 +41,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import api, { IMAGE_BASE_URL } from "@/lib/api";
 
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 const locations = [
@@ -52,7 +53,7 @@ const locations = [
   "দার্জিলিং",
 ];
 
-const donors = [
+const fallbackDonors = [
   {
     id: 1,
     name: "সৌমেন সরকার",
@@ -128,6 +129,7 @@ const donors = [
 ];
 
 export default function BloodDonors() {
+  const [donors, setDonors] = useState([]);
   const [filters, setFilters] = useState({
     bloodGroup: "",
     location: "",
@@ -150,6 +152,22 @@ export default function BloodDonors() {
     availability: "",
     healthConfirm: false,
   });
+
+  useEffect(() => {
+    api.get("/blood-donor", { params: { limit: 100, isActive: true } }).then(({ data }) => {
+      setDonors((data.donors || []).map((item) => ({
+        id: item._id,
+        name: [item.basicInfo?.firstName, item.basicInfo?.middleName, item.basicInfo?.lastName].filter(Boolean).join(" "),
+        bloodGroup: item.basicInfo?.bloodGroup || "",
+        location: item.address?.city || item.address?.address || "",
+        lastDonation: item.donationInfo?.lastDonationDate ? new Date(item.donationInfo.lastDonationDate).toLocaleDateString() : "Not recorded",
+        phone: item.contact?.phone || "",
+        availability: item.donationInfo?.isActive ? "এখনই" : "Unavailable",
+        totalDonations: 1,
+        image: item.basicInfo?.profilePicture ? `${IMAGE_BASE_URL}${item.basicInfo.profilePicture}` : "",
+      })));
+    }).catch(() => setDonors(fallbackDonors));
+  }, []);
 
   const filteredDonors = donors.filter((donor) => {
     const matchesSearch =

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -53,6 +53,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
+import api, { IMAGE_BASE_URL } from "@/lib/api";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -193,6 +194,8 @@ const insuranceOptions = [
 ];
 
 export default function HospitalDirectoryPage() {
+  const [hospitals, setHospitals] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState("সব শহর");
   const [selectedDepartment, setSelectedDepartment] = useState("সব বিভাগ");
@@ -204,9 +207,30 @@ export default function HospitalDirectoryPage() {
 
   const itemsPerPage = 6;
 
+  useEffect(() => {
+    api.get("/hospital", { params: { limit: 100 } }).then(({ data }) => {
+      setHospitals((Array.isArray(data) ? data : []).map((item) => ({
+        id: item._id,
+        name: item.basicInfo?.name || "Hospital",
+        address: [item.address?.street, item.address?.city].filter(Boolean).join(", "),
+        city: item.address?.city || "",
+        phone: item.contact?.phone || "",
+        emergencyPhone: item.basicInfo?.emergencyPhone || item.contact?.phone || "",
+        rating: item.basicInfo?.ratingAverage || 0,
+        image: item.basicInfo?.logo ? `${IMAGE_BASE_URL}${item.basicInfo.logo}` : "",
+        services: item.basicInfo?.services || [],
+        departments: (item.departments || []).map((department) => department.name),
+        insurance: item.basicInfo?.insurance || [],
+        is24Hours: Boolean(item.basicInfo?.is24Hours),
+        established: item.basicInfo?.establishedYear || "—",
+        bedCount: item.basicInfo?.bedCount || 0,
+      })));
+    }).finally(() => setLoading(false));
+  }, []);
+
   // Filter hospitals based on current filters
   const filteredHospitals = useMemo(() => {
-    return mockHospitals.filter((hospital) => {
+    return hospitals.filter((hospital) => {
       const matchesSearch =
         searchQuery === "" ||
         hospital.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -239,6 +263,7 @@ export default function HospitalDirectoryPage() {
     selectedDepartment,
     selectedInsurance,
     ratingFilter,
+    hospitals,
   ]);
 
   // Pagination

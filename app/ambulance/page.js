@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Phone,
@@ -33,6 +33,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import api, { IMAGE_BASE_URL } from "@/lib/api";
 
 const serviceTypes = [
   "ICU অ্যাম্বুলেন্স",
@@ -49,7 +50,7 @@ const locations = [
   "দার্জিলিং",
 ];
 
-const ambulanceProviders = [
+const fallbackAmbulances = [
   {
     id: 1,
     name: "এক্সপ্রেস অ্যাম্বুলেন্স",
@@ -121,6 +122,7 @@ const emergencyTips = [
 ];
 
 export default function AmbulanceServices() {
+  const [ambulanceProviders, setAmbulanceProviders] = useState([]);
   const [bookingForm, setBookingForm] = useState({
     pickupLocation: "",
     dropLocation: "",
@@ -131,6 +133,25 @@ export default function AmbulanceServices() {
     contactNumber: "",
     emergencyDetails: "",
   });
+
+  useEffect(() => {
+    api.get("/ambulance", { params: { limit: 100 } }).then(({ data }) => {
+      setAmbulanceProviders((data.ambulances || []).map((item) => ({
+        id: item._id,
+        name: `${item.basicInfo?.type || "Basic"} Ambulance · ${item.basicInfo?.vehicleNumber || ""}`,
+        location: item.address?.city || item.address?.area || "",
+        serviceArea: item.address?.address || item.address?.city || "",
+        phone: item.contact?.phone || "",
+        rating: 5,
+        eta: "Call for ETA",
+        serviceType: `${item.basicInfo?.type || "Basic"} Ambulance`,
+        vehicleCount: 1,
+        driverName: item.basicInfo?.driverName || "Assigned driver",
+        available: Boolean(item.availability?.isAvailable),
+        image: item.basicInfo?.profilePicture ? `${IMAGE_BASE_URL}${item.basicInfo.profilePicture}` : "",
+      })));
+    }).catch(() => setAmbulanceProviders(fallbackAmbulances));
+  }, []);
 
   const handleBooking = (e) => {
     e.preventDefault();
