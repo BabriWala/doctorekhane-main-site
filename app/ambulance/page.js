@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Phone,
@@ -35,20 +35,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import api, { IMAGE_BASE_URL } from "@/lib/api";
 
-const serviceTypes = [
-  "ICU অ্যাম্বুলেন্স",
-  "সাধারণ অ্যাম্বুলেন্স",
-  "এয়ার অ্যাম্বুলেন্স",
-  "নিওনেটাল অ্যাম্বুলেন্স",
-];
-const locations = [
-  "শিলিগুড়ি",
-  "জলপাইগুড়ি",
-  "মালবাজার",
-  "আলিপুরদুয়ার",
-  "কোচবিহার",
-  "দার্জিলিং",
-];
+const fallbackServiceTypes = ["Basic", "Advanced", "ICU"];
 
 const fallbackAmbulances = [
   {
@@ -124,6 +111,7 @@ const emergencyTips = [
 export default function AmbulanceServices() {
   const [ambulanceProviders, setAmbulanceProviders] = useState([]);
   const [bookingForm, setBookingForm] = useState({
+    ambulanceId: "",
     pickupLocation: "",
     dropLocation: "",
     serviceType: "",
@@ -133,11 +121,14 @@ export default function AmbulanceServices() {
     contactNumber: "",
     emergencyDetails: "",
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [bookingMessage, setBookingMessage] = useState("");
 
   useEffect(() => {
     api.get("/ambulance", { params: { limit: 100 } }).then(({ data }) => {
       setAmbulanceProviders((data.ambulances || []).map((item) => ({
         id: item._id,
+        type: item.basicInfo?.type || "Basic",
         name: `${item.basicInfo?.type || "Basic"} Ambulance · ${item.basicInfo?.vehicleNumber || ""}`,
         location: item.address?.city || item.address?.area || "",
         serviceArea: item.address?.address || item.address?.city || "",
@@ -153,16 +144,34 @@ export default function AmbulanceServices() {
     }).catch(() => setAmbulanceProviders(fallbackAmbulances));
   }, []);
 
-  const handleBooking = (e) => {
+  const serviceTypes = useMemo(() => {
+    const types = [...new Set(ambulanceProviders.map((provider) => provider.type).filter(Boolean))];
+    return types.length ? types : fallbackServiceTypes;
+  }, [ambulanceProviders]);
+  const emergencyProvider = ambulanceProviders.find((provider) => provider.available && provider.phone);
+
+  const handleBooking = async (e) => {
     e.preventDefault();
-    console.log("Ambulance booking:", bookingForm);
-    alert(
-      "অ্যাম্বুলেন্স বুকিং সফল হয়েছে! আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।"
-    );
+    setSubmitting(true); setBookingMessage("");
+    try {
+      const { data } = await api.post("/ambulance-requests", {
+        ambulanceId: bookingForm.ambulanceId || undefined,
+        pickupLocation: bookingForm.pickupLocation,
+        dropLocation: bookingForm.dropLocation,
+        serviceType: bookingForm.serviceType,
+        scheduledAt: new Date(`${bookingForm.date}T${bookingForm.time}`).toISOString(),
+        patientName: bookingForm.patientName,
+        contactNumber: bookingForm.contactNumber,
+        emergencyDetails: bookingForm.emergencyDetails,
+      });
+      setBookingMessage(`অনুরোধ সফল হয়েছে। রেফারেন্স: ${data.data.requestNumber}`);
+      setBookingForm({ ambulanceId: "", pickupLocation: "", dropLocation: "", serviceType: "", date: "", time: "", patientName: "", contactNumber: "", emergencyDetails: "" });
+    } catch (error) { setBookingMessage(error.response?.data?.message || "অনুরোধ পাঠানো যায়নি। আবার চেষ্টা করুন।"); }
+    finally { setSubmitting(false); }
   };
 
   const handleEmergencyCall = () => {
-    window.open("tel:9830000000");
+    if (emergencyProvider?.phone) window.open(`tel:${emergencyProvider.phone}`);
   };
 
   return (
@@ -208,14 +217,14 @@ export default function AmbulanceServices() {
               className="bg-red-600 hover:bg-red-700 text-white text-lg py-6 flex-1"
             >
               <Phone className="h-6 w-6 mr-3" />
-              জরুরি কল: ৯৮৩০০০০০০০
+              জরুরি কল: {emergencyProvider?.phone || "কোনো অ্যাম্বুলেন্স উপলব্ধ নেই"}
             </Button>
             <Button
               variant="outline"
               className="border-red-300 text-red-700 hover:bg-red-50 text-lg py-6 flex-1 bg-transparent"
             >
               <Phone className="h-6 w-6 mr-3" />
-              ২৪×৭ সাপোর্ট: ১০২
+              লাইভ উপলব্ধ: {ambulanceProviders.filter((provider) => provider.available).length}টি
             </Button>
           </div>
         </motion.div>
@@ -235,6 +244,13 @@ export default function AmbulanceServices() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleBooking} className="space-y-4">
+                  <div>
+                    <Label className="text-sky-700 font-medium">পছন্দের অ্যাম্বুলেন্স (ঐচ্ছিক)</Label>
+                    <Select value={bookingForm.ambulanceId} onValueChange={(value) => { const provider = ambulanceProviders.find((item) => item.id === value); setBookingForm({ ...bookingForm, ambulanceId: value, serviceType: provider?.type || bookingForm.serviceType }); }}>
+                      <SelectTrigger className="mt-2"><SelectValue placeholder="স্বয়ংক্রিয়ভাবে নিকটতম অ্যাম্বুলেন্স" /></SelectTrigger>
+                      <SelectContent>{ambulanceProviders.filter((provider) => provider.available).map((provider) => <SelectItem key={provider.id} value={provider.id}>{provider.name} — {provider.location}</SelectItem>)}</SelectContent>
+                    </Select>
+                  </div>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label
@@ -296,7 +312,7 @@ export default function AmbulanceServices() {
                       <SelectContent>
                         {serviceTypes.map((type) => (
                           <SelectItem key={type} value={type}>
-                            {type}
+                            {type} Ambulance
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -419,9 +435,11 @@ export default function AmbulanceServices() {
                   <Button
                     type="submit"
                     className="w-full bg-sky-600 hover:bg-sky-700 text-lg py-3"
+                    disabled={submitting}
                   >
-                    অ্যাম্বুলেন্স বুক করুন
+                    {submitting ? "অনুরোধ পাঠানো হচ্ছে..." : "অ্যাম্বুলেন্স বুক করুন"}
                   </Button>
+                  {bookingMessage && <p role="status" className="rounded-md bg-sky-50 p-3 text-sm text-sky-800">{bookingMessage}</p>}
                 </form>
               </CardContent>
             </Card>
