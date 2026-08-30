@@ -119,10 +119,24 @@
 }
 
 @layer base {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
   }
+  img, video, canvas, svg { max-width: 100%; }
+}
+
+@media (max-width: 640px) {
+  main h1 { font-size: clamp(1.75rem, 8vw, 2.25rem) !important; line-height: 1.15 !important; }
+  main h2 { line-height: 1.2; }
+  main input, main select, main textarea { font-size: 16px; }
+  main button, main a { min-height: 2.75rem; }
+  .break-words, main p, main h1, main h2, main h3 { overflow-wrap: anywhere; }
 }

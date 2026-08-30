@@ -14,17 +14,17 @@ const Header = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link href="/" className="flex min-w-0 items-center space-x-2" onClick={() => setMobileMenuOpen(false)}>
             <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-blue-500 rounded-xl flex items-center justify-center">
               <Stethoscope className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-sky-900">
+            <span className="truncate text-lg font-bold text-sky-900 sm:text-xl">
               ডাক্তার এখানে
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
             <Link
               href="/"
               className="text-sky-800 hover:text-sky-600 font-medium transition-colors"
@@ -49,6 +49,7 @@ const Header = () => {
             >
               রক্তদাতা
             </Link>
+            <Link href="/ambulance" className="text-sky-800 hover:text-sky-600 font-medium transition-colors">অ্যাম্বুলেন্স</Link>
             <Link
               href="/blog"
               className="text-sky-800 hover:text-sky-600 font-medium transition-colors"
@@ -64,7 +65,7 @@ const Header = () => {
           </nav>
 
           {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-2">
             <Button
               variant="ghost"
               className="text-sky-700 hover:text-sky-900 hover:bg-sky-50"
@@ -78,8 +79,10 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg text-sky-700 hover:bg-sky-50"
+            className="lg:hidden min-h-11 min-w-11 p-2 rounded-lg text-sky-700 hover:bg-sky-50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "মেনু বন্ধ করুন" : "মেনু খুলুন"}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
               <X className="w-6 h-6" />
@@ -91,8 +94,8 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-sky-100">
-            <div className="flex flex-col space-y-3">
+          <div className="lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto py-4 border-t border-sky-100">
+            <div className="flex flex-col space-y-1">
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
@@ -124,6 +127,9 @@ const Header = () => {
               >
                 রক্তদাতা
               </Link>
+
+              <Link href="/ambulance" onClick={() => setMobileMenuOpen(false)} className="text-sky-800 hover:text-sky-600 font-medium py-3">অ্যাম্বুলেন্স</Link>
+              <Link href="/appointment" onClick={() => setMobileMenuOpen(false)} className="text-sky-800 hover:text-sky-600 font-medium py-3">অ্যাপয়েন্টমেন্ট</Link>
 
               <Link
                 href="/blog"
