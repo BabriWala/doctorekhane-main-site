@@ -26,6 +26,12 @@ export default function DoctorDirectoryPage() {
   const [error, setError] = useState("");
   const [mobileFilters, setMobileFilters] = useState(false);
 
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const search = query.get("search") || "";
+    const specialization = query.get("specialization") || ALL;
+    if (search || specialization !== ALL) setFilters((current) => ({ ...current, search, specialization }));
+  }, []);
   useEffect(() => { api.get("/doctor/filter-options").then(({ data }) => setOptions(data.data || {})).catch(() => {}); }, []);
   useEffect(() => {
     const timer = setTimeout(async () => {

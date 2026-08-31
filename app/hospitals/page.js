@@ -23,6 +23,10 @@ export default function HospitalsPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const search = new URLSearchParams(window.location.search).get("search") || "";
+    if (search) setFilters((current) => ({ ...current, search }));
+  }, []);
+  useEffect(() => {
     api.get("/hospital/filters/options").then(({ data }) => setFilterOptions(data.data)).catch(() => setFilterOptions(emptyFilters));
   }, []);
 
