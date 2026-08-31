@@ -204,11 +204,14 @@ export default function HospitalDirectoryPage() {
   const [showMap, setShowMap] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
 
   const itemsPerPage = 6;
 
   useEffect(() => {
-    api.get("/hospital", { params: { limit: 100 } }).then(({ data }) => {
+    setLoading(true);
+    api.get("/hospital", { params: { page: currentPage, limit: itemsPerPage, search: searchQuery || undefined, city: selectedCity === "সব শহর" ? undefined : selectedCity, department: selectedDepartment === "সব বিভাগ" ? undefined : selectedDepartment, insurance: selectedInsurance[0] || undefined, minRating: ratingFilter[0] || undefined } }).then(({ data, headers }) => {
+      setTotalItems(Number(headers["x-total-count"] || 0));
       setHospitals((Array.isArray(data) ? data : []).map((item) => ({
         id: item._id,
         name: item.basicInfo?.name || "Hospital",
@@ -226,53 +229,14 @@ export default function HospitalDirectoryPage() {
         bedCount: item.basicInfo?.bedCount || 0,
       })));
     }).finally(() => setLoading(false));
-  }, []);
+  }, [currentPage, searchQuery, selectedCity, selectedDepartment, selectedInsurance, ratingFilter]);
 
   // Filter hospitals based on current filters
-  const filteredHospitals = useMemo(() => {
-    return hospitals.filter((hospital) => {
-      const matchesSearch =
-        searchQuery === "" ||
-        hospital.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        hospital.address.toLowerCase().includes(searchQuery.toLowerCase());
-
-      const matchesCity =
-        selectedCity === "সব শহর" || hospital.city === selectedCity;
-
-      const matchesDepartment =
-        selectedDepartment === "সব বিভাগ" ||
-        hospital.departments.includes(selectedDepartment);
-
-      const matchesInsurance =
-        selectedInsurance.length === 0 ||
-        selectedInsurance.some((ins) => hospital.insurance.includes(ins));
-
-      const matchesRating = hospital.rating >= ratingFilter[0];
-
-      return (
-        matchesSearch &&
-        matchesCity &&
-        matchesDepartment &&
-        matchesInsurance &&
-        matchesRating
-      );
-    });
-  }, [
-    searchQuery,
-    selectedCity,
-    selectedDepartment,
-    selectedInsurance,
-    ratingFilter,
-    hospitals,
-  ]);
+  const filteredHospitals = hospitals;
 
   // Pagination
-  const totalPages = Math.ceil(filteredHospitals.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedHospitals = filteredHospitals.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const paginatedHospitals = hospitals;
 
   const clearFilters = () => {
     setSearchQuery("");
@@ -446,7 +410,7 @@ export default function HospitalDirectoryPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Badge className="bg-sky-500 text-white px-4 py-2">
               <Building2 className="w-4 h-4 mr-2" />
-              {filteredHospitals.length}টি হাসপাতাল পাওয়া গেছে
+              {totalItems}টি হাসপাতাল পাওয়া গেছে
             </Badge>
             <Button
               onClick={() => setShowMap(!showMap)}
@@ -494,7 +458,7 @@ export default function HospitalDirectoryPage() {
                   className="w-full border-sky-200 text-sky-700 bg-white"
                 >
                   <Filter className="w-4 h-4 mr-2" />
-                  ফিল্টার ({filteredHospitals.length})
+                  ফিল্টার ({totalItems})
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-80">

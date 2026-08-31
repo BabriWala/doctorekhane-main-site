@@ -5,9 +5,11 @@ import { Stethoscope } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
+import { useAuth } from "@/lib/auth";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, loading, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-sky-100 shadow-sm">
@@ -66,15 +68,7 @@ const Header = () => {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden lg:flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              className="text-sky-700 hover:text-sky-900 hover:bg-sky-50"
-            >
-              লগইন
-            </Button>
-            <Button className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6">
-              সাইন আপ
-            </Button>
+            {!loading && (user ? <><Link href="/account" className="max-w-32 truncate text-sm font-medium text-sky-800">{user.name || user.personalDetails?.name}</Link><Button variant="outline" onClick={logout}>লগআউট</Button></> : <><Button asChild variant="ghost" className="text-sky-700 hover:text-sky-900 hover:bg-sky-50"><Link href="/login">লগইন</Link></Button><Button asChild className="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6"><Link href="/signup">সাইন আপ</Link></Button></>)}
           </div>
 
           {/* Mobile Menu Button */}
@@ -148,20 +142,7 @@ const Header = () => {
               </Link>
 
               <div className="flex flex-col space-y-2 pt-4 border-t border-sky-100">
-                <Button
-                  variant="ghost"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-sky-700 justify-start"
-                >
-                  লগইন
-                </Button>
-
-                <Button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="bg-sky-500 hover:bg-sky-600 text-white"
-                >
-                  সাইন আপ
-                </Button>
+                {!loading && (user ? <><Link href="/account" onClick={() => setMobileMenuOpen(false)} className="py-2 font-medium text-sky-800">{user.name || user.personalDetails?.name}</Link><Button variant="outline" onClick={() => { logout(); setMobileMenuOpen(false); }}>লগআউট</Button></> : <><Button asChild variant="ghost" className="justify-start text-sky-700"><Link href="/login" onClick={() => setMobileMenuOpen(false)}>লগইন</Link></Button><Button asChild className="bg-sky-500 text-white"><Link href="/signup" onClick={() => setMobileMenuOpen(false)}>সাইন আপ</Link></Button></>)}
               </div>
             </div>
           </div>

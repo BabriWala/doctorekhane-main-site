@@ -1,5 +1,6 @@
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import ClientProviders from "./client-providers";
 
 export const metadata = {
   title: "ডাক্তার এখানে | বিশ্বস্ত স্বাস্থ্যসেবা",
@@ -10,8 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="bn">
       <body className="font-sans">
-        <Header></Header>
-        {children}
+        <ClientProviders>
+          <Header />
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );

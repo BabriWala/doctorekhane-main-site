@@ -44,96 +44,20 @@ import {
 import api, { IMAGE_BASE_URL } from "@/lib/api";
 
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
-const locations = [
-  "শিলিগুড়ি",
-  "জলপাইগুড়ি",
-  "মালবাজার",
-  "আলিপুরদুয়ার",
-  "কোচবিহার",
-  "দার্জিলিং",
-];
-
-const fallbackDonors = [
-  {
-    id: 1,
-    name: "সৌমেন সরকার",
-    bloodGroup: "O+",
-    location: "শিলিগুড়ি",
-    lastDonation: "১৫ দিন আগে",
-    phone: "৯৮৩০০০০০০১",
-    availability: "এখনই",
-    totalDonations: 12,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 2,
-    name: "রিতা দাস",
-    bloodGroup: "A+",
-    location: "জলপাইগুড়ি",
-    lastDonation: "২৫ দিন আগে",
-    phone: "৯৮৩০০০০০০২",
-    availability: "৭ দিনের মধ্যে",
-    totalDonations: 8,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 3,
-    name: "অমিত রায়",
-    bloodGroup: "B+",
-    location: "শিলিগুড়ি",
-    lastDonation: "৩০ দিন আগে",
-    phone: "৯৮৩০০০০০০৩",
-    availability: "এখনই",
-    totalDonations: 15,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 4,
-    name: "প্রিয়া ব্যানার্জী",
-    bloodGroup: "AB+",
-    location: "মালবাজার",
-    lastDonation: "২০ দিন আগে",
-    phone: "৯৮৩০০০০০০৪",
-    availability: "৭ দিনের মধ্যে",
-    totalDonations: 6,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 5,
-    name: "রাজেশ কুমার",
-    bloodGroup: "O-",
-    location: "শিলিগুড়ি",
-    lastDonation: "৪৫ দিন আগে",
-    phone: "৯৮৩০০০০০০৫",
-    availability: "এখনই",
-    totalDonations: 20,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 6,
-    name: "সুমিত্রা চক্রবর্তী",
-    bloodGroup: "A-",
-    location: "আলিপুরদুয়ার",
-    lastDonation: "১০ দিন আগে",
-    phone: "৯৮৩০০০০০০৬",
-    availability: "৭ দিনের মধ্যে",
-    totalDonations: 9,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-];
-
 export default function BloodDonors() {
   const [donors, setDonors] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, totalItems: 0 });
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
   const [filters, setFilters] = useState({
     bloodGroup: "",
     location: "",
     availability: "",
+    gender: "",
+    dob: "",
+    email: "",
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [bloodRequestForm, setBloodRequestForm] = useState({
@@ -154,7 +78,8 @@ export default function BloodDonors() {
   });
 
   useEffect(() => {
-    api.get("/blood-donor", { params: { limit: 100, isActive: true } }).then(({ data }) => {
+    setLoading(true);
+    api.get("/blood-donor", { params: { page, limit: 12, isActive: true, bloodGroup: filters.bloodGroup || undefined, address: filters.location || undefined, search: searchTerm || undefined } }).then(({ data }) => {
       setDonors((data.donors || []).map((item) => ({
         id: item._id,
         name: [item.basicInfo?.firstName, item.basicInfo?.middleName, item.basicInfo?.lastName].filter(Boolean).join(" "),
@@ -163,47 +88,28 @@ export default function BloodDonors() {
         lastDonation: item.donationInfo?.lastDonationDate ? new Date(item.donationInfo.lastDonationDate).toLocaleDateString() : "Not recorded",
         phone: item.contact?.phone || "",
         availability: item.donationInfo?.isActive ? "এখনই" : "Unavailable",
-        totalDonations: 1,
+        totalDonations: item.donationInfo?.totalDonations || 0,
         image: item.basicInfo?.profilePicture ? `${IMAGE_BASE_URL}${item.basicInfo.profilePicture}` : "",
       })));
-    }).catch(() => setDonors(fallbackDonors));
-  }, []);
+      setPagination(data.pagination); setLocations(data.filters?.locations || []);
+    }).catch(() => setMessage("রক্তদাতার তথ্য লোড করা যায়নি")).finally(() => setLoading(false));
+  }, [page, filters.bloodGroup, filters.location, searchTerm]);
 
-  const filteredDonors = donors.filter((donor) => {
-    const matchesSearch =
-      donor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      donor.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesBloodGroup =
-      !filters.bloodGroup || donor.bloodGroup === filters.bloodGroup;
-    const matchesLocation =
-      !filters.location || donor.location === filters.location;
-    const matchesAvailability =
-      !filters.availability || donor.availability === filters.availability;
+  const filteredDonors = donors;
 
-    return (
-      matchesSearch &&
-      matchesBloodGroup &&
-      matchesLocation &&
-      matchesAvailability
-    );
-  });
-
-  const handleBloodRequest = (e) => {
+  const handleBloodRequest = async (e) => {
     e.preventDefault();
-    // Handle blood request submission
-    console.log("Blood request:", bloodRequestForm);
-    alert("রক্তের অনুরোধ সফলভাবে পাঠানো হয়েছে!");
+    setMessage("");
+    try { const { data } = await api.post("/blood-requests", bloodRequestForm); setMessage(`রক্তের অনুরোধ পাঠানো হয়েছে। রেফারেন্স: ${data.data.requestNumber}`); setBloodRequestForm({ patientName: "", bloodGroup: "", hospital: "", requiredDate: "", contactNumber: "", urgency: "" }); } catch (error) { setMessage(error.response?.data?.message || "অনুরোধ পাঠানো যায়নি"); }
   };
 
-  const handleDonorRegistration = (e) => {
+  const handleDonorRegistration = async (e) => {
     e.preventDefault();
     if (!donorRegistrationForm.healthConfirm) {
-      alert("অনুগ্রহ করে স্বাস্থ্য নিশ্চিতকরণ চেকবক্স টিক করুন");
+      setMessage("অনুগ্রহ করে স্বাস্থ্য নিশ্চিতকরণ চেকবক্স টিক করুন");
       return;
     }
-    // Handle donor registration
-    console.log("Donor registration:", donorRegistrationForm);
-    alert("রক্তদাতা হিসেবে নিবন্ধন সফল হয়েছে!");
+    try { await api.post("/blood-donor/register", donorRegistrationForm); setMessage("নিবন্ধন পাঠানো হয়েছে। অ্যাডমিন অনুমোদনের পরে তালিকায় দেখা যাবে।"); setDonorRegistrationForm({ name: "", bloodGroup: "", location: "", contactNumber: "", availability: "", gender: "", dob: "", email: "", healthConfirm: false }); } catch (error) { setMessage(error.response?.data?.message || "নিবন্ধন পাঠানো যায়নি"); }
   };
 
   return (
@@ -229,6 +135,7 @@ export default function BloodDonors() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {message && <p role="status" className="mb-4 rounded-md bg-white p-3 text-center text-sky-800 shadow-sm">{message}</p>}
         <Tabs defaultValue="search" className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="search" className="flex items-center gap-2">
@@ -280,9 +187,7 @@ export default function BloodDonors() {
                       </Label>
                       <Select
                         value={filters.bloodGroup}
-                        onValueChange={(value) =>
-                          setFilters({ ...filters, bloodGroup: value })
-                        }
+                        onValueChange={(value) => { setFilters({ ...filters, bloodGroup: value === "all" ? "" : value }); setPage(1); }}
                       >
                         <SelectTrigger className="mt-2">
                           <SelectValue placeholder="রক্তের গ্রুপ নির্বাচন করুন" />
@@ -304,9 +209,7 @@ export default function BloodDonors() {
                       </Label>
                       <Select
                         value={filters.location}
-                        onValueChange={(value) =>
-                          setFilters({ ...filters, location: value })
-                        }
+                        onValueChange={(value) => { setFilters({ ...filters, location: value === "all" ? "" : value }); setPage(1); }}
                       >
                         <SelectTrigger className="mt-2">
                           <SelectValue placeholder="এলাকা নির্বাচন করুন" />
@@ -396,7 +299,7 @@ export default function BloodDonors() {
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-6">
                   <p className="text-sky-700">
-                    <span className="font-medium">{filteredDonors.length}</span>{" "}
+                    <span className="font-medium">{pagination.totalItems}</span>{" "}
                     জন রক্তদাতা পাওয়া গেছে
                   </p>
                   <Select defaultValue="recent">
@@ -424,10 +327,7 @@ export default function BloodDonors() {
                           <div className="flex items-start gap-4">
                             <Avatar className="h-16 w-16">
                               <AvatarImage
-                                src={
-                                  donor.image ||
-                                  "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
-                                }
+                                src={donor.image}
                               />
                               <AvatarFallback className="bg-sky-200 text-sky-800">
                                 {donor.name.charAt(0)}
@@ -501,7 +401,9 @@ export default function BloodDonors() {
                   ))}
                 </div>
 
-                {filteredDonors.length === 0 && (
+                {pagination.totalPages > 1 && <div className="mt-8 flex items-center justify-center gap-3"><Button variant="outline" disabled={page <= 1} onClick={() => setPage((value) => value - 1)}>আগের পৃষ্ঠা</Button><span className="text-sm text-sky-700">পৃষ্ঠা {pagination.currentPage} / {pagination.totalPages}</span><Button variant="outline" disabled={page >= pagination.totalPages} onClick={() => setPage((value) => value + 1)}>পরের পৃষ্ঠা</Button></div>}
+
+                {!loading && filteredDonors.length === 0 && (
                   <div className="text-center py-12">
                     <Droplets className="h-16 w-16 text-sky-300 mx-auto mb-4" />
                     <h3 className="text-xl font-medium text-sky-700 mb-2">
@@ -662,7 +564,7 @@ export default function BloodDonors() {
                         <SelectValue placeholder="জরুরি অবস্থা নির্বাচন করুন" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="emergency">
+                        <SelectItem value="critical">
                           অত্যন্ত জরুরি (২৪ ঘণ্টার মধ্যে)
                         </SelectItem>
                         <SelectItem value="urgent">
@@ -707,7 +609,7 @@ export default function BloodDonors() {
                     >
                       নাম
                     </Label>
-                    <Input
+                      <Input
                       id="donorName"
                       value={donorRegistrationForm.name}
                       onChange={(e) =>
@@ -718,8 +620,13 @@ export default function BloodDonors() {
                       }
                       placeholder="আপনার পূর্ণ নাম লিখুন"
                       className="mt-2"
-                      required
-                    />
+                        required
+                      />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div><Label htmlFor="donorDob" className="text-sky-700 font-medium">জন্মতারিখ</Label><Input id="donorDob" type="date" className="mt-2" required value={donorRegistrationForm.dob} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, dob: e.target.value })} /></div>
+                    <div><Label className="text-sky-700 font-medium">লিঙ্গ</Label><Select value={donorRegistrationForm.gender} onValueChange={(value) => setDonorRegistrationForm({ ...donorRegistrationForm, gender: value })}><SelectTrigger className="mt-2"><SelectValue placeholder="লিঙ্গ নির্বাচন করুন" /></SelectTrigger><SelectContent><SelectItem value="Male">পুরুষ</SelectItem><SelectItem value="Female">নারী</SelectItem><SelectItem value="Other">অন্যান্য</SelectItem></SelectContent></Select></div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
@@ -748,29 +655,7 @@ export default function BloodDonors() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div>
-                      <Label className="text-sky-700 font-medium">এলাকা</Label>
-                      <Select
-                        value={donorRegistrationForm.location}
-                        onValueChange={(value) =>
-                          setDonorRegistrationForm({
-                            ...donorRegistrationForm,
-                            location: value,
-                          })
-                        }
-                      >
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="এলাকা নির্বাচন করুন" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {locations.map((location) => (
-                            <SelectItem key={location} value={location}>
-                              {location}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    <div><Label htmlFor="donorLocation" className="text-sky-700 font-medium">এলাকা</Label><Input id="donorLocation" className="mt-2" required placeholder="শহর বা এলাকার নাম" value={donorRegistrationForm.location} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, location: e.target.value })} /></div>
                   </div>
 
                   <div>
@@ -794,6 +679,8 @@ export default function BloodDonors() {
                       required
                     />
                   </div>
+
+                  <div><Label htmlFor="donorEmail" className="text-sky-700 font-medium">ইমেইল (ঐচ্ছিক)</Label><Input id="donorEmail" type="email" className="mt-2" value={donorRegistrationForm.email} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, email: e.target.value })} /></div>
 
                   <div>
                     <Label className="text-sky-700 font-medium">

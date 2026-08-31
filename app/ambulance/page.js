@@ -36,6 +36,9 @@ import api, { IMAGE_BASE_URL } from "@/lib/api";
 
 export default function AmbulanceServices() {
   const [ambulanceProviders, setAmbulanceProviders] = useState([]);
+  const [bookingProviders, setBookingProviders] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, totalItems: 0 });
   const [pageSettings, setPageSettings] = useState(null);
   const [loadError, setLoadError] = useState("");
   const [sortBy, setSortBy] = useState("availability");
@@ -55,10 +58,11 @@ export default function AmbulanceServices() {
 
   useEffect(() => {
     Promise.all([
-      api.get("/ambulance", { params: { limit: 100 } }),
+      api.get("/ambulance", { params: { page, limit: 12 } }),
+      api.get("/ambulance", { params: { page: 1, limit: 100, isAvailable: true } }),
       api.get("/ambulance-page-settings"),
-    ]).then(([ambulancesResponse, settingsResponse]) => {
-      setAmbulanceProviders((ambulancesResponse.data.ambulances || []).map((item) => ({
+    ]).then(([ambulancesResponse, availableResponse, settingsResponse]) => {
+      const mapProvider = (item) => ({
         id: item._id,
         type: item.basicInfo?.type || "Basic",
         name: `${item.basicInfo?.type || "Basic"} Ambulance · ${item.basicInfo?.vehicleNumber || ""}`,
@@ -70,15 +74,18 @@ export default function AmbulanceServices() {
         availabilityNote: item.availability?.notes || "",
         available: Boolean(item.availability?.isAvailable),
         image: item.basicInfo?.profilePicture ? `${IMAGE_BASE_URL}${item.basicInfo.profilePicture}` : "",
-      })));
+      });
+      setAmbulanceProviders((ambulancesResponse.data.ambulances || []).map(mapProvider));
+      setBookingProviders((availableResponse.data.ambulances || []).map(mapProvider));
+      setPagination(ambulancesResponse.data.pagination);
       setPageSettings(settingsResponse.data.data);
     }).catch(() => setLoadError("অ্যাম্বুলেন্সের তথ্য লোড করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"));
-  }, []);
+  }, [page]);
 
   const serviceTypes = useMemo(() => {
     return pageSettings?.serviceTypes || [];
   }, [pageSettings]);
-  const emergencyProvider = ambulanceProviders.find((provider) => provider.available && provider.phone);
+  const emergencyProvider = bookingProviders.find((provider) => provider.phone);
   const emergencyPhone = pageSettings?.emergencyPhone || emergencyProvider?.phone;
   const sortedProviders = useMemo(() => [...ambulanceProviders].sort((a, b) => {
     if (sortBy === "location") return a.location.localeCompare(b.location);
@@ -163,7 +170,7 @@ export default function AmbulanceServices() {
               className="border-red-300 text-red-700 hover:bg-red-50 text-lg py-6 flex-1 bg-transparent"
             >
               <Phone className="h-6 w-6 mr-3" />
-              লাইভ উপলব্ধ: {ambulanceProviders.filter((provider) => provider.available).length}টি
+              লাইভ উপলব্ধ: {bookingProviders.length}টি
             </Button>
           </div>
         </motion.div>
@@ -187,7 +194,7 @@ export default function AmbulanceServices() {
                     <Label className="text-sky-700 font-medium">পছন্দের অ্যাম্বুলেন্স (ঐচ্ছিক)</Label>
                     <Select value={bookingForm.ambulanceId} onValueChange={(value) => { const provider = ambulanceProviders.find((item) => item.id === value); setBookingForm({ ...bookingForm, ambulanceId: value, serviceType: provider?.type || bookingForm.serviceType }); }}>
                       <SelectTrigger className="mt-2"><SelectValue placeholder="স্বয়ংক্রিয়ভাবে নিকটতম অ্যাম্বুলেন্স" /></SelectTrigger>
-                      <SelectContent>{ambulanceProviders.filter((provider) => provider.available).map((provider) => <SelectItem key={provider.id} value={provider.id}>{provider.name} — {provider.location}</SelectItem>)}</SelectContent>
+                    <SelectContent>{bookingProviders.map((provider) => <SelectItem key={provider.id} value={provider.id}>{provider.name} — {provider.location}</SelectItem>)}</SelectContent>
                     </Select>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4">
@@ -498,7 +505,6 @@ export default function AmbulanceServices() {
                       <Button
                         className="flex-1 bg-sky-600 hover:bg-sky-700"
                         disabled={!provider.available}
-                        onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(provider.serviceArea)}`, "_blank", "noopener,noreferrer")}
                         onClick={() => window.open(`tel:${provider.phone}`)}
                       >
                         <Phone className="h-4 w-4 mr-2" />
@@ -508,6 +514,7 @@ export default function AmbulanceServices() {
                         variant="outline"
                         className="flex-1 bg-transparent"
                         disabled={!provider.available}
+                        onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(provider.serviceArea)}`, "_blank", "noopener,noreferrer")}
                       >
                         <Navigation className="h-4 w-4 mr-2" />
                         লোকেশন দেখুন
@@ -518,6 +525,7 @@ export default function AmbulanceServices() {
               </motion.div>
             ))}
           </div>
+          {pagination.totalPages > 1 && <div className="mt-8 flex items-center justify-center gap-3"><Button variant="outline" disabled={page <= 1} onClick={() => setPage((value) => value - 1)}>আগের পৃষ্ঠা</Button><span className="text-sm text-sky-700">পৃষ্ঠা {pagination.currentPage} / {pagination.totalPages}</span><Button variant="outline" disabled={page >= pagination.totalPages} onClick={() => setPage((value) => value + 1)}>পরের পৃষ্ঠা</Button></div>}
         </div>
 
         {/* Provider Profiles Section */}
