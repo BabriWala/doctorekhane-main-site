@@ -7,7 +7,6 @@ import {
   MapPin,
   Clock,
   Truck,
-  Star,
   AlertTriangle,
   User,
   Navigation,
@@ -35,81 +34,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import api, { IMAGE_BASE_URL } from "@/lib/api";
 
-const fallbackServiceTypes = ["Basic", "Advanced", "ICU"];
-
-const fallbackAmbulances = [
-  {
-    id: 1,
-    name: "এক্সপ্রেস অ্যাম্বুলেন্স",
-    location: "শিলিগুড়ি",
-    serviceArea: "শিলিগুড়ি, জলপাইগুড়ি",
-    phone: "৯৮৩০০০০০০১",
-    rating: 4.8,
-    eta: "১৫ মিনিট",
-    serviceType: "ICU অ্যাম্বুলেন্স",
-    vehicleCount: 8,
-    driverName: "রাজেশ কুমার",
-    available: true,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 2,
-    name: "লাইফ সেভার অ্যাম্বুলেন্স",
-    location: "জলপাইগুড়ি",
-    serviceArea: "জলপাইগুড়ি, আলিপুরদুয়ার",
-    phone: "৯৮৩০০০০০০২",
-    rating: 4.6,
-    eta: "২০ মিনিট",
-    serviceType: "সাধারণ অ্যাম্বুলেন্স",
-    vehicleCount: 5,
-    driverName: "অমিত দাস",
-    available: true,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 3,
-    name: "মেডিকেল এমার্জেন্সি",
-    location: "মালবাজার",
-    serviceArea: "মালবাজার, দার্জিলিং",
-    phone: "৯৮৩০০০০০০৩",
-    rating: 4.9,
-    eta: "১০ মিনিট",
-    serviceType: "ICU অ্যাম্বুলেন্স",
-    vehicleCount: 12,
-    driverName: "সুমিত্রা রায়",
-    available: true,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 4,
-    name: "হেলথ কেয়ার অ্যাম্বুলেন্স",
-    location: "কোচবিহার",
-    serviceArea: "কোচবিহার, আলিপুরদুয়ার",
-    phone: "৯৮৩০০০০০০৪",
-    rating: 4.7,
-    eta: "২৫ মিনিট",
-    serviceType: "সাধারণ অ্যাম্বুলেন্স",
-    vehicleCount: 6,
-    driverName: "প্রিয়া ব্যানার্জী",
-    available: false,
-    image:
-      "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg?height=60&width=60",
-  },
-];
-
-const emergencyTips = [
-  "রোগীকে শান্ত রাখুন এবং আতঙ্কিত হবেন না",
-  "রোগীর শ্বাস-প্রশ্বাস ও নাড়ি পরীক্ষা করুন",
-  "প্রয়োজনে প্রাথমিক চিকিৎসা দিন",
-  "অ্যাম্বুলেন্স আসা পর্যন্ত রোগীর পাশে থাকুন",
-  "রোগীর পরিচয়পত্র ও প্রয়োজনীয় কাগজপত্র প্রস্তুত রাখুন",
-];
-
 export default function AmbulanceServices() {
   const [ambulanceProviders, setAmbulanceProviders] = useState([]);
+  const [pageSettings, setPageSettings] = useState(null);
+  const [loadError, setLoadError] = useState("");
+  const [sortBy, setSortBy] = useState("availability");
   const [bookingForm, setBookingForm] = useState({
     ambulanceId: "",
     pickupLocation: "",
@@ -125,30 +54,37 @@ export default function AmbulanceServices() {
   const [bookingMessage, setBookingMessage] = useState("");
 
   useEffect(() => {
-    api.get("/ambulance", { params: { limit: 100 } }).then(({ data }) => {
-      setAmbulanceProviders((data.ambulances || []).map((item) => ({
+    Promise.all([
+      api.get("/ambulance", { params: { limit: 100 } }),
+      api.get("/ambulance-page-settings"),
+    ]).then(([ambulancesResponse, settingsResponse]) => {
+      setAmbulanceProviders((ambulancesResponse.data.ambulances || []).map((item) => ({
         id: item._id,
         type: item.basicInfo?.type || "Basic",
         name: `${item.basicInfo?.type || "Basic"} Ambulance · ${item.basicInfo?.vehicleNumber || ""}`,
         location: item.address?.city || item.address?.area || "",
         serviceArea: item.address?.address || item.address?.city || "",
         phone: item.contact?.phone || "",
-        rating: 5,
-        eta: "Call for ETA",
         serviceType: `${item.basicInfo?.type || "Basic"} Ambulance`,
-        vehicleCount: 1,
-        driverName: item.basicInfo?.driverName || "Assigned driver",
+        driverName: item.basicInfo?.driverName || "",
+        availabilityNote: item.availability?.notes || "",
         available: Boolean(item.availability?.isAvailable),
         image: item.basicInfo?.profilePicture ? `${IMAGE_BASE_URL}${item.basicInfo.profilePicture}` : "",
       })));
-    }).catch(() => setAmbulanceProviders(fallbackAmbulances));
+      setPageSettings(settingsResponse.data.data);
+    }).catch(() => setLoadError("অ্যাম্বুলেন্সের তথ্য লোড করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"));
   }, []);
 
   const serviceTypes = useMemo(() => {
-    const types = [...new Set(ambulanceProviders.map((provider) => provider.type).filter(Boolean))];
-    return types.length ? types : fallbackServiceTypes;
-  }, [ambulanceProviders]);
+    return pageSettings?.serviceTypes || [];
+  }, [pageSettings]);
   const emergencyProvider = ambulanceProviders.find((provider) => provider.available && provider.phone);
+  const emergencyPhone = pageSettings?.emergencyPhone || emergencyProvider?.phone;
+  const sortedProviders = useMemo(() => [...ambulanceProviders].sort((a, b) => {
+    if (sortBy === "location") return a.location.localeCompare(b.location);
+    if (sortBy === "type") return a.type.localeCompare(b.type);
+    return Number(b.available) - Number(a.available);
+  }), [ambulanceProviders, sortBy]);
 
   const handleBooking = async (e) => {
     e.preventDefault();
@@ -171,8 +107,11 @@ export default function AmbulanceServices() {
   };
 
   const handleEmergencyCall = () => {
-    if (emergencyProvider?.phone) window.open(`tel:${emergencyProvider.phone}`);
+    if (emergencyPhone) window.open(`tel:${emergencyPhone}`);
   };
+
+  if (loadError) return <div className="min-h-screen bg-sky-50 p-6"><Alert className="mx-auto max-w-3xl border-red-200 bg-red-50"><AlertTriangle className="h-4 w-4" /><AlertTitle>তথ্য পাওয়া যায়নি</AlertTitle><AlertDescription>{loadError}</AlertDescription></Alert></div>;
+  if (!pageSettings) return <div className="min-h-screen bg-sky-50 p-10 text-center text-sky-800">অ্যাম্বুলেন্সের তথ্য লোড হচ্ছে...</div>;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-50">
@@ -182,10 +121,10 @@ export default function AmbulanceServices() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-sky-800">
-                অ্যাম্বুলেন্স সার্ভিস
+                {pageSettings.title}
               </h1>
               <p className="text-sky-600 mt-2">
-                জরুরি অ্যাম্বুলেন্স কল করুন বা নির্ধারিত বুকিং করুন
+                {pageSettings.subtitle}
               </p>
             </div>
             <nav className="text-sm text-sky-600">
@@ -205,9 +144,9 @@ export default function AmbulanceServices() {
         >
           <Alert className="border-red-200 bg-red-50">
             <AlertTriangle className="h-4 w-4 text-red-600" />
-            <AlertTitle className="text-red-800">জরুরি অবস্থায়</AlertTitle>
+            <AlertTitle className="text-red-800">{pageSettings.emergencyTitle}</AlertTitle>
             <AlertDescription className="text-red-700">
-              তাৎক্ষণিক সাহায্যের জন্য নিচের নম্বরে কল করুন
+              {pageSettings.emergencyDescription}
             </AlertDescription>
           </Alert>
 
@@ -217,7 +156,7 @@ export default function AmbulanceServices() {
               className="bg-red-600 hover:bg-red-700 text-white text-lg py-6 flex-1"
             >
               <Phone className="h-6 w-6 mr-3" />
-              জরুরি কল: {emergencyProvider?.phone || "কোনো অ্যাম্বুলেন্স উপলব্ধ নেই"}
+              জরুরি কল: {emergencyPhone || "কোনো নম্বর উপলব্ধ নেই"}
             </Button>
             <Button
               variant="outline"
@@ -236,10 +175,10 @@ export default function AmbulanceServices() {
               <CardHeader>
                 <CardTitle className="text-sky-800 flex items-center gap-2">
                   <Truck className="h-5 w-5" />
-                  অ্যাম্বুলেন্স বুকিং
+                  {pageSettings.bookingTitle}
                 </CardTitle>
                 <CardDescription>
-                  আপনার প্রয়োজন অনুযায়ী অ্যাম্বুলেন্স বুক করুন
+                  {pageSettings.bookingDescription}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -451,12 +390,12 @@ export default function AmbulanceServices() {
               <CardHeader>
                 <CardTitle className="text-sky-800 flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5" />
-                  জরুরি পরিস্থিতিতে করণীয়
+                  {pageSettings.tipsTitle}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {emergencyTips.map((tip, index) => (
+                  {pageSettings.emergencyTips.map((tip, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <span className="text-sky-600 text-sm font-medium">
@@ -476,22 +415,22 @@ export default function AmbulanceServices() {
         <div className="mt-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-sky-800">
-              উপলব্ধ অ্যাম্বুলেন্স সার্ভিস
+              {pageSettings.providersTitle}
             </h2>
-            <Select defaultValue="eta">
+            <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-48">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="eta">ETA অনুযায়ী</SelectItem>
-                <SelectItem value="rating">রেটিং অনুযায়ী</SelectItem>
+                <SelectItem value="availability">উপলব্ধতা অনুযায়ী</SelectItem>
+                <SelectItem value="type">ধরন অনুযায়ী</SelectItem>
                 <SelectItem value="location">এলাকা অনুযায়ী</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {ambulanceProviders.map((provider) => (
+            {sortedProviders.map((provider) => (
               <motion.div
                 key={provider.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -508,8 +447,7 @@ export default function AmbulanceServices() {
                       <Avatar className="h-16 w-16">
                         <AvatarImage
                           src={
-                            provider.image ||
-                            "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
+                            provider.image
                           }
                         />
                         <AvatarFallback className="bg-sky-200 text-sky-800">
@@ -540,12 +478,6 @@ export default function AmbulanceServices() {
                               </Badge>
                             </div>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                            <span className="text-sm font-medium text-sky-700">
-                              {provider.rating}
-                            </span>
-                          </div>
                         </div>
 
                         <div className="space-y-2 mt-3 text-sm text-sky-600">
@@ -553,14 +485,7 @@ export default function AmbulanceServices() {
                             <MapPin className="h-4 w-4" />
                             {provider.location} - {provider.serviceArea}
                           </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4" />
-                            ETA: {provider.eta}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Truck className="h-4 w-4" />
-                            {provider.vehicleCount}টি গাড়ি উপলব্ধ
-                          </div>
+                          {provider.availabilityNote && <div className="flex items-center gap-2"><Clock className="h-4 w-4" />{provider.availabilityNote}</div>}
                           <div className="flex items-center gap-2">
                             <User className="h-4 w-4" />
                             চালক: {provider.driverName}
@@ -573,6 +498,7 @@ export default function AmbulanceServices() {
                       <Button
                         className="flex-1 bg-sky-600 hover:bg-sky-700"
                         disabled={!provider.available}
+                        onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(provider.serviceArea)}`, "_blank", "noopener,noreferrer")}
                         onClick={() => window.open(`tel:${provider.phone}`)}
                       >
                         <Phone className="h-4 w-4 mr-2" />
@@ -600,7 +526,7 @@ export default function AmbulanceServices() {
             সার্ভিস প্রোভাইডার প্রোফাইল
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
-            {ambulanceProviders.slice(0, 2).map((provider) => (
+            {sortedProviders.slice(0, 2).map((provider) => (
               <Card key={provider.id} className="bg-white shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-sky-800">
@@ -623,21 +549,6 @@ export default function AmbulanceServices() {
                       <p className="font-medium text-sky-800">
                         {provider.phone}
                       </p>
-                    </div>
-                    <div>
-                      <p className="text-sky-600">গাড়ির সংখ্যা:</p>
-                      <p className="font-medium text-sky-800">
-                        {provider.vehicleCount}টি
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sky-600">রেটিং:</p>
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium text-sky-800">
-                          {provider.rating}
-                        </span>
-                      </div>
                     </div>
                   </div>
                   <div className="flex gap-2">
