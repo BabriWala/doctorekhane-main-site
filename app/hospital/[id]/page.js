@@ -26,7 +26,7 @@ export default function HospitalProfilePage() {
   useEffect(() => { setLoading(true); api.get(`/hospital/${id}`).then(({ data }) => setHospital(data)).catch(() => setError("হাসপাতালের তথ্য পাওয়া যায়নি")).finally(() => setLoading(false)); }, [id]);
   useEffect(() => { api.get(`/hospital/${id}/reviews`, { params: { page: reviewPage, limit: 6, rating: ratingFilter === "all" ? undefined : ratingFilter } }).then(({ data }) => { setReviews(data.data); setReviewMeta(data.pagination); }).catch(() => { setReviews([]); }); }, [id, reviewPage, ratingFilter]);
 
-  const submitReview = async (event) => { event.preventDefault(); setMessage(""); try { await api.post(`/hospital/${id}/reviews`, { ...form, rating: Number(form.rating) }); setMessage("আপনার রিভিউ যাচাইয়ের জন্য পাঠানো হয়েছে।"); setForm({ patientName: "", rating: "5", title: "", comment: "", treatmentType: "" }); } catch (err) { setMessage(err.response?.data?.message || "রিভিউ পাঠানো যায়নি"); } };
+  const submitReview = async (event) => { event.preventDefault(); setMessage(""); try { const submitted={ ...form, rating:Number(form.rating) }; await api.post(`/hospital/${id}/reviews`, submitted); setMessage(`আপনার রিভিউ জমা হয়েছে এবং অনুমোদনের অপেক্ষায় আছে — ${submitted.patientName}: ${submitted.comment}`); setForm({ patientName: "", rating: "5", title: "", comment: "", treatmentType: "" }); } catch (err) { setMessage(err.response?.data?.message || "রিভিউ পাঠানো যায়নি"); } };
 
   if (loading) return <main className="min-h-[70vh] p-12 text-center text-sky-800">হাসপাতাল লোড হচ্ছে...</main>;
   if (error || !hospital) return <main className="min-h-[70vh] p-12 text-center text-red-700">{error}</main>;

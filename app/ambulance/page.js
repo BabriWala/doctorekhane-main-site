@@ -55,6 +55,7 @@ export default function AmbulanceServices() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [bookingMessage, setBookingMessage] = useState("");
+  const [refreshTick, setRefreshTick] = useState(0);
 
   useEffect(() => {
     Promise.all([
@@ -80,7 +81,9 @@ export default function AmbulanceServices() {
       setPagination(ambulancesResponse.data.pagination);
       setPageSettings(settingsResponse.data.data);
     }).catch(() => setLoadError("অ্যাম্বুলেন্সের তথ্য লোড করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"));
-  }, [page]);
+  }, [page, refreshTick]);
+
+  useEffect(() => { const timer = setInterval(() => setRefreshTick((value) => value + 1), 30000); return () => clearInterval(timer); }, []);
 
   const serviceTypes = useMemo(() => {
     return pageSettings?.serviceTypes || [];

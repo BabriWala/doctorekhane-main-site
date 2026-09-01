@@ -50,6 +50,7 @@ export default function BloodDonors() {
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, totalItems: 0 });
   const [loading, setLoading] = useState(true);
+  const [refreshTick, setRefreshTick] = useState(0);
   const [message, setMessage] = useState("");
   const [filters, setFilters] = useState({
     bloodGroup: "",
@@ -93,7 +94,9 @@ export default function BloodDonors() {
       })));
       setPagination(data.pagination); setLocations(data.filters?.locations || []);
     }).catch(() => setMessage("রক্তদাতার তথ্য লোড করা যায়নি")).finally(() => setLoading(false));
-  }, [page, filters.bloodGroup, filters.location, searchTerm]);
+  }, [page, filters.bloodGroup, filters.location, searchTerm, refreshTick]);
+
+  useEffect(() => { const timer = setInterval(() => setRefreshTick((value) => value + 1), 30000); return () => clearInterval(timer); }, []);
 
   const filteredDonors = donors;
 
