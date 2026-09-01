@@ -1,5 +1,6 @@
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import ClientProviders from "./client-providers";
 
 export const metadata = {
@@ -14,6 +15,7 @@ export default function RootLayout({ children }) {
         <ClientProviders>
           <Header />
           {children}
+          <Footer />
         </ClientProviders>
       </body>
     </html>
