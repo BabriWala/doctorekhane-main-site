@@ -46,6 +46,7 @@ import api, { IMAGE_BASE_URL } from "@/lib/api";
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 export default function BloodDonors() {
   const [donors, setDonors] = useState([]);
+  const [sort, setSort] = useState("recent");
   const [locations, setLocations] = useState([]);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, totalItems: 0 });
@@ -75,12 +76,12 @@ export default function BloodDonors() {
     location: "",
     contactNumber: "",
     availability: "",
-    healthConfirm: false,
+    gender: "", dob: "", email: "", healthConfirm: false,
   });
 
   useEffect(() => {
     setLoading(true);
-    api.get("/blood-donor", { params: { page, limit: 12, isActive: true, bloodGroup: filters.bloodGroup || undefined, address: filters.location || undefined, search: searchTerm || undefined } }).then(({ data }) => {
+    api.get("/blood-donor", { params: { page, limit: 12, isActive: true, sort, availability: filters.availability || undefined, bloodGroup: filters.bloodGroup || undefined, address: filters.location || undefined, search: searchTerm || undefined } }).then(({ data }) => {
       setDonors((data.donors || []).map((item) => ({
         id: item._id,
         name: [item.basicInfo?.firstName, item.basicInfo?.middleName, item.basicInfo?.lastName].filter(Boolean).join(" "),
@@ -88,13 +89,13 @@ export default function BloodDonors() {
         location: item.address?.city || item.address?.address || "",
         lastDonation: item.donationInfo?.lastDonationDate ? new Date(item.donationInfo.lastDonationDate).toLocaleDateString() : "Not recorded",
         phone: item.contact?.phone || "",
-        availability: item.donationInfo?.isActive ? "এখনই" : "Unavailable",
+        availability: item.donationInfo?.availableFrom && new Date(item.donationInfo.availableFrom) > new Date() ? new Date(item.donationInfo.availableFrom).toLocaleDateString("bn-BD") + " থেকে" : "এখনই",
         totalDonations: item.donationInfo?.totalDonations || 0,
         image: item.basicInfo?.profilePicture ? `${IMAGE_BASE_URL}${item.basicInfo.profilePicture}` : "",
       })));
       setPagination(data.pagination); setLocations(data.filters?.locations || []);
     }).catch(() => setMessage("রক্তদাতার তথ্য লোড করা যায়নি")).finally(() => setLoading(false));
-  }, [page, filters.bloodGroup, filters.location, searchTerm, refreshTick]);
+  }, [page, filters.bloodGroup, filters.location, filters.availability, sort, searchTerm, refreshTick]);
 
   useEffect(() => { const timer = setInterval(() => setRefreshTick((value) => value + 1), 30000); return () => clearInterval(timer); }, []);
 
@@ -235,7 +236,7 @@ export default function BloodDonors() {
                       <Select
                         value={filters.availability}
                         onValueChange={(value) =>
-                          setFilters({ ...filters, availability: value })
+                          { setFilters({ ...filters, availability: value === "all" ? "" : value }); setPage(1); }
                         }
                       >
                         <SelectTrigger className="mt-2">
@@ -305,7 +306,7 @@ export default function BloodDonors() {
                     <span className="font-medium">{pagination.totalItems}</span>{" "}
                     জন রক্তদাতা পাওয়া গেছে
                   </p>
-                  <Select defaultValue="recent">
+                  <Select value={sort} onValueChange={(value) => { setSort(value); setPage(1); }}>
                     <SelectTrigger className="w-48">
                       <SelectValue />
                     </SelectTrigger>
