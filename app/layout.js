@@ -1,6 +1,7 @@
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ContactWidget from "@/components/layout/ContactWidget";
 import ClientProviders from "./client-providers";
 
 export const metadata = {
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
           <Header />
           {children}
           <Footer />
+          <ContactWidget />
         </ClientProviders>
       </body>
     </html>
