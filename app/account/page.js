@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
 import api, { IMAGE_BASE_URL } from "@/lib/api";
@@ -19,7 +20,7 @@ export default function AccountPage() {
   if (loading || !user) return <main className="min-h-[60vh] p-10 text-center">অ্যাকাউন্ট লোড হচ্ছে...</main>;
   const photo=user.profilePhoto?`${IMAGE_BASE_URL}${user.profilePhoto}`:"/images/default-doctor.svg";
   const fields=[["name","নাম","আপনার পূর্ণ নাম"],["email","ইমেইল","name@example.com"],["phone","মোবাইল","01XXXXXXXXX"],["dob","জন্মতারিখ",""]];
-  return <main className="min-h-[calc(100vh-4rem)] bg-sky-50 px-4 py-10"><Card className="mx-auto max-w-3xl"><CardHeader><CardTitle>আমার প্রোফাইল</CardTitle></CardHeader><CardContent><form onSubmit={save} className="space-y-6">
+  return <main className="min-h-[calc(100vh-4rem)] bg-sky-50 px-4 py-10"><Card className="mx-auto max-w-3xl"><CardHeader><CardTitle>আমার প্রোফাইল</CardTitle></CardHeader><CardContent><nav aria-label="Account tools" className="mb-6 flex flex-wrap gap-3"><Link className="underline" href={user.account?.role === "doctor" ? "/dashboard/doctor" : "/dashboard/patient"}>My dashboard</Link><Link className="underline" href="/appointment/track">Track appointment</Link><Link className="underline" href="/ambulance/track">Track ambulance</Link><Link className="underline" href="/blood-request/track">Track blood request</Link></nav><form onSubmit={save} className="space-y-6">
     <div className="flex flex-wrap items-center gap-4"><img src={photo} alt="প্রোফাইল" className="h-24 w-24 rounded-full border object-cover"/><label className="cursor-pointer rounded-md border bg-white px-4 py-2 text-sm font-medium">ছবি পরিবর্তন<input type="file" accept="image/png,image/jpeg,image/webp" onChange={upload} className="sr-only"/></label></div>
     <div className="grid gap-4 sm:grid-cols-2">{fields.map(([key,label,placeholder])=><label key={key} className="space-y-1 text-sm font-medium">{label}<Input type={key==="email"?"email":key==="dob"?"date":"text"} value={form[key]} onChange={update(key)} placeholder={placeholder} required={key!=="dob"}/></label>)}</div>
     <div><h2 className="mb-3 font-semibold">ঠিকানা</h2><div className="grid gap-4 sm:grid-cols-2">{[["street","রাস্তা/এলাকা"],["city","শহর"],["state","জেলা/বিভাগ"],["postalCode","পোস্ট কোড"],["country","দেশ"]].map(([key,label])=><label key={key} className="space-y-1 text-sm font-medium">{label}<Input value={form[key]} onChange={update(key)} placeholder={label}/></label>)}</div></div>
