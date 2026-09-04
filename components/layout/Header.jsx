@@ -28,7 +28,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
             <Link
-              href="/contact"
+              href="/"
               className="text-sky-800 hover:text-sky-600 font-medium transition-colors"
             >
               হোম
@@ -59,7 +59,7 @@ const Header = () => {
               ব্লগ
             </Link>
             <Link
-              href="/"
+              href="/contact"
               className="text-sky-800 hover:text-sky-600 font-medium transition-colors"
             >
               যোগাযোগ
@@ -91,7 +91,7 @@ const Header = () => {
           <div className="lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto py-4 border-t border-sky-100">
             <div className="flex flex-col space-y-1">
               <Link
-                href="/contact"
+                href="/"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >
@@ -134,7 +134,7 @@ const Header = () => {
               </Link>
 
               <Link
-                href="/"
+                href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-sky-800 hover:text-sky-600 font-medium py-2"
               >

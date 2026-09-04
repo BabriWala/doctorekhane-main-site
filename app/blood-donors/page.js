@@ -376,7 +376,7 @@ export default function BloodDonors() {
                           </div>
                           <div className="flex gap-2 mt-4">
                             <Button
-                              className="flex-1 bg-sky-600 hover:bg-sky-700"
+                              className="min-h-11 min-w-0 flex-1 whitespace-normal px-3 py-2 text-sm leading-snug bg-sky-600 hover:bg-sky-700"
                               onClick={() => window.open(`tel:${donor.phone}`)}
                             >
                               <Phone className="h-4 w-4 mr-2" />
@@ -384,7 +384,7 @@ export default function BloodDonors() {
                             </Button>
                             <Button
                               variant="outline"
-                              className="flex-1 bg-transparent"
+                              className="min-h-11 min-w-0 flex-1 whitespace-normal bg-transparent px-3 py-2 text-sm leading-snug"
                               onClick={() =>
                                 window.open(
                                   `https://wa.me/${donor.phone.replace(
@@ -441,7 +441,7 @@ export default function BloodDonors() {
                       className="text-sky-700 font-medium"
                     >
                       রোগীর নাম
-                    </Label>
+                    <span aria-hidden="true" className="text-red-600"> *</span></Label>
                     <Input
                       id="patientName"
                       value={bloodRequestForm.patientName}
@@ -461,7 +461,7 @@ export default function BloodDonors() {
                     <div>
                       <Label className="text-sky-700 font-medium">
                         রক্তের গ্রুপ
-                      </Label>
+                      <span aria-hidden="true" className="text-red-600"> *</span></Label>
                       <Select
                         value={bloodRequestForm.bloodGroup}
                         onValueChange={(value) =>
@@ -489,7 +489,7 @@ export default function BloodDonors() {
                         className="text-sky-700 font-medium"
                       >
                         প্রয়োজনীয় তারিখ
-                      </Label>
+                      <span aria-hidden="true" className="text-red-600"> *</span></Label>
                       <Input
                         id="requiredDate"
                         type="date"
@@ -512,7 +512,7 @@ export default function BloodDonors() {
                       className="text-sky-700 font-medium"
                     >
                       ঠিকানা / হাসপাতালের নাম
-                    </Label>
+                    <span aria-hidden="true" className="text-red-600"> *</span></Label>
                     <Input
                       id="hospital"
                       value={bloodRequestForm.hospital}
@@ -534,7 +534,7 @@ export default function BloodDonors() {
                       className="text-sky-700 font-medium"
                     >
                       যোগাযোগ নম্বর
-                    </Label>
+                    <span aria-hidden="true" className="text-red-600"> *</span></Label>
                     <Input
                       id="contactNumber"
                       value={bloodRequestForm.contactNumber}
@@ -553,7 +553,7 @@ export default function BloodDonors() {
                   <div>
                     <Label className="text-sky-700 font-medium">
                       জরুরি অবস্থা
-                    </Label>
+                    <span aria-hidden="true" className="text-red-600"> *</span></Label>
                     <Select
                       value={bloodRequestForm.urgency}
                       onValueChange={(value) =>
@@ -611,7 +611,7 @@ export default function BloodDonors() {
                       className="text-sky-700 font-medium"
                     >
                       নাম
-                    </Label>
+                    <span aria-hidden="true" className="text-red-600"> *</span></Label>
                       <Input
                       id="donorName"
                       value={donorRegistrationForm.name}
@@ -628,15 +628,15 @@ export default function BloodDonors() {
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div><Label htmlFor="donorDob" className="text-sky-700 font-medium">জন্মতারিখ</Label><Input id="donorDob" type="date" className="mt-2" required value={donorRegistrationForm.dob} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, dob: e.target.value })} /></div>
-                    <div><Label className="text-sky-700 font-medium">লিঙ্গ</Label><Select value={donorRegistrationForm.gender} onValueChange={(value) => setDonorRegistrationForm({ ...donorRegistrationForm, gender: value })}><SelectTrigger className="mt-2"><SelectValue placeholder="লিঙ্গ নির্বাচন করুন" /></SelectTrigger><SelectContent><SelectItem value="Male">পুরুষ</SelectItem><SelectItem value="Female">নারী</SelectItem><SelectItem value="Other">অন্যান্য</SelectItem></SelectContent></Select></div>
+                    <div><Label htmlFor="donorDob" className="text-sky-700 font-medium">জন্মতারিখ<span aria-hidden="true" className="text-red-600"> *</span></Label><Input id="donorDob" type="date" className="mt-2" required value={donorRegistrationForm.dob} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, dob: e.target.value })} /></div>
+                    <div><Label className="text-sky-700 font-medium">লিঙ্গ<span aria-hidden="true" className="text-red-600"> *</span></Label><Select value={donorRegistrationForm.gender} onValueChange={(value) => setDonorRegistrationForm({ ...donorRegistrationForm, gender: value })}><SelectTrigger className="mt-2"><SelectValue placeholder="লিঙ্গ নির্বাচন করুন" /></SelectTrigger><SelectContent><SelectItem value="Male">পুরুষ</SelectItem><SelectItem value="Female">নারী</SelectItem><SelectItem value="Other">অন্যান্য</SelectItem></SelectContent></Select></div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label className="text-sky-700 font-medium">
                         রক্তের গ্রুপ
-                      </Label>
+                      <span aria-hidden="true" className="text-red-600"> *</span></Label>
                       <Select
                         value={donorRegistrationForm.bloodGroup}
                         onValueChange={(value) =>
@@ -658,7 +658,7 @@ export default function BloodDonors() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div><Label htmlFor="donorLocation" className="text-sky-700 font-medium">এলাকা</Label><Input id="donorLocation" className="mt-2" required placeholder="শহর বা এলাকার নাম" value={donorRegistrationForm.location} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, location: e.target.value })} /></div>
+                    <div><Label htmlFor="donorLocation" className="text-sky-700 font-medium">এলাকা<span aria-hidden="true" className="text-red-600"> *</span></Label><Input id="donorLocation" className="mt-2" required placeholder="শহর বা এলাকার নাম" value={donorRegistrationForm.location} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, location: e.target.value })} /></div>
                   </div>
 
                   <div>
@@ -667,7 +667,7 @@ export default function BloodDonors() {
                       className="text-sky-700 font-medium"
                     >
                       যোগাযোগ নম্বর
-                    </Label>
+                    <span aria-hidden="true" className="text-red-600"> *</span></Label>
                     <Input
                       id="donorContact"
                       value={donorRegistrationForm.contactNumber}
@@ -726,7 +726,7 @@ export default function BloodDonors() {
                     >
                       আমি বর্তমানে রক্ত দানের জন্য সুস্থ ও যোগ্য আছি এবং গত ৩
                       মাসে রক্ত দান করিনি
-                    </Label>
+                    <span aria-hidden="true" className="text-red-600"> *</span></Label>
                   </div>
 
                   <Button

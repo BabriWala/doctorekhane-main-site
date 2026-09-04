@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import {
   Phone,
   MapPin,
@@ -388,7 +389,7 @@ export default function AmbulanceServices() {
                   >
                     {submitting ? "অনুরোধ পাঠানো হচ্ছে..." : "অ্যাম্বুলেন্স বুক করুন"}
                   </Button>
-                  {bookingMessage && <p role="status" className="rounded-md bg-sky-50 p-3 text-sm text-sky-800">{bookingMessage}</p>}
+                  {bookingMessage && <p role="status" className="rounded-md bg-sky-50 p-3 text-sm text-sky-800">{bookingMessage}</p>}<Button asChild variant="outline"><Link href="/ambulance/track">অনুরোধ দেখুন / গ্রহণ / বাতিল করুন</Link></Button>
                 </form>
               </CardContent>
             </Card>
