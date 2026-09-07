@@ -32,6 +32,11 @@ export default function AppointmentPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    if (!doctorId || doctors.some((item) => (item.id || item._id) === doctorId)) return;
+    api.get(`/doctor/${doctorId}`).then(({ data }) => setDoctors((current) => [...current, data])).catch(() => setError("Selected doctor could not be loaded."));
+  }, [doctorId, doctors]);
+
   const doctor = useMemo(() => doctors.find((item) => (item.id || item._id) === doctorId), [doctors, doctorId]);
   const update = (field, value) => setForm((current) => ({ ...current, [field]: value, ...(["appointmentDate", "chamberId"].includes(field) ? { timeSlot: "" } : {}) }));
   const availableTimes = useMemo(() => {
