@@ -133,6 +133,17 @@
   img, video, canvas, svg { max-width: 100%; }
 }
 
+/* Doctor directory/profile cards: larger, clearly outlined portraits with compact copy. */
+main.font-hind-siliguri [data-slot="card"] [data-slot="avatar"] {
+  width: 5rem;
+  height: 5rem;
+  border: 2px solid #0ea5e9;
+}
+main.font-hind-siliguri [data-slot="card"] h2,
+main.font-hind-siliguri [data-slot="card"] a {
+  line-height: 1.2;
+}
+
 @media (max-width: 640px) {
   main h1 { font-size: clamp(1.75rem, 8vw, 2.25rem) !important; line-height: 1.15 !important; }
   main h2 { line-height: 1.2; }

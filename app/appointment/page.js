@@ -14,6 +14,12 @@ import { Textarea } from "@/components/ui/textarea";
 
 const emptyForm = { patientName: "", patientPhone: "", patientEmail: "", patientAge: "", patientGender: "", appointmentDate: "", timeSlot: "", reason: "", consultationType: "in-person", chamberId: "" };
 const fullName = (doctor) => [doctor?.personalDetails?.firstName, doctor?.personalDetails?.middleName, doctor?.personalDetails?.lastName].filter(Boolean).join(" ");
+const nextDateForDay = (day) => {
+  const target = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].indexOf(day);
+  if (target < 0) return "";
+  const date = new Date(); date.setHours(12, 0, 0, 0); date.setDate(date.getDate() + ((target - date.getDay() + 7) % 7));
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+};
 
 export default function AppointmentPage() {
   const searchParams = useSearchParams();
@@ -51,6 +57,14 @@ export default function AppointmentPage() {
     }
     return [...times].sort();
   }, [doctor, form.appointmentDate, form.chamberId]);
+
+  useEffect(() => {
+    if (!form.chamberId || !doctor) return;
+    const chamber = doctor.chambers?.find((item) => String(item._id) === form.chamberId);
+    if (!chamber) return;
+    const selectedDay = form.appointmentDate && new Date(`${form.appointmentDate}T12:00:00`).toLocaleDateString("en-US", { weekday: "long" });
+    if (selectedDay !== chamber.day) setForm((current) => ({ ...current, appointmentDate: nextDateForDay(chamber.day), timeSlot: "" }));
+  }, [doctor, form.chamberId, form.appointmentDate]);
 
   const submit = async (event) => {
     event.preventDefault();

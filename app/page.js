@@ -28,7 +28,7 @@ export default function HomePage() {
 
   useEffect(() => {
     Promise.all([
-      api.get("/doctor", { params: { page: 1, limit: 100, sort: "rating" } }),
+      api.get("/doctor", { params: { page: 1, limit: 100, sort: "top" } }),
       api.get("/hospital", { params: { page: 1, limit: 100, sort: "rating" } }),
       api.get("/blogs", { params: { page: 1, limit: 3 } }),
     ]).then(([doctorResponse, hospitalResponse, blogResponse]) => {
