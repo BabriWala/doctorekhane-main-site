@@ -12,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="bn">
-      <body className="font-sans pb-[calc(7rem+env(safe-area-inset-bottom))] md:pb-0">
+      <body className="font-sans pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
         <ClientProviders>
           <MobileNavigationProvider>
           <Header />

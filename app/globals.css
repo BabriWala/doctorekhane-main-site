@@ -151,3 +151,6 @@ main.font-hind-siliguri [data-slot="card"] a {
   main button, main a { min-height: 2.75rem; }
   .break-words, main p, main h1, main h2, main h3 { overflow-wrap: anywhere; }
 }
+
+/* The full doctor card is clickable; the name does not need an empty tap area. */
+main a.doctor-name-link { min-height: 0; line-height: 1.2; }
