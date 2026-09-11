@@ -1,7 +1,7 @@
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import ContactWidget from "@/components/layout/ContactWidget";
+import DoctorBottomNav, { MobileNavigationProvider } from "@/components/DoctorBottomNav";
 import ClientProviders from "./client-providers";
 
 export const metadata = {
@@ -12,12 +12,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="bn">
-      <body className="font-sans">
+      <body className="font-sans pb-[calc(7rem+env(safe-area-inset-bottom))] md:pb-0">
         <ClientProviders>
+          <MobileNavigationProvider>
           <Header />
           {children}
           <Footer />
-          <ContactWidget />
+          <DoctorBottomNav />
+          </MobileNavigationProvider>
         </ClientProviders>
       </body>
     </html>

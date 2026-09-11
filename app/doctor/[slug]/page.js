@@ -14,7 +14,8 @@ import { Textarea } from "@/components/ui/textarea";
 import PaginationBar from "@/components/PaginationBar";
 import DoctorActions from "@/components/DoctorActions";
 import SimilarDoctors from "@/components/SimilarDoctors";
-import DoctorBottomNav from "@/components/DoctorBottomNav";
+import { useDoctorNavigation } from "@/components/DoctorBottomNav";
+import { usePathname } from "next/navigation";
 import { sortChambers, formatTime } from "@/lib/doctor-display";
 
 const nameOf = (doctor) => [doctor?.personalDetails?.firstName, doctor?.personalDetails?.middleName, doctor?.personalDetails?.lastName].filter(Boolean).join(" ");
@@ -23,6 +24,12 @@ const imageUrl = (path) => path ? (path.startsWith("http") ? path : `${IMAGE_BAS
 export default function DoctorDetailPage({ params }) {
   const { slug } = use(params);
   const [doctor, setDoctor] = useState(null);
+  const pathname = usePathname();
+  const { setDoctorNavigation } = useDoctorNavigation();
+  useEffect(() => {
+    setDoctorNavigation({ pathname, doctor });
+    return () => setDoctorNavigation(null);
+  }, [doctor, pathname, setDoctorNavigation]);
   const [reviews, setReviews] = useState([]);
   const [submittedReview, setSubmittedReview] = useState(null);
   const [summary, setSummary] = useState({ averageRating: 0, reviewCount: 0 });
@@ -90,6 +97,5 @@ export default function DoctorDetailPage({ params }) {
       <aside className="order-1 space-y-6 lg:col-span-2"><Card><CardHeader><CardTitle>Consultation</CardTitle></CardHeader><CardContent className="space-y-3"><p className="text-3xl font-bold text-sky-700">৳{doctor.professional?.consultationFee || "—"}</p><p className="text-sm text-muted-foreground">New patient fee: ৳{doctor.professional?.consultationFeeNew || doctor.professional?.consultationFee || "—"}</p><Button asChild className="w-full"><Link href={`/appointment?doctorId=${doctor.id || doctor._id}`}>Request appointment</Link></Button></CardContent></Card><Card><CardHeader><CardTitle>Chambers & schedule</CardTitle></CardHeader><CardContent className="space-y-4">{doctor.chambers?.length ? sortChambers(doctor.chambers).map((chamber) => <div key={chamber._id} className="border-b pb-3 last:border-0"><strong className="flex gap-2"><Building2 className="h-4 w-4 text-sky-600" />{chamber.chamberName}</strong><p className="mt-1 flex gap-2 text-sm text-muted-foreground"><Clock className="h-4 w-4" />{chamber.day}: {formatTime(chamber.from)}–{formatTime(chamber.to)}</p>{chamber.address?.city && <p className="mt-1 flex gap-2 text-sm text-muted-foreground"><MapPin className="h-4 w-4" />{chamber.address.city}</p>}</div>) : <p className="text-sm text-muted-foreground">Contact the clinic for availability.</p>}<p className="text-xs text-muted-foreground">Available days: {availableDays.join(", ") || "To be confirmed"}</p></CardContent></Card></aside>
     </div>
     <SimilarDoctors doctor={doctor} />
-    <DoctorBottomNav doctor={doctor} />
   </main>;
 }
