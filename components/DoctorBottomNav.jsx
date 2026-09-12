@@ -16,7 +16,7 @@ export default function DoctorBottomNav() {
   const pathname = usePathname();
   const { doctorNavigation } = useDoctorNavigation();
   const doctor = doctorNavigation?.pathname === pathname ? doctorNavigation.doctor : null;
-  const phone = doctor?.personalDetails?.phone || process.env.NEXT_PUBLIC_SUPPORT_PHONE;
+  const phone = "+8801955787578";
   const items = [
     [Stethoscope, "Doctor", "/doctors", "/doctors"],
     [Building2, "Hospital", "/hospitals", "/hospitals"],
