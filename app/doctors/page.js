@@ -22,7 +22,7 @@ export default function DoctorDirectoryPage() {
   const searchParams = useSearchParams();
   const querySearch = searchParams.get("search") || "";
   const querySpecialty = searchParams.get("specialization") || ALL;
-  const initial = { search: "", specialization: ALL, city: ALL, district: ALL, gender: ALL, minExperience: "", telemedicine: false, sort: "rating" };
+  const initial = { search: "", specialization: ALL, city: ALL, district: ALL, gender: ALL, minExperience: "", telemedicine: false, sort: "order" };
   const [filters, setFilters] = useState({ ...initial, search: querySearch, specialization: querySpecialty });
   const [options, setOptions] = useState({ departments: [], specializations: [], cities: [] });
   const [doctors, setDoctors] = useState([]);
@@ -66,7 +66,7 @@ export default function DoctorDirectoryPage() {
     <select aria-label="জেলা" className="h-10 w-full rounded-md border bg-white px-3" value={filters.district} onChange={e => update("district", e.target.value)}><option value={ALL}>সব জেলা</option>{(options.districts || []).map(district => <option key={district}>{district}</option>)}</select>
     <Input type="number" min="0" placeholder="ন্যূনতম অভিজ্ঞতা (বছর)" value={filters.minExperience} onChange={(e) => update("minExperience", e.target.value)} />
     <label className="flex items-center gap-2 rounded-md border p-3 text-sm"><input type="checkbox" checked={filters.telemedicine} onChange={(e) => update("telemedicine", e.target.checked)} /> ভিডিও পরামর্শ আছে</label>
-    <select className="h-10 w-full rounded-md border bg-white px-3" value={filters.sort} onChange={(e) => update("sort", e.target.value)}><option value="rating">সেরা রেটিং</option><option value="experience">অভিজ্ঞতা</option><option value="feeLow">কম ফি</option><option value="feeHigh">বেশি ফি</option><option value="newest">নতুন</option></select>
+    <select className="h-10 w-full rounded-md border bg-white px-3" value={filters.sort} onChange={(e) => update("sort", e.target.value)}><option value="order">নির্ধারিত ক্রম</option><option value="rating">সেরা রেটিং</option><option value="experience">অভিজ্ঞতা</option><option value="feeLow">কম ফি</option><option value="feeHigh">বেশি ফি</option><option value="newest">নতুন</option></select>
     <Button variant="outline" className="w-full" onClick={() => { setFilters(initial); setPage(1); }}>ফিল্টার মুছুন</Button>
   </div>;
 
