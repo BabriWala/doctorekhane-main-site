@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_PHONE } from "@/lib/contact";
 import { createContext, useContext, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,7 +17,7 @@ export default function DoctorBottomNav() {
   const pathname = usePathname();
   const { doctorNavigation } = useDoctorNavigation();
   const doctor = doctorNavigation?.pathname === pathname ? doctorNavigation.doctor : null;
-  const phone = "+8801955787578";
+  const phone = SITE_PHONE;
   const items = [
     [Stethoscope, "Doctor", "/doctors", "/doctors"],
     [Building2, "Hospital", "/hospitals", "/hospitals"],

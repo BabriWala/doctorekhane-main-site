@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import DateSelect, { readableDate, todayISO } from "@/components/DateSelect";
 import { motion } from "framer-motion";
 import {
   Search,
@@ -65,13 +66,13 @@ export default function BloodDonors() {
   const [bloodRequestForm, setBloodRequestForm] = useState({
     patientName: "",
     bloodGroup: "",
-    hospital: "",
+    hospital: "", district: "",
     requiredDate: "",
     contactNumber: "",
     urgency: "",
   });
   const [donorRegistrationForm, setDonorRegistrationForm] = useState({
-    name: "",
+    name: "", district: "", city: "", street: "", address: "", postalCode: "",
     bloodGroup: "",
     location: "",
     contactNumber: "",
@@ -86,10 +87,10 @@ export default function BloodDonors() {
         id: item._id,
         name: [item.basicInfo?.firstName, item.basicInfo?.middleName, item.basicInfo?.lastName].filter(Boolean).join(" "),
         bloodGroup: item.basicInfo?.bloodGroup || "",
-        location: item.address?.city || item.address?.address || "",
-        lastDonation: item.donationInfo?.lastDonationDate ? new Date(item.donationInfo.lastDonationDate).toLocaleDateString() : "Not recorded",
+        location: [item.address?.address, item.address?.street, item.address?.city, item.address?.district || item.address?.state].filter(Boolean).join(", "),
+        lastDonation: item.donationInfo?.lastDonationDate ? readableDate(item.donationInfo.lastDonationDate) : "Not recorded",
         phone: item.contact?.phone || "",
-        availability: item.donationInfo?.availableFrom && new Date(item.donationInfo.availableFrom) > new Date() ? new Date(item.donationInfo.availableFrom).toLocaleDateString("bn-BD") + " থেকে" : "এখনই",
+        availability: item.donationInfo?.availableFrom && new Date(item.donationInfo.availableFrom) > new Date() ? readableDate(item.donationInfo.availableFrom) + " থেকে" : "এখনই",
         totalDonations: item.donationInfo?.totalDonations || 0,
         image: item.basicInfo?.profilePicture ? `${IMAGE_BASE_URL}${item.basicInfo.profilePicture}` : "",
       })));
@@ -104,7 +105,7 @@ export default function BloodDonors() {
   const handleBloodRequest = async (e) => {
     e.preventDefault();
     setMessage("");
-    try { const { data } = await api.post("/blood-requests", bloodRequestForm); setMessage(`রক্তের অনুরোধ পাঠানো হয়েছে। রেফারেন্স: ${data.data.requestNumber}`); setBloodRequestForm({ patientName: "", bloodGroup: "", hospital: "", requiredDate: "", contactNumber: "", urgency: "" }); } catch (error) { setMessage(error.response?.data?.message || "অনুরোধ পাঠানো যায়নি"); }
+    try { const { data } = await api.post("/blood-requests", bloodRequestForm); setMessage(`রক্তের অনুরোধ পাঠানো হয়েছে। রেফারেন্স: ${data.data.requestNumber}`); setBloodRequestForm({ patientName: "", bloodGroup: "", hospital: "", district: "", requiredDate: "", contactNumber: "", urgency: "" }); } catch (error) { setMessage(error.response?.data?.message || "অনুরোধ পাঠানো যায়নি"); }
   };
 
   const handleDonorRegistration = async (e) => {
@@ -113,7 +114,7 @@ export default function BloodDonors() {
       setMessage("অনুগ্রহ করে স্বাস্থ্য নিশ্চিতকরণ চেকবক্স টিক করুন");
       return;
     }
-    try { await api.post("/blood-donor/register", donorRegistrationForm); setMessage("নিবন্ধন পাঠানো হয়েছে। অ্যাডমিন অনুমোদনের পরে তালিকায় দেখা যাবে।"); setDonorRegistrationForm({ name: "", bloodGroup: "", location: "", contactNumber: "", availability: "", gender: "", dob: "", email: "", healthConfirm: false }); } catch (error) { setMessage(error.response?.data?.message || "নিবন্ধন পাঠানো যায়নি"); }
+    try { await api.post("/blood-donor/register", donorRegistrationForm); setMessage("নিবন্ধন পাঠানো হয়েছে। অ্যাডমিন অনুমোদনের পরে তালিকায় দেখা যাবে।"); setDonorRegistrationForm({ name: "", district: "", city: "", street: "", address: "", postalCode: "", bloodGroup: "", location: "", contactNumber: "", availability: "", gender: "", dob: "", email: "", healthConfirm: false }); } catch (error) { setMessage(error.response?.data?.message || "নিবন্ধন পাঠানো যায়নি"); }
   };
 
   return (
@@ -339,8 +340,8 @@ export default function BloodDonors() {
                             </Avatar>
                             <div className="flex-1">
                               <h3 className="font-semibold text-sky-800 text-lg">
-                                {donor.name}
-                              </h3>
+                                {donor.location || "ঠিকানা দেওয়া হয়নি"}
+                              </h3><p className="mt-1 text-sm text-sky-700">{donor.name}</p>
                               <div className="flex items-center gap-2 mt-1">
                                 <Badge
                                   variant="secondary"
@@ -491,22 +492,11 @@ export default function BloodDonors() {
                       >
                         প্রয়োজনীয় তারিখ
                       <span aria-hidden="true" className="text-red-600"> *</span></Label>
-                      <Input
-                        id="requiredDate"
-                        type="date"
-                        value={bloodRequestForm.requiredDate}
-                        onChange={(e) =>
-                          setBloodRequestForm({
-                            ...bloodRequestForm,
-                            requiredDate: e.target.value,
-                          })
-                        }
-                        className="mt-2"
-                        required
-                      />
+                      <DateSelect label="প্রয়োজনীয় তারিখ" required min={todayISO()} value={bloodRequestForm.requiredDate} onChange={value => setBloodRequestForm({ ...bloodRequestForm, requiredDate: value })} />
                     </div>
                   </div>
 
+                  <div><Label htmlFor="requestDistrict">জেলা <span className="text-red-600">*</span></Label><Input id="requestDistrict" required className="mt-2" value={bloodRequestForm.district} onChange={e => setBloodRequestForm({ ...bloodRequestForm, district: e.target.value })} /></div>
                   <div>
                     <Label
                       htmlFor="hospital"
@@ -629,7 +619,7 @@ export default function BloodDonors() {
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div><Label htmlFor="donorDob" className="text-sky-700 font-medium">জন্মতারিখ<span aria-hidden="true" className="text-red-600"> *</span></Label><Input id="donorDob" type="date" className="mt-2" required value={donorRegistrationForm.dob} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, dob: e.target.value })} /></div>
+                    <div><Label htmlFor="donorDob" className="text-sky-700 font-medium">জন্মতারিখ<span aria-hidden="true" className="text-red-600"> *</span></Label><DateSelect label="জন্মতারিখ" required max={todayISO()} value={donorRegistrationForm.dob} onChange={value => setDonorRegistrationForm({ ...donorRegistrationForm, dob: value })} /></div>
                     <div><Label className="text-sky-700 font-medium">লিঙ্গ<span aria-hidden="true" className="text-red-600"> *</span></Label><Select value={donorRegistrationForm.gender} onValueChange={(value) => setDonorRegistrationForm({ ...donorRegistrationForm, gender: value })}><SelectTrigger className="mt-2"><SelectValue placeholder="লিঙ্গ নির্বাচন করুন" /></SelectTrigger><SelectContent><SelectItem value="Male">পুরুষ</SelectItem><SelectItem value="Female">নারী</SelectItem><SelectItem value="Other">অন্যান্য</SelectItem></SelectContent></Select></div>
                   </div>
 
@@ -659,7 +649,7 @@ export default function BloodDonors() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div><Label htmlFor="donorLocation" className="text-sky-700 font-medium">এলাকা<span aria-hidden="true" className="text-red-600"> *</span></Label><Input id="donorLocation" className="mt-2" required placeholder="শহর বা এলাকার নাম" value={donorRegistrationForm.location} onChange={(e) => setDonorRegistrationForm({ ...donorRegistrationForm, location: e.target.value })} /></div>
+                    {[["district", "জেলা", true], ["city", "উপজেলা / শহর", true], ["street", "এলাকা / গ্রাম", false], ["address", "রাস্তা / বাড়ির বিবরণ", false], ["postalCode", "পোস্ট কোড", false]].map(([key, label, required]) => <div key={key}><Label htmlFor={"donor-" + key}>{label}{required && <span className="text-red-600"> *</span>}</Label><Input id={"donor-" + key} required={required} className="mt-2" value={donorRegistrationForm[key]} onChange={e => setDonorRegistrationForm({ ...donorRegistrationForm, [key]: e.target.value })} /></div>)}
                   </div>
 
                   <div>

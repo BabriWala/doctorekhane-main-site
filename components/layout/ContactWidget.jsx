@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_PHONE } from "@/lib/contact";
 import { MessageCircle, Phone } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -7,8 +8,8 @@ import { usePathname } from "next/navigation";
 const demoNumber = "+12025550100";
 export default function ContactWidget() {
   const pathname = usePathname();
-  const phone = process.env.NEXT_PUBLIC_SUPPORT_PHONE || demoNumber;
-  const whatsapp = process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP || demoNumber;
+  const phone = SITE_PHONE;
+  const whatsapp = process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP || SITE_PHONE;
   const demo = phone === demoNumber || whatsapp === demoNumber;
   if (pathname === "/") return null;
   return <aside aria-label="যোগাযোগ" className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2 pb-[env(safe-area-inset-bottom)]">

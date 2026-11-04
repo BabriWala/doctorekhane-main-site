@@ -1,4 +1,5 @@
 "use client";
+import { SITE_PHONE, SITE_EMAIL, SITE_ADDRESS, EMERGENCY_PHONE } from "@/lib/contact";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -123,7 +124,7 @@ export default function AboutPage() {
     {
       question: "জরুরি অবস্থায় কী করব?",
       answer:
-        "জরুরি অবস্থায় অবিলম্বে ৯৯৯ নম্বরে কল করুন। আমাদের অ্যাম্বুলেন্স সেবার জন্য ৯৮৩০০০১১১১ নম্বরে যোগাযোগ করুন। আমরা ২৪/৭ জরুরি সেবা প্রদান করি।",
+        "জরুরি অ্যাম্বুলেন্স সহায়তার জন্য জাতীয় জরুরি সেবা ৯৯৯ নম্বরে কল করুন। এই সরকারি সেবা ২৪ ঘণ্টা চালু থাকে।",
     },
     {
       question: "অনলাইন পেমেন্ট নিরাপদ কি?",
@@ -210,66 +211,6 @@ export default function AboutPage() {
                 </CardContent>
               </Card>
             </motion.div>
-          </div>
-        </motion.section>
-
-        {/* Our Team Section */}
-        <motion.section
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          className="space-y-8"
-        >
-          <motion.div variants={fadeInUp} className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-sky-900 mb-4">
-              আমাদের দল
-            </h2>
-            <p className="text-lg text-sky-700">
-              অভিজ্ঞ পেশাদারদের একটি দল যারা আপনার স্বাস্থ্যসেবার জন্য নিবেদিত
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <motion.div key={index} variants={fadeInUp}>
-                <Card className="text-center bg-white/80 backdrop-blur-sm border-sky-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                  <CardHeader>
-                    <Avatar className="w-24 h-24 mx-auto mb-4">
-                      <AvatarImage
-                        src={
-                          member.avatar ||
-                          "https://preview-bengali-healthcare-website-kzmgclyv9m6gyaguxqo4.vusercontent.net/placeholder.svg"
-                        }
-                        alt={member.name}
-                      />
-                      <AvatarFallback className="bg-sky-100 text-sky-800 text-lg font-semibold">
-                        {member.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <CardTitle className="text-xl text-sky-900">
-                      {member.name}
-                    </CardTitle>
-                    <CardDescription className="text-sky-600 font-medium">
-                      {member.position}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sky-800 leading-relaxed">{member.bio}</p>
-                    <div className="flex justify-center gap-2 mt-4">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="border-sky-300 text-sky-700 hover:bg-sky-50 bg-transparent"
-                      >
-                        <Mail className="w-4 h-4 mr-1" />
-                        ইমেইল
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
           </div>
         </motion.section>
 
@@ -471,13 +412,13 @@ export default function AboutPage() {
                 </CardHeader>
                 <CardContent className="text-center space-y-4">
                   <div className="text-2xl font-bold text-sky-800">
-                    ৯৮৩০০০০০০০
+                    {SITE_PHONE}
                   </div>
                   <p className="text-sky-700">সকাল ৯টা থেকে রাত ৯টা পর্যন্ত</p>
-                  <Button className="w-full bg-sky-600 hover:bg-sky-700">
+                  <Button asChild className="w-full bg-sky-600 hover:bg-sky-700"><a href={`tel:${SITE_PHONE}`}>
                     <Phone className="w-4 h-4 mr-2" />
                     এখনই কল করুন
-                  </Button>
+                  </a></Button>
                 </CardContent>
               </Card>
             </motion.div>
@@ -492,15 +433,15 @@ export default function AboutPage() {
                 </CardHeader>
                 <CardContent className="text-center space-y-4">
                   <div className="text-2xl font-bold text-red-800">
-                    ৯৮৩০০০১১১১
+                    {EMERGENCY_PHONE}
                   </div>
                   <Badge variant="destructive" className="text-sm">
                     ২৪/৭ উপলব্ধ
                   </Badge>
-                  <Button className="w-full bg-red-600 hover:bg-red-700">
+                  <Button asChild className="w-full bg-red-600 hover:bg-red-700"><a href={`tel:${EMERGENCY_PHONE}`}>
                     <Phone className="w-4 h-4 mr-2" />
                     জরুরি কল
-                  </Button>
+                  </a></Button>
                 </CardContent>
               </Card>
             </motion.div>
@@ -513,7 +454,7 @@ export default function AboutPage() {
                   <Mail className="w-6 h-6 text-sky-600" />
                   <div>
                     <p className="text-sky-900 font-medium">ইমেইল সহায়তা</p>
-                    <p className="text-sky-700">support@healthcarebd.com</p>
+                    <p className="text-sky-700">{SITE_EMAIL}</p>
                   </div>
                 </div>
               </CardContent>
@@ -540,7 +481,7 @@ export default function AboutPage() {
               <CardContent className="p-0">
                 <div className="relative h-64 md:h-96 bg-sky-100">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.123456789!2d88.4294!3d26.7271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDQzJzM3LjYiTiA4OMKwMjUnNDUuOCJF!5e0!3m2!1sen!2sbd!4v1234567890"
+                    src="https://www.google.com/maps?q=Khulna+Sadar,+Khulna,+Bangladesh&output=embed" title="খুলনা সদর, খুলনা"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -558,10 +499,10 @@ export default function AboutPage() {
                     </h3>
                   </div>
                   <p className="text-sky-800">
-                    হিল কার্ট রোড, সিলিগুড়ি, পশ্চিমবঙ্গ ৭৩৪০০১
+                    {SITE_ADDRESS}
                   </p>
                   <p className="text-sky-700 text-sm mt-2">
-                    সিলিগুড়ি জংশন থেকে ৩ কিমি দূরত্বে
+                    বাংলাদেশ
                   </p>
                 </div>
               </CardContent>
@@ -634,9 +575,9 @@ export default function AboutPage() {
             <div className="space-y-4">
               <h4 className="font-semibold">যোগাযোগ</h4>
               <div className="space-y-2 text-sky-200">
-                <p>📞 ৯৮৩০০০০০০০</p>
-                <p>📧 support@healthcarebd.com</p>
-                <p>📍 সিলিগুড়ি, পশ্চিমবঙ্গ</p>
+                <p>📞 {SITE_PHONE}</p>
+                <p>📧 {SITE_EMAIL}</p>
+                <p>📍 {SITE_ADDRESS}</p>
               </div>
             </div>
           </div>
